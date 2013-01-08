@@ -133,10 +133,10 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				Toast.makeText(context, "Takvo ime za igru vec postoji!", Toast.LENGTH_SHORT).show();
     			else
     			{
-    				/*Intent i;
+    				Intent i;
     				i = new Intent (context, MapaActivity.class);
     				i.putExtra("imeIgre", igra);
-        			startActivity(i);*/
+        			startActivity(i);
     				Toast.makeText(context, "Kreirana igra: " + ime , Toast.LENGTH_SHORT).show();
     			}
 			}
