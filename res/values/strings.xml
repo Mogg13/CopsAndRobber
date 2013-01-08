@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">CopsAndRobber</string>
+    <string name="ime_aplikacije">Uhvati Lopova</string>
+    <string name="labela_nova_igra">Nova igra</string>
+    <string name="labela_postojece_igre">Postojece igre</string>
+    <string name="labela_exit">Exit</string>
+    
+	<string name="menu_settings">Menu Settings</string>
+	
+	<string name="naslov_nova_igra">Nova igra</string>
+    <string name="labela_ime_nove_igre">Unesite ime nove igre:</string>
+    <string name="labela_odaberite_ulogu">Odaberite ulogu</string>
+    <string name="policajac_lopov_prompt">Odaberite ulogu</string>
+    <string-array name="uloge">
+        <item >Policajac</item>
+        <item>Lopov</item>
+    </string-array>
+    <string name="dugme_kreiraj_igru">Kreiraj igru</string>
+    
+	<string name="naslov_odaberite_igru">Odaberite igru</string>
+	<string name="igre_prompt">Odaberite igru</string>
+	<string name="labela_pridruzi_se">Pridruzi se</string>
+ 
+</resources>

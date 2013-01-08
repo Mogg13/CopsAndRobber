@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+    
+    <TextView
+            android:id="@+id/postojece_igre_naslov"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="25dip"
+            android:text="@string/naslov_odaberite_igru"
+            android:textSize="24.5sp" />
+    
+    <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/labela_postojece_igre" />
+
+	<Spinner
+            android:id="@+id/spinner_postojece_igre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dip"
+            android:prompt="@string/igre_prompt" />
+        
+	<TextView
+	        android:id="@+id/textView3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/labela_odaberite_ulogu" />
+
+	<Spinner
+	        android:id="@+id/spinner_policajac_lopov"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="35dip"
+	        android:prompt="@string/policajac_lopov_prompt" />
+
+	<Button
+            android:id="@+id/dugme_pridruzi_se"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/labela_pridruzi_se" />
+    
+
+</LinearLayout>
