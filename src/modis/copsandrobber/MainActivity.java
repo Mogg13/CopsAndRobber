@@ -12,12 +12,16 @@ import android.os.Handler;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import static modis.copsandrobber.CommonUtilities.SENDER_ID;
 
@@ -27,15 +31,17 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ExecutorService transThread;
 	private ProgressDialog progressDialog;
 	private Handler guiThread;
+	Context context;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		
+	    LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("googleservice_registration"));
 		
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
 		final String regId = GCMRegistrar.getRegistrationId(this); 
 		if (regId.equals("")) { 
-            // Registration is not present, register now with GCM 
             GCMRegistrar.register(this, SENDER_ID); 
 		}
 		else 
@@ -44,6 +50,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		
 		reg_number = regId;
+		this.context = this;
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -60,23 +67,53 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	public void onClick(View v) {	
 		
-    	Intent i;
+    	
     	switch(v.getId())
     	{
     	case R.id.dugme_nova_igra:
-    		i = new Intent(this, NovaIgraActivity.class);
-    		i.putExtra("googleservice_num", reg_number);
-    		startActivity(i);
+    		
+    		if(reg_number.equals(""))
+    		{
+    			ExecutorService transThread = Executors.newSingleThreadExecutor();
+    			transThread.submit(new Runnable(){
+    				public void run(){
+    					guiProgressDialog(true);
+
+    					while(reg_number.equals(""))
+    					{
+    						Log.i("registracija","vrti se petlja");
+    					}
+    					guiNotifyUser("nova");
+    					guiProgressDialog(false);
+    				}    				
+    			});    			
+    		}
+    		
+    		
+
     		break;
     	case R.id.dugme_postojece_igre:
-    		i = new Intent(this, PostojeceIgreActivity.class);
-    		i.putExtra("googleservice_num", reg_number);
-    		startActivity(i);
+    		
+    		if(reg_number.equals(""))
+    		{
+    			ExecutorService transThread = Executors.newSingleThreadExecutor();
+    			transThread.submit(new Runnable(){
+    				public void run(){
+    					guiProgressDialog(true);
+
+    					while(reg_number.equals(""))
+    					{
+    						Log.i("registracija","vrti se petlja");
+    					}
+    					guiNotifyUser("postojeca");
+    					guiProgressDialog(false);
+    				}    				
+    			});    			
+    		}
+    		
+
     		break;
     	case R.id.dugme_exit:
-    		/*Intent unregIntent = new Intent("com.google.android.c2dm.intent.UNREGISTER");
-    		unregIntent.putExtra("app", PendingIntent.getBroadcast(this, 0, new Intent(), 0));
-    		startService(unregIntent);*/
     		GCMRegistrar.unregister(this);
     		finish();
     		break;
@@ -84,7 +121,7 @@ public class MainActivity extends Activity implements OnClickListener {
   	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
@@ -92,9 +129,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onDestroy() { 
  
         try { 
-        	/*Intent unregIntent = new Intent("com.google.android.c2dm.intent.UNREGISTER");
-    		unregIntent.putExtra("app", PendingIntent.getBroadcast(this, 0, new Intent(), 0));
-    		startService(unregIntent);*/
     		GCMRegistrar.unregister(this);
             GCMRegistrar.onDestroy(this); 
         } catch (Exception e) { 
@@ -115,6 +149,43 @@ public class MainActivity extends Activity implements OnClickListener {
 				else
 					progressDialog.dismiss();
 				
+			}
+		});
+	}
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+
+            //String action = intent.getAction();            
+            Bundle igraBundle = intent.getExtras();
+			if(igraBundle !=null)
+				reg_number = intent.getStringExtra("googleservice_num");
+			Log.i("InfoLog", "primljen brodkast" + reg_number);
+        }
+    };
+
+    public void guiNotifyUser(final String act){
+		
+		guiThread.post(new Runnable() {
+			
+			public void run() {
+				
+				if(act.equals("nova"))
+				{
+					Intent i;
+		    		i = new Intent(context, NovaIgraActivity.class);
+		    		i.putExtra("googleservice_num", reg_number);
+		    		startActivity(i);
+				}
+				else
+				{
+					Intent i;
+		    		i = new Intent(context, PostojeceIgreActivity.class);
+		    		i.putExtra("googleservice_num", reg_number);
+		    		startActivity(i);
+				}
+    				Toast.makeText(context, "prijavljen na google servis"  , Toast.LENGTH_SHORT).show();
+
 			}
 		});
 	}
