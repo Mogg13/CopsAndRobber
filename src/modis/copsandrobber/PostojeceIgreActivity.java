@@ -111,9 +111,9 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 					}
 					
 				});
-				/*i = new Intent (this, MapaActivity.class);
+				i = new Intent (this, MapaActivity.class);
 				i.putExtra("imeIgre", igra);
-				startActivity(i);*/
+				startActivity(i);
 				
     		}
     		else

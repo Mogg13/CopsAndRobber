@@ -117,6 +117,34 @@ private static final String url = "http://uhvatilopova.site11.com";
 
 	}
 	
+	public static String getGameSetup(String imeIgre) {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/set_up_game.php");
+				
+		String retStr;
+		retStr = "";
+		
+		try {
+			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+			nameValuePairs.add(new BasicNameValuePair("ime",imeIgre));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			
+			
+			HttpResponse response = httpClient.execute(httpPost);
+			retStr = inputStreamToString(response.getEntity().getContent()).toString();
+			
+						
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			retStr = "Error during upload!";
+		}
+		return retStr;
+	}
+	
 	private static StringBuilder inputStreamToString(InputStream is){
 		String line = "";
 		StringBuilder total = new StringBuilder();
