@@ -166,8 +166,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 
         public void onReceive(Context context, Intent intent) {
-
-            //String action = intent.getAction();            
+          
             Bundle igraBundle = intent.getExtras();
 			if(igraBundle !=null)
 				reg_number = intent.getStringExtra("googleservice_num");
