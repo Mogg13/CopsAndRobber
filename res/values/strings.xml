@@ -23,5 +23,7 @@
 	<string name="naslov_odaberite_igru">Odaberite igru</string>
 	<string name="igre_prompt">Odaberite igru</string>
 	<string name="labela_pridruzi_se">Pridruzi se</string>
+	<string name="radar_label">Radar:</string>
+	<string name="mapa_label">Mapa</string>
  
 </resources>
