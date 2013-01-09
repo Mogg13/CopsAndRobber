@@ -63,6 +63,11 @@ public class MainActivity extends Activity implements OnClickListener {
         
         View exitDugme = findViewById(R.id.dugme_exit);
         exitDugme.setOnClickListener(this);
+        
+        progressDialog = new ProgressDialog(this);
+        
+        guiThread = new Handler();
+		transThread = Executors.newSingleThreadExecutor();
 	}
 
 	public void onClick(View v) {	
@@ -74,7 +79,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		
     		if(reg_number.equals(""))
     		{
-    			ExecutorService transThread = Executors.newSingleThreadExecutor();
+    			//transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable(){
     				public void run(){
     					guiProgressDialog(true);
@@ -87,16 +92,18 @@ public class MainActivity extends Activity implements OnClickListener {
     					guiProgressDialog(false);
     				}    				
     			});    			
+    		}    		    		
+    		else
+    		{
+    			startNovaActivity();
     		}
-    		
-    		
 
     		break;
     	case R.id.dugme_postojece_igre:
     		
     		if(reg_number.equals(""))
     		{
-    			ExecutorService transThread = Executors.newSingleThreadExecutor();
+    			transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable(){
     				public void run(){
     					guiProgressDialog(true);
@@ -110,10 +117,14 @@ public class MainActivity extends Activity implements OnClickListener {
     				}    				
     			});    			
     		}
+    		else
+    		{
+    			startPostojeceActivity();
+    		}
     		
 
     		break;
-    	case R.id.dugme_exit:
+    		case R.id.dugme_exit:
     		GCMRegistrar.unregister(this);
     		finish();
     		break;
@@ -172,17 +183,11 @@ public class MainActivity extends Activity implements OnClickListener {
 				
 				if(act.equals("nova"))
 				{
-					Intent i;
-		    		i = new Intent(context, NovaIgraActivity.class);
-		    		i.putExtra("googleservice_num", reg_number);
-		    		startActivity(i);
+					startNovaActivity();
 				}
 				else
 				{
-					Intent i;
-		    		i = new Intent(context, PostojeceIgreActivity.class);
-		    		i.putExtra("googleservice_num", reg_number);
-		    		startActivity(i);
+					startPostojeceActivity();
 				}
     				Toast.makeText(context, "prijavljen na google servis"  , Toast.LENGTH_SHORT).show();
 
@@ -190,5 +195,21 @@ public class MainActivity extends Activity implements OnClickListener {
 		});
 	}
     
-	
+    public void startNovaActivity()
+    {
+    	Intent i;
+    	i = new Intent(context, NovaIgraActivity.class);
+    	i.putExtra("googleservice_num", reg_number);
+    	startActivity(i);
+    }
+    
+    public void startPostojeceActivity()
+    {
+    	Intent i;
+		i = new Intent(context, PostojeceIgreActivity.class);
+		i.putExtra("googleservice_num", reg_number);
+		startActivity(i);
+    }
+
 }
+
