@@ -5,10 +5,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -38,6 +42,15 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 		
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postojece_igre);
+        
+        longitude = "0";
+        latitude = "0";
+
+	    
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));
+		Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
+	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
         
         try {
 			Intent igraIntent = getIntent();
@@ -104,7 +117,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 					public void run(){
 						guiProgressDialog(true);
 						try{
-							igrac = new Igrac(uloga, "999999999","8888888888", googleservice_num);
+							igrac = new Igrac(uloga, latitude, longitude, googleservice_num);
 							final String message =CopsandrobberHTTPHelper.pridruziSeIgri(igrac, igra);
 							guiNotifyUser(message, uloga);
 							//greska = message;
@@ -194,6 +207,20 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 		
 		});
 	}
+    
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+          
+            Bundle igraBundle = intent.getExtras();
+			if(igraBundle !=null)
+			{
+				latitude = intent.getStringExtra("latitude").toString();
+				longitude = intent.getStringExtra("longitude").toString();
+			}
+			Log.i("InfoLog", "primljen gps" + latitude + " " + longitude);
+        }
+    };
 
 	public String getUloga() {
 		return uloga;
