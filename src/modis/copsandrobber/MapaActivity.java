@@ -102,10 +102,24 @@ public class MapaActivity extends MapActivity{
 		new CountDownTimer(7200000, 1000) {
 
 		     public void onTick(long millisUntilFinished) {
-		  int sati = (int) (millisUntilFinished/3600);
-		  int minuti = (int) ((millisUntilFinished % 3600) / 60);
-		  int secundi = (int) ((millisUntilFinished % 3600) % 60);;
-		         timerIgre.setText( sati + ":" + minuti + ":" + secundi);
+		    	 
+		    	  millisUntilFinished = millisUntilFinished/1000;
+				  int sati = (int) (millisUntilFinished/3600);
+				  int minuti = (int) ((millisUntilFinished % 3600) / 60);
+				  int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+				  
+				  String minString = "";
+				  String secString = "";
+				  if(minuti<10)
+					  minString = "0" + Integer.toString(minuti);
+				  else
+					  minString = Integer.toString(minuti);
+				  if(sekundi<10)
+					  secString = "0" + Integer.toString(sekundi);
+				  else
+					  secString = Integer.toString(sekundi);
+		         timerIgre.setText( sati + ":" + minString + ":" + secString);
+		         
 		     }
 
 		     public void onFinish() {
