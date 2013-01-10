@@ -1,9 +1,11 @@
 package modis.copsandrobber;
 
+import java.io.Serializable;
+
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
-public class Igrac {
+public class Igrac implements Serializable {
 	
 	private String longitude, latitude;
 	private String uloga;
