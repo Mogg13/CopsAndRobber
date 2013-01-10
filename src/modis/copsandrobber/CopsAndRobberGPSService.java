@@ -1,8 +1,10 @@
 package modis.copsandrobber;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,6 +20,8 @@ public class CopsAndRobberGPSService extends Service{
 	LocationManager lm;
 	GPSListener myLocationListener;
 	Context context;
+	double latitude;
+	double longitude;
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
@@ -52,6 +56,25 @@ public class CopsAndRobberGPSService extends Service{
 			}
 		});
 		triggerService.start();
+		
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter_poslati"));
+	}
+	
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+        	sendGpsLokacijaIntent();
+        	Log.i("LOKACIJA 2", "primljen gps" + latitude + " " + longitude);
+        }
+    };
+    
+	public void sendGpsLokacijaIntent()
+	{
+		Intent myFilteredResponse= new Intent("gpsLokacija_filter");
+	    myFilteredResponse.putExtra("latitude", Double.toString(latitude));
+	    myFilteredResponse.putExtra("longitude", Double.toString(longitude));
+	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
 	}
 	
 	private class GPSListener implements LocationListener{
@@ -66,13 +89,10 @@ public class CopsAndRobberGPSService extends Service{
 		@Override
 		public void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
-			 double longitude = location.getLongitude();
-		     double latitude = location.getLatitude();
+			 longitude = location.getLongitude();
+		     latitude = location.getLatitude();
 		     
-		     Intent myFilteredResponse= new Intent("gpsLokacija_filter");
-		     myFilteredResponse.putExtra("latitude", Double.toString(latitude));
-		     myFilteredResponse.putExtra("longitude", Double.toString(longitude));
-		     LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
+		     sendGpsLokacijaIntent();
 			Log.i("LOKACIJA", "primljen gps" + latitude + " " + longitude);
 
 		}

@@ -50,9 +50,12 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
         setContentView(R.layout.nova_igra);
         
         longitude = "0";
-        latitude = "0";
+        latitude = "0";        
+	    
         LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));
+		Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
+	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
         
 		try {
 			Intent igraIntent = getIntent();
