@@ -5,10 +5,17 @@ import java.util.concurrent.Executors;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,10 +41,18 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 	private String greska;
 	private String googleservice_num;
 	private Igrac igrac;
+	private String longitude;
+	private String latitude;
+	
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nova_igra);
+        
+        longitude = "0";
+        latitude = "0";
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));
         
 		try {
 			Intent igraIntent = getIntent();
@@ -95,7 +110,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				public void run(){
     					guiProgressDialog(true);
     					try{
-    						igrac = new Igrac(uloga, "44444444444444","444444444444", googleservice_num);
+    						igrac = new Igrac(uloga, latitude, longitude, googleservice_num);
     						final String message = CopsandrobberHTTPHelper.napraviNovuIgru(igrac, ime);
     						final String igra = ime;
     						guiNotifyUser(message, igra);
@@ -111,6 +126,20 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     	}	
 		
 	}
+	
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+          
+            Bundle igraBundle = intent.getExtras();
+			if(igraBundle !=null)
+			{
+				latitude = intent.getStringExtra("latitude").toString();
+				longitude = intent.getStringExtra("longitude").toString();
+			}
+			Log.i("InfoLog", "primljen gps" + latitude + " " + longitude);
+        }
+    };
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
