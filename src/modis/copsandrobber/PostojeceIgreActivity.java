@@ -30,6 +30,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 	private ProgressDialog progressDialog;
 	private int pozicijaIgre;
 	private String googleservice_num;
+	private Igrac igrac;
 
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -101,7 +102,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 					public void run(){
 						guiProgressDialog(true);
 						try{
-							Igrac igrac = new Igrac(uloga, "999999999","8888888888", googleservice_num);
+							igrac = new Igrac(uloga, "999999999","8888888888", googleservice_num);
 							final String message =CopsandrobberHTTPHelper.pridruziSeIgri(igrac, igra);
 							guiNotifyUser(message, uloga);
 							//greska = message;
@@ -113,6 +114,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 				});
 				i = new Intent (this, MapaActivity.class);
 				i.putExtra("imeIgre", igra);
+				i.putExtra("uloga", uloga);
 				startActivity(i);
 				
     		}
@@ -133,7 +135,10 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 				if(message.equals(uloga))
 					Toast.makeText(context, "Uspesno ste se prijavili!", Toast.LENGTH_SHORT).show();
 				else
-					Toast.makeText(context, "Posto je uloga koju ste izabrali zauzeta, prijavljeni ste kao " + message , Toast.LENGTH_SHORT).show();				
+					{
+						Toast.makeText(context, "Posto je uloga koju ste izabrali zauzeta, prijavljeni ste kao " + message , Toast.LENGTH_SHORT).show();				
+						setUloga(message);
+					}
 			}
 		});
 	}
@@ -187,4 +192,14 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 		
 		});
 	}
+
+	public String getUloga() {
+		return uloga;
+	}
+
+	public void setUloga(String uloga) {
+		this.uloga = uloga;
+	}
+    
+    
 }

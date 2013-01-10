@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import com.google.android.maps.Projection;
 public class MapaActivity extends MapActivity{
 
 	private Igra igra;
+	private String uloga;
 	private MapView map;
 	private MapController controller;
 	private ImageView [] radar = new ImageView[5];
@@ -170,7 +172,9 @@ public class MapaActivity extends MapActivity{
 						id = obj.getInt("id");
 						// treba da se preuzme lista predmeta
 						igra.addObjekat(new Objekat(imeObj,latObj,lonObj, predObj, id, 0));
+						Log.i("Ubacujem...", imeObj);
 						mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
+						Log.i("Ubaceno...", imeObj);
 					}
 					
 					jsonArray = jsonObject.getJSONArray("predmeti");
@@ -181,7 +185,9 @@ public class MapaActivity extends MapActivity{
 						lonObj = obj.getString("longitude");
 						id = obj.getInt("id");
 						igra.addPredmet(new Predmet(imeObj,latObj,lonObj, id, 0));
+						Log.i("Ubacujem...", imeObj);
 						mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
+						Log.i("Ubaceno...", imeObj);
 					}
 				    
 				    //mapOverlays.add(new JedanOverlay(R.drawable.cabin, "43.31452941894531", "21.888486862182617"));

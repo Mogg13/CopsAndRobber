@@ -33,6 +33,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 	private String ime;
 	private String greska;
 	private String googleservice_num;
+	private Igrac igrac;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				public void run(){
     					guiProgressDialog(true);
     					try{
-    						Igrac igrac = new Igrac(uloga, "44444444444444","444444444444", googleservice_num);
+    						igrac = new Igrac(uloga, "44444444444444","444444444444", googleservice_num);
     						final String message = CopsandrobberHTTPHelper.napraviNovuIgru(igrac, ime);
     						final String igra = ime;
     						guiNotifyUser(message, igra);
@@ -136,6 +137,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				Intent i;
     				i = new Intent (context, MapaActivity.class);
     				i.putExtra("imeIgre", igra);
+    				i.putExtra("uloga", uloga);
         			startActivity(i);
     				Toast.makeText(context, "Kreirana igra: " + ime , Toast.LENGTH_SHORT).show();
     			}
