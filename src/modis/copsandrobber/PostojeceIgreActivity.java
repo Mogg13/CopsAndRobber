@@ -30,6 +30,8 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 	private ProgressDialog progressDialog;
 	private int pozicijaIgre;
 	private String googleservice_num;
+	private String longitude;
+	private String latitude;
 
 	public void onCreate(Bundle savedInstanceState) {
 		
