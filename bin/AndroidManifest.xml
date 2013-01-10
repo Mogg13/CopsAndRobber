@@ -29,9 +29,10 @@
         <activity android:name=".PostojeceIgreActivity"
             android:label = "@string/labela_postojece_igre">
         </activity>
-        <activity android:name=".MapaActivity"
-            android:label = "@string/mapa_label">
-        </activity>
+        <uses-library android:name="com.google.android.maps" />
+	        <activity android:name=".MapaActivity"
+	            android:label = "@string/mapa_label">
+	        </activity>
        	<receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
 		  <intent-filter>
 		    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
