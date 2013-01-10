@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -32,6 +33,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ProgressDialog progressDialog;
 	private Handler guiThread;
 	Context context;
+	Intent intentMyService;
+	ComponentName service;
+	BroadcastReceiver receiver;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -68,6 +72,13 @@ public class MainActivity extends Activity implements OnClickListener {
         
         guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
+		
+		intentMyService= new Intent(this, CopsAndRobberGPSService.class);
+		service = startService(intentMyService);
+		
+		/*IntentFilter mainFilter = newIntentFilter(GPS_FILTER);
+		receiver = new MyMainLocalReceiver();
+		registerReceiver(receiver, mainFilter);*/
 	}
 
 	public void onClick(View v) {	
@@ -142,6 +153,8 @@ public class MainActivity extends Activity implements OnClickListener {
         try { 
     		GCMRegistrar.unregister(this);
             GCMRegistrar.onDestroy(this); 
+            stopService(intentMyService);
+            unregisterReceiver(receiver);
         } catch (Exception e) { 
             Log.e("UnRegister Receiver Error", "> " + e.getMessage()); 
         } 
