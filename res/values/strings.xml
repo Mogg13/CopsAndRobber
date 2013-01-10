@@ -25,5 +25,8 @@
 	<string name="labela_pridruzi_se">Pridruzi se</string>
 	<string name="radar_label">Radar:</string>
 	<string name="mapa_label">Mapa</string>
+	<string name="lopov_label">Lopov</string>
+	<string name="policajac_label">Policajac</string>
+	<string name="timer_igre_label"></string>
  
 </resources>

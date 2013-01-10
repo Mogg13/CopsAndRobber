@@ -114,10 +114,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 					}
 					
 				});
-				i = new Intent (this, MapaActivity.class);
-				i.putExtra("imeIgre", igra);
-				i.putExtra("uloga", uloga);
-				startActivity(i);
+				
 				
     		}
     		else
@@ -135,12 +132,16 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 			
 			public void run() {
 				if(message.equals(uloga))
+				{
 					Toast.makeText(context, "Uspesno ste se prijavili!", Toast.LENGTH_SHORT).show();
+					startMapActivity();
+				}
 				else
-					{
-						Toast.makeText(context, "Posto je uloga koju ste izabrali zauzeta, prijavljeni ste kao " + message , Toast.LENGTH_SHORT).show();				
-						setUloga(message);
-					}
+				{
+					Toast.makeText(context, "Posto je uloga koju ste izabrali zauzeta, prijavljeni ste kao " + message , Toast.LENGTH_SHORT).show();				
+					igrac.setUloga(message);
+					startMapActivity();
+				}
 			}
 		});
 	}
@@ -195,13 +196,14 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 		});
 	}
 
-	public String getUloga() {
-		return uloga;
-	}
-
-	public void setUloga(String uloga) {
-		this.uloga = uloga;
-	}
+    public void startMapActivity()
+    {
+    	Intent i = new Intent (this, MapaActivity.class);
+		i.putExtra("imeIgre", igra);
+		i.putExtra("igrac", igrac);
+		startActivity(i);
+    }
     
+	
     
 }

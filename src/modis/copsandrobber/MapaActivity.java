@@ -13,11 +13,13 @@ import android.R.drawable;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -29,6 +31,7 @@ import com.google.android.maps.Projection;
 public class MapaActivity extends MapActivity{
 
 	private Igra igra;
+	private Igrac igrac;
 	private String uloga;
 	private MapView map;
 	private MapController controller;
@@ -39,6 +42,7 @@ public class MapaActivity extends MapActivity{
 	private ProgressDialog progressDialog;
 	private List<Overlay> mapOverlays;
 	private Projection projection;
+	TextView timerIgre;
 	
 	
 	@Override
@@ -53,20 +57,30 @@ public class MapaActivity extends MapActivity{
 		igra = new Igra();
 		try {
 			Intent mapIntent = getIntent();
+			igrac = (Igrac)mapIntent.getSerializableExtra("igrac");
+			Log.i("Igrac iz mape",igrac.getUloga());
 			Bundle mapBundle = mapIntent.getExtras();
 			if(mapBundle !=null)
 			{
 				String imeIgre = mapBundle.getString("imeIgre");
 				igra.setIme(imeIgre);
 			}
+			
 		} catch (Exception e) {
 		}
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.map);
 		
+        if(igrac.getUloga().equals("Policajac"))
+        {
+        	setContentView(R.layout.map_policajac);
+        }
+        else
+        {
+        	setContentView(R.layout.map_lopov);
+        }
 		//Inicijalizacija mape
 		initMapView();
 		initMyLocation();
@@ -82,6 +96,22 @@ public class MapaActivity extends MapActivity{
 		
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
+		
+		timerIgre = (TextView) findViewById(R.id.timerIgre);
+		
+		new CountDownTimer(7200000, 1000) {
+
+		     public void onTick(long millisUntilFinished) {
+		  int sati = (int) (millisUntilFinished/3600);
+		  int minuti = (int) ((millisUntilFinished % 3600) / 60);
+		  int secundi = (int) ((millisUntilFinished % 3600) % 60);;
+		         timerIgre.setText( sati + ":" + minuti + ":" + secundi);
+		     }
+
+		     public void onFinish() {
+		    	 timerIgre.setText("Kraj igre!");
+		     }
+		  }.start();
 	}
 	
 	private void ucitajPodatke() {

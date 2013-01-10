@@ -166,7 +166,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				Intent i;
     				i = new Intent (context, MapaActivity.class);
     				i.putExtra("imeIgre", igra);
-    				i.putExtra("uloga", uloga);
+    				i.putExtra("igrac", igrac);
         			startActivity(i);
     				Toast.makeText(context, "Kreirana igra: " + ime , Toast.LENGTH_SHORT).show();
     			}
