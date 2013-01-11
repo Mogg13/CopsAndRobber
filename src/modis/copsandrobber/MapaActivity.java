@@ -198,8 +198,17 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			public void run() {
 				
 				try{
-					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getIme());
-					
+					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getImei(), igrac.getLatitude(), igrac.getLongitude());
+					JSONObject jsonObject = new JSONObject(info);
+					JSONObject obj;
+				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
+				    for(int i = 0; i<jsonArray.length(); i++){
+				    	obj = (JSONObject) jsonArray.get(i);
+						String idIgraca = obj.getString("idIgraca");
+						String latIgraca = obj.getString("latitude");
+						String lonIgraca = obj.getString("longitude");
+						igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
+				    }
 				} catch (Exception e){
 					e.printStackTrace();
 				}

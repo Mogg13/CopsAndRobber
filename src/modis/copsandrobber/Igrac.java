@@ -45,5 +45,4 @@ public class Igrac implements Serializable {
 	public void setImei(String id) {
 		this.reg_id = id;
 	}
-
 }

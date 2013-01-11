@@ -148,4 +148,13 @@ public class Igra {
 		}
 		return this.predmeti.get(k);
 	}
+	public void EditIgraci(String idIgraca, String latitude1, String longitude1){
+		for(int i = 0; i<igraci.size(); i++){
+			if(igraci.get(i).getImei() == idIgraca)
+			{
+				igraci.get(i).setLatitude(latitude1);
+				igraci.get(i).setLongitude(longitude1);
+			}
+		}
+	}
 }
