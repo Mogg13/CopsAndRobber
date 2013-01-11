@@ -5,70 +5,90 @@
     android:background="@color/background"
     android:orientation="vertical" >
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp" >
 
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.73"
             android:gravity="bottom"
             android:orientation="vertical"
-            android:paddingBottom="5dp"
-             >
+            android:paddingBottom="5dp" >
 
             <TextView
                 android:id="@+id/radarLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/radar_label" />
-            	
-            	<ImageView
-		            android:id="@+id/radarLinija4"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:src="@android:drawable/button_onoff_indicator_off" />
 
-            	<ImageView
-            	    android:id="@+id/radarLinija3"
-            	    android:layout_width="wrap_content"
-            	    android:layout_height="wrap_content"
-            	    android:src="@android:drawable/button_onoff_indicator_off" />
+            <ImageView
+                android:id="@+id/radarLinija4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/button_onoff_indicator_off" />
 
-            	<ImageView
-            	    android:id="@+id/radarLinija2"
-            	    android:layout_width="wrap_content"
-            	    android:layout_height="wrap_content"
-            	    android:src="@android:drawable/button_onoff_indicator_off" />
+            <ImageView
+                android:id="@+id/radarLinija3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/button_onoff_indicator_off" />
 
-            	<ImageView
-            	    android:id="@+id/radarLinija1"
-            	    android:layout_width="wrap_content"
-            	    android:layout_height="wrap_content"
-            	    android:src="@android:drawable/button_onoff_indicator_off" />
+            <ImageView
+                android:id="@+id/radarLinija2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/button_onoff_indicator_off" />
 
-            	<ImageView
-            	    android:id="@+id/radarLinija0"
-            	    android:layout_width="wrap_content"
-            	    android:layout_height="wrap_content"
-            	    android:src="@android:drawable/button_onoff_indicator_off" />
-            	
+            <ImageView
+                android:id="@+id/radarLinija1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/button_onoff_indicator_off" />
+
+            <ImageView
+                android:id="@+id/radarLinija0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/button_onoff_indicator_off" />
         </LinearLayout>
-        
-        <TextView
-                android:id="@+id/policajacLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/policajac_label" />
-        
-        <TextView
-                android:id="@+id/timerIgre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/timer_igre_label" />
 
+        <TextView
+            android:id="@+id/timerIgre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/timer_igre_label" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textBrMetaka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/br_metaka_label" />
+
+            <TextView
+                android:id="@+id/metkoviText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/metkovi_label"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/dugmePucaj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.19"
+            android:text="@string/dugme_pucaj_label" />
     </LinearLayout>
     
     <com.google.android.maps.MapView 

@@ -27,6 +27,11 @@
 	<string name="mapa_label">Mapa</string>
 	<string name="lopov_label">Lopov</string>
 	<string name="policajac_label">Policajac</string>
-	<string name="timer_igre_label"></string>
+	<string name="timer_igre_label">00:00:00</string>
+	<string name="dugme_ometac_label">Ometac</string>
+	<string name="dugme_pancir_label">Pancir</string>
+	<string name="dugme_pucaj_label">Pucaj</string>
+	<string name="br_metaka_label">Br. metaka:</string>
+	<string name="metkovi_label">3</string>
  
 </resources>

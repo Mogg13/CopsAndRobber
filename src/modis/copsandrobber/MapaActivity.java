@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -28,11 +30,11 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
-public class MapaActivity extends MapActivity{
+public class MapaActivity extends MapActivity implements OnClickListener{
 
 	private Igra igra;
 	private Igrac igrac;
-	private String uloga;
+	//private String uloga;
 	private MapView map;
 	private MapController controller;
 	private ImageView [] radar = new ImageView[5];
@@ -76,10 +78,22 @@ public class MapaActivity extends MapActivity{
         if(igrac.getUloga().equals("Policajac"))
         {
         	setContentView(R.layout.map_policajac);
+        	
+        	View dugmePucaj = findViewById(R.id.dugmePucaj);
+        	dugmePucaj.setOnClickListener(this);
         }
         else
         {
         	setContentView(R.layout.map_lopov);
+        	
+        	View dugmePancir = findViewById(R.id.dugmePancir);
+        	dugmePancir.setOnClickListener(this);
+        	
+        	View dugmeOmetac = findViewById(R.id.dugmeOmetac);
+        	dugmeOmetac.setOnClickListener(this);
+        	
+        	dugmeOmetac.setEnabled(false);
+        	dugmePancir.setEnabled(false);
         }
 		//Inicijalizacija mape
 		initMapView();
@@ -126,6 +140,25 @@ public class MapaActivity extends MapActivity{
 		    	 timerIgre.setText("Kraj igre!");
 		     }
 		  }.start();
+	}
+	
+	public void onClick(View v) {	
+		
+    	
+    	switch(v.getId())
+    	{
+    		case R.id.dugmePancir:
+    		
+    			break;
+    			
+    		case R.id.dugmeOmetac:
+        		
+    			break;
+    			
+    		case R.id.dugmePucaj:
+        		
+    			break;
+    	}
 	}
 	
 	private void ucitajPodatke() {
@@ -216,9 +249,16 @@ public class MapaActivity extends MapActivity{
 						id = obj.getInt("id");
 						// treba da se preuzme lista predmeta
 						igra.addObjekat(new Objekat(imeObj,latObj,lonObj, predObj, id, 0));
-						Log.i("Ubacujem...", imeObj);
-						mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
-						Log.i("Ubaceno...", imeObj);
+						//Log.i("Ubacujem...", imeObj);
+						if(imeObj.equals("sigurna kuca") && igrac.getUloga().equals("Policajac"))
+						{
+							//do nothing
+						}
+						else
+						{
+							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
+						}
+						//Log.i("Ubaceno...", imeObj);
 					}
 					
 					jsonArray = jsonObject.getJSONArray("predmeti");
@@ -229,9 +269,12 @@ public class MapaActivity extends MapActivity{
 						lonObj = obj.getString("longitude");
 						id = obj.getInt("id");
 						igra.addPredmet(new Predmet(imeObj,latObj,lonObj, id, 0));
-						Log.i("Ubacujem...", imeObj);
-						mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
-						Log.i("Ubaceno...", imeObj);
+						//Log.i("Ubacujem...", imeObj);
+						if(igrac.getUloga().equals("Lopov"))
+						{
+							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
+						}
+						//Log.i("Ubaceno...", imeObj);
 					}
 				    
 				    //mapOverlays.add(new JedanOverlay(R.drawable.cabin, "43.31452941894531", "21.888486862182617"));
