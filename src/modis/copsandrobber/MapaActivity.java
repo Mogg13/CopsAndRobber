@@ -45,6 +45,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private List<Overlay> mapOverlays;
 	private Projection projection;
 	TextView timerIgre;
+	private int brojac;
 	
 	
 	@Override
@@ -111,32 +112,41 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
 		
+		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
+		brojac = 0;
 		
 		new CountDownTimer(7200000, 1000) {
 
 		     public void onTick(long millisUntilFinished) {
 		    	 
-		    	  millisUntilFinished = millisUntilFinished/1000;
-				  int sati = (int) (millisUntilFinished/3600);
-				  int minuti = (int) ((millisUntilFinished % 3600) / 60);
-				  int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+		    	 brojac++;
+		    	 millisUntilFinished = millisUntilFinished/1000;
+				 int sati = (int) (millisUntilFinished/3600);
+				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
+				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
 				  
-				  String minString = "";
-				  String secString = "";
-				  if(minuti<10)
-					  minString = "0" + Integer.toString(minuti);
-				  else
-					  minString = Integer.toString(minuti);
-				  if(sekundi<10)
-					  secString = "0" + Integer.toString(sekundi);
-				  else
-					  secString = Integer.toString(sekundi);
+				 String minString = "";
+				 String secString = "";
+				 if(minuti<10)
+					 minString = "0" + Integer.toString(minuti);
+				 else
+					 minString = Integer.toString(minuti);
+				 if(sekundi<10)
+					 secString = "0" + Integer.toString(sekundi);
+				 else
+					 secString = Integer.toString(sekundi);
+				  
 		         timerIgre.setText( sati + ":" + minString + ":" + secString);
+		         
+		         if(brojac%10 == 0)	//10s refresh
+		         {
+		        	  ucitajPromeneDeset();
+		         }
 		         
 		     }
 
-		     public void onFinish() {
+			public void onFinish() {
 		    	 timerIgre.setText("Kraj igre!");
 		     }
 		  }.start();
@@ -179,6 +189,26 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		});
 	}
 	
+    private void ucitajPromeneDeset() {
+		// TODO Auto-generated method stub
+    	guiThread = new Handler();
+		transThread = Executors.newSingleThreadExecutor();
+		transThread.submit(new Runnable() {
+			
+			public void run() {
+				
+				try{
+					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getIme());
+					
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+	}
+    
 	private void guiProgressDialog(final boolean start){
 		guiThread.post(new Runnable() {
 			

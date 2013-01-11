@@ -145,6 +145,13 @@ private static final String url = "http://uhvatilopova.site11.com";
 		return retStr;
 	}
 	
+	public static String getLocationUpdate(String imeIgre){
+		String retStr;
+		retStr = "";
+		
+		return retStr;
+	}
+	
 	private static StringBuilder inputStreamToString(InputStream is){
 		String line = "";
 		StringBuilder total = new StringBuilder();
