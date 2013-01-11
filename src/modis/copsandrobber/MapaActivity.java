@@ -327,6 +327,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					}
 					
 					//samo za test
+					/*
 					for(int i=0; i<igra.getObjekti().size(); i++)
 					{
 						for(int j = 0; j<igra.getObjekatAt(i).getPredmeti().size(); j++)
@@ -334,7 +335,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							Log.i("Objekat " + igra.getObjekatAt(i).getIme() + " " + igra.getObjekatAt(i).getId(), igra.getObjekatAt(i).getPredmetAt(j).getIme() + " " + igra.getObjekatAt(i).getPredmetAt(j).getId() );
 						}
 					}
-				    
+				    */
 				    //mapOverlays.add(new JedanOverlay(R.drawable.cabin, "43.31452941894531", "21.888486862182617"));
 					
 				} catch (Exception e){
