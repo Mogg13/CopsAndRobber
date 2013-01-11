@@ -144,13 +144,7 @@ private static final String url = "http://uhvatilopova.site11.com";
 		}
 		return retStr;
 	}
-	
-	public static String getLocationUpdate(String imeIgre){
-		String retStr;
-		retStr = "";
-		
-		return retStr;
-	}
+
 	
 	private static StringBuilder inputStreamToString(InputStream is){
 		String line = "";
@@ -164,6 +158,35 @@ private static final String url = "http://uhvatilopova.site11.com";
 			e.printStackTrace();
 		}
 		return total;
+	}
+
+	public static String getLocationUpdate(int id, String imei, String latitude, String longitude) {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/update_location.php");
+		
+		String retStr;
+		retStr = "";
+		
+		try {
+			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("longitude", longitude));
+			nameValuePairs.add(new BasicNameValuePair("latitude", latitude));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", imei));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));			
+			
+			HttpResponse response = httpClient.execute(httpPost);
+			retStr = inputStreamToString(response.getEntity().getContent()).toString();			
+						
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			retStr = "Error during upload!";
+		}
+		return retStr;
 	}
 
 }
