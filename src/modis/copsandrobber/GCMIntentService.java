@@ -24,8 +24,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	protected void onMessage(Context arg0, Intent arg1) {
 
-        String message = arg1.getExtras().getString("mess");
-		Log.i(TAG, "Received message: " + message); 
+        String message = arg1.getExtras().getString("kod_poruke");
+        if(message.equals("opljackan_objekat"))
+        {
+        	Log.i(TAG, "Received message: " + message);
+        }
+		 
 		//Log.i(TAG, "Received message: ");
 	}
 
