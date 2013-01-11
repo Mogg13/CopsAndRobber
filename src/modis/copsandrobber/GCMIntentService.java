@@ -24,7 +24,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	protected void onMessage(Context arg0, Intent arg1) {
 
-		Log.i(TAG, "Received message"); 
+        String message = arg1.getExtras().getString("mess");
+		Log.i(TAG, "Received message: " + message); 
+		//Log.i(TAG, "Received message: ");
 	}
 
 	protected void onRegistered(Context arg0, String arg1) {
