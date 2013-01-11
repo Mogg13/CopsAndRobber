@@ -138,4 +138,14 @@ public class Igra {
 	public void setIgraci(List<Igrac> igraci) {
 		this.igraci = igraci;
 	}
+	
+	public Predmet getPredmetWithId(int id)
+	{
+		int k=0;
+		while(k<this.predmeti.size() && this.predmeti.get(k).getId() != id)
+		{
+			k++;
+		}
+		return this.predmeti.get(k);
+	}
 }

@@ -267,31 +267,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				    mapOverlays.add(new OkvirMape(igra));
 				    
 				    String imeObj, latObj, lonObj;
+				    				    
 				    
-				    List<String> predObj = new ArrayList<String>();
 				    JSONObject obj;
-				    JSONArray jsonArray = jsonObject.getJSONArray("objekti");
-					for(int i = 0; i<jsonArray.length(); i++){
-						obj = (JSONObject) jsonArray.get(i);
-						imeObj = obj.getString("naziv");
-						latObj = obj.getString("latitude");
-						lonObj = obj.getString("longitude");
-						id = obj.getInt("id");
-						// treba da se preuzme lista predmeta
-						igra.addObjekat(new Objekat(imeObj,latObj,lonObj, predObj, id, 0));
-						//Log.i("Ubacujem...", imeObj);
-						if(imeObj.equals("sigurna kuca") && igrac.getUloga().equals("Policajac"))
-						{
-							//do nothing
-						}
-						else
-						{
-							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
-						}
-						//Log.i("Ubaceno...", imeObj);
-					}
-					
-					jsonArray = jsonObject.getJSONArray("predmeti");
+				    JSONArray jsonArray = jsonObject.getJSONArray("predmeti");
 					for(int i = 0; i<jsonArray.length(); i++){
 						obj = (JSONObject) jsonArray.get(i);
 						imeObj = obj.getString("naziv");
@@ -305,6 +284,55 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
 						}
 						//Log.i("Ubaceno...", imeObj);
+					}
+					
+					jsonArray = jsonObject.getJSONArray("objekti");
+					JSONArray jArrayUslov;
+					JSONObject objUslov;
+					int uslovId;
+					List<Predmet> predObj = new ArrayList<Predmet>();
+					for(int i = 0; i<jsonArray.length(); i++){
+						obj = (JSONObject) jsonArray.get(i);
+						imeObj = obj.getString("naziv");
+						latObj = obj.getString("latitude");
+						lonObj = obj.getString("longitude");
+						id = obj.getInt("id");
+
+						
+						jArrayUslov = obj.getJSONArray("uslovi");
+						for(int j = 0; j<jArrayUslov.length(); j++)
+						{
+							objUslov = (JSONObject) jArrayUslov.get(j);
+							uslovId = objUslov.getInt("idpUslova");
+							//predmetUslov = igra.getPredmetWithId(uslovId);
+							predObj.add(igra.getPredmetWithId(uslovId));
+						}
+						
+						igra.addObjekat(new Objekat(imeObj,latObj,lonObj, predObj, id, 0));
+						predObj = new ArrayList<Predmet>();
+						//Log.i("Ubacujem...", imeObj);
+						
+						if(imeObj.equals("sigurna kuca") && igrac.getUloga().equals("Policajac"))
+						{
+							//do nothing
+						}
+						else
+						{
+							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
+						}
+						
+						
+						
+						
+					}
+					
+					//samo za test
+					for(int i=0; i<igra.getObjekti().size(); i++)
+					{
+						for(int j = 0; j<igra.getObjekatAt(i).getPredmeti().size(); j++)
+						{
+							Log.i("Objekat " + igra.getObjekatAt(i).getIme() + " " + igra.getObjekatAt(i).getId(), igra.getObjekatAt(i).getPredmetAt(j).getIme() + " " + igra.getObjekatAt(i).getPredmetAt(j).getId() );
+						}
 					}
 				    
 				    //mapOverlays.add(new JedanOverlay(R.drawable.cabin, "43.31452941894531", "21.888486862182617"));

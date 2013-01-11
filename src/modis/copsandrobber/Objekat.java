@@ -6,7 +6,7 @@ public class Objekat {
 	
 	private String ime;
 	private String latitude, longitude;
-	private List<String> predmeti;
+	private List<Predmet> predmeti;
 	private int id;	
 	private int status;
 	
@@ -15,7 +15,7 @@ public class Objekat {
 	}
 
 	public Objekat(String ime, String latitude, String longitude,
-			List<String> predmeti, int id, int status) {
+			List<Predmet> predmeti, int id, int status) {
 		super();
 		this.ime = ime;
 		this.latitude = latitude;
@@ -25,14 +25,24 @@ public class Objekat {
 		this.status = status;
 	}
 	
-	public void addPredmet(String p)
+	
+
+	public void addPredmet(Predmet p)
 	{
 		predmeti.add(p);
 	}
 	
-	public String getPredmetAt(int i)
+	public Predmet getPredmetAt(int i)
 	{
 		return predmeti.get(i);
+	}
+
+	public List<Predmet> getPredmeti() {
+		return predmeti;
+	}
+
+	public void setPredmeti(List<Predmet> predmeti) {
+		this.predmeti = predmeti;
 	}
 
 	public int getStatus() {
@@ -67,11 +77,6 @@ public class Objekat {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	public List<String> getPredmeti() {
-		return predmeti;
-	}
-	public void setPredmeti(List<String> predmeti) {
-		this.predmeti = predmeti;
-	}
+	
 
 }
