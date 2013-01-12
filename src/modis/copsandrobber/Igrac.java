@@ -10,6 +10,7 @@ public class Igrac implements Serializable {
 	private String longitude, latitude;
 	private String uloga;
 	private String reg_id;
+	private JedanOverlay overlay;
 	
 	public Igrac()
 	{}
@@ -20,18 +21,24 @@ public class Igrac implements Serializable {
 		this.uloga = uloga;
 		this.latitude=lat;
 		this.longitude=longi;
+		if(uloga.equals("Policajac"))
+			this.overlay = new JedanOverlay(R.drawable.cop,lat,longi);
+		else
+			this.overlay = new JedanOverlay(R.drawable.robber,lat,longi);
 	}
 	public String getLongitude() {
 		return longitude;
 	}
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+		this.overlay.setLon(longitude);
 	}
 	public String getLatitude() {
 		return latitude;
 	}
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+		this.overlay.setLat(latitude);
 	}
 	public String getUloga() {
 		return uloga;
@@ -45,4 +52,22 @@ public class Igrac implements Serializable {
 	public void setImei(String id) {
 		this.reg_id = id;
 	}
+
+	public String getReg_id() {
+		return reg_id;
+	}
+
+	public void setReg_id(String reg_id) {
+		this.reg_id = reg_id;
+	}
+
+	public JedanOverlay getOverlay() {
+		return overlay;
+	}
+
+	public void setOverlay(JedanOverlay overlay) {
+		this.overlay = overlay;
+	}
+	
+
 }

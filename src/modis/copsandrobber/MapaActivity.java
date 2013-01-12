@@ -44,8 +44,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private ProgressDialog progressDialog;
 	private List<Overlay> mapOverlays;
 	private Projection projection;
-	TextView timerIgre;
-	private int brojac;
+	private TextView timerIgre;
+	private int brojac10s;
+	private int brojac6min;
+	private JedanOverlay jo;
 	
 	
 	@Override
@@ -60,13 +62,20 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		igra = new Igra();
 		try {
 			Intent mapIntent = getIntent();
-			igrac = (Igrac)mapIntent.getSerializableExtra("igrac");
-			Log.i("Igrac iz mape",igrac.getUloga());
+			//igrac = (Igrac)mapIntent.getSerializableExtra("igrac");
+			//Log.i("Igrac iz mape",igrac.getUloga());
 			Bundle mapBundle = mapIntent.getExtras();
 			if(mapBundle !=null)
 			{
 				String imeIgre = mapBundle.getString("imeIgre");
 				igra.setIme(imeIgre);
+				
+				String uloga = mapBundle.getString("uloga");
+				String lat = mapBundle.getString("lat");
+				String lon = mapBundle.getString("lon");
+				String reg_id = mapBundle.getString("reg_id");
+				
+				igrac = new Igrac(uloga,lat,lon,reg_id);
 			}
 			
 		} catch (Exception e) {
@@ -112,15 +121,18 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
 		
+		jo = new JedanOverlay(R.drawable.cop, "43.35689985", "21.88989982");
+		
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
-		brojac = 0;
+		brojac10s = 0;
+		brojac6min = 0;
 		
 		new CountDownTimer(7200000, 1000) {
 
 		     public void onTick(long millisUntilFinished) {
 		    	 
-		    	 brojac++;
+		    	 
 		    	 millisUntilFinished = millisUntilFinished/1000;
 				 int sati = (int) (millisUntilFinished/3600);
 				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
@@ -139,11 +151,19 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				  
 		         timerIgre.setText( sati + ":" + minString + ":" + secString);
 		         
-		         if(brojac%10 == 0)	//10s refresh
+		         if(brojac10s>=10)	//10s refresh
 		         {
-		        	  ucitajPromeneDeset();
-		        	  
+		        	 brojac10s = 0;
+		        	 ucitajPromeneDeset();
+		        	 if(brojac6min >= 36) // 6min refresh
+		        	 {
+		        		 ucitajPromeneSestMin();
+		        		 brojac6min = 0;
+		        	 }
+		        	 brojac6min++;
 		         }
+		         
+		         brojac10s++;
 		         
 		     }
 
@@ -192,6 +212,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	
     private void ucitajPromeneDeset() {
 		// TODO Auto-generated method stub
+    	/*
     	guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
@@ -216,6 +237,27 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 			}
 		});
+	*/
+    	/*
+    	Log.i("ucitajPromeneDeset", "da");
+    	
+    	if(mapOverlays.contains(jo))
+    	{
+    		Log.i("SADRZI", "da");
+    		mapOverlays.remove(jo);
+    		jo.setLat("43.375695445");
+    		jo.setLon("21.906655545");
+    		mapOverlays.add(jo);
+    	}
+    	else
+    	{
+    		mapOverlays.add(jo);
+    	}
+    	*/
+	}
+    
+    private void ucitajPromeneSestMin() {
+		// TODO Auto-generated method stub
 		
 	}
     

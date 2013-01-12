@@ -227,7 +227,10 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
     {
     	Intent i = new Intent (this, MapaActivity.class);
 		i.putExtra("imeIgre", igra);
-		i.putExtra("igrac", igrac);
+		i.putExtra("uloga", igrac.getUloga());
+		i.putExtra("lat", igrac.getLatitude());
+		i.putExtra("lon", igrac.getLongitude());
+		i.putExtra("reg_id", igrac.getReg_id());
 		startActivity(i);
     }
     

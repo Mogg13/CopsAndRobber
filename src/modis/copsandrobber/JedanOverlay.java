@@ -1,4 +1,5 @@
 package modis.copsandrobber;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -15,7 +16,7 @@ import com.google.android.maps.Overlay;
 
 
 
-public class JedanOverlay extends Overlay{
+public class JedanOverlay extends Overlay implements Serializable{
 	
 	Bitmap bmp;
 	Context context;
@@ -43,6 +44,24 @@ public class JedanOverlay extends Overlay{
 		
 		return true;
 	}
+
+	public String getLat() {
+		return lat;
+	}
+
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+
+	public String getLon() {
+		return lon;
+	}
+
+	public void setLon(String lon) {
+		this.lon = lon;
+	}
+	
+	
 	
 	/*public boolean onTouchEvent(MotionEvent event, MapView mapView)
 	{
