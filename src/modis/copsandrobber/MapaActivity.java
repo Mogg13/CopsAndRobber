@@ -142,6 +142,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		         if(brojac%10 == 0)	//10s refresh
 		         {
 		        	  ucitajPromeneDeset();
+		        	  
 		         }
 		         
 		     }
