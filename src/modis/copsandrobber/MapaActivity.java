@@ -47,8 +47,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private TextView timerIgre;
 	private int brojac10s;
 	private int brojac6min;
-	private JedanOverlay jo;
-	
+	//private JedanOverlay jo;
+	double lat1proba, lat2proba, lat3proba, lon1proba, lon2proba, lon3proba;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -121,8 +121,19 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
 		
-		jo = new JedanOverlay(R.drawable.cop, "43.35689985", "21.88989982");
+		//jo = new JedanOverlay(R.drawable.cop, "43.35689985", "21.88989982");
+		/////////////////////////////////////////////////////////// PROBA
+		lat1proba = 43.356885;
+		lat2proba = 43.456986;
+		lat3proba = 43.559869;
+		lon1proba = 21.886598;
+		lon2proba = 21.986656;
+		lon3proba = 21.786525;
 		
+		igra.addIgrac(new Igrac("Lopov",Double.toString(lat1proba), Double.toString(lon1proba), "00000"));
+		igra.addIgrac(new Igrac("Policajac",Double.toString(lat2proba), Double.toString(lon2proba), "11111"));
+		igra.addIgrac(new Igrac("Policajac",Double.toString(lat3proba), Double.toString(lon3proba), "22222"));
+		//////////////////////////////////////////////////////////////
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
 		brojac10s = 0;
@@ -165,6 +176,15 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		         
 		         brojac10s++;
 		         
+		         //////// proba
+		         lat1proba += 0.01;
+		 		lat2proba += 0.01;
+		 		lat3proba += 0.01;
+		 		lon1proba += 0.01;
+		 		lon2proba += 0.01;
+		 		lon3proba += 0.01;
+		 		
+		 		
 		     }
 
 			public void onFinish() {
@@ -238,22 +258,42 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 		});
 	*/
+    	igra.getIgracAt(0).setLatitude(Double.toString(lat1proba));
+ 		igra.getIgracAt(0).setLongitude(Double.toString(lon1proba));
+ 		igra.getIgracAt(1).setLatitude(Double.toString(lat2proba));
+ 		igra.getIgracAt(1).setLongitude(Double.toString(lon2proba));
+ 		igra.getIgracAt(2).setLatitude(Double.toString(lat3proba));
+ 		igra.getIgracAt(2).setLongitude(Double.toString(lon3proba));
+    	//Log.i("ucitajPromeneDeset", "da");
     	/*
-    	Log.i("ucitajPromeneDeset", "da");
-    	
-    	if(mapOverlays.contains(jo))
+    	if(mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
     	{
-    		Log.i("SADRZI", "da");
-    		mapOverlays.remove(jo);
-    		jo.setLat("43.375695445");
-    		jo.setLon("21.906655545");
-    		mapOverlays.add(jo);
+    		//Log.i("SADRZI", "da");
+    		mapOverlays.remove(igra.getIgracAt(0).getOverlay());
+    		
+    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
     	}
     	else
     	{
-    		mapOverlays.add(jo);
+    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
     	}
     	*/
+ 		if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
+    	{
+    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
+    	}
+    	//////////////////////////////////////////////////////////
+    	if(!mapOverlays.contains(igra.getIgracAt(1).getOverlay()))
+    	{
+    		mapOverlays.add(igra.getIgracAt(1).getOverlay());
+    	}    	
+		//////////////////////////////////////////////////////////
+		if(!mapOverlays.contains(igra.getIgracAt(2).getOverlay()))
+		{
+			mapOverlays.add(igra.getIgracAt(2).getOverlay());
+		}
+		
+    	
 	}
     
     private void ucitajPromeneSestMin() {
