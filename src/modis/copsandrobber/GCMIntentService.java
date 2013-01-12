@@ -25,11 +25,22 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onMessage(Context arg0, Intent arg1) {
 
         String message = arg1.getExtras().getString("kod_poruke");
-        if(message.equals("opljackan_objekat"))
+        if(message.equals("opljackan_objekat")) //objekat opljackan        	
         {
         	Log.i(TAG, "Received message: " + message);
         }
-		 
+        else if(message.equals("pocetak_igre"))	//start
+        {
+        	Log.i(TAG, "Received message: " + message);
+        }
+        else if(message.equals("ometac_aktiviran"))	//ne prikazivati lopova
+        {
+        	Log.i(TAG, "Received message: " + message);
+        }
+        else if(message.equals("pancir_akticiran"))	//lopov ima pancir
+        {
+        	Log.i(TAG, "Received message: " + message);
+        }
 		//Log.i(TAG, "Received message: ");
 	}
 
