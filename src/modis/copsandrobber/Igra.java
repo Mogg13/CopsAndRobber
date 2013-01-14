@@ -157,4 +157,15 @@ public class Igra {
 			}
 		}
 	}
+	
+	public Igrac getIgracById(String id)
+	{	Igrac res =new Igrac();
+		for(int i = 0; i<igraci.size(); i++){
+			if(igraci.get(i).getImei() == id)
+			{
+				res = igraci.get(i);
+			}
+		}
+		return res;
+	}
 }

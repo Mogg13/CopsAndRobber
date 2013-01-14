@@ -52,8 +52,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private int brojac10s;
 	private int brojac6min;
 	//private JedanOverlay jo;
-	double lat1proba, lat2proba, lat3proba, lon1proba, lon2proba, lon3proba;
-	
+	//double lat1proba, lat2proba, lat3proba, lon1proba, lon2proba, lon3proba;
+	private String latLopova, lonLopova;
+	private String [] latPolicajca = new String[3];
+	private String [] lonPolicajca = new String[3];
+	private String [] idPolicajca = new String [3];
 	@Override
 	protected boolean isRouteDisplayed() {
 		
@@ -130,7 +133,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		
 		//jo = new JedanOverlay(R.drawable.cop, "43.35689985", "21.88989982");
 		/////////////////////////////////////////////////////////// PROBA
-		lat1proba = 43.356885;
+		/*lat1proba = 43.356885;
 		lat2proba = 43.456986;
 		lat3proba = 43.559869;
 		lon1proba = 21.886598;
@@ -139,10 +142,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		
 		igra.addIgrac(new Igrac("Lopov",Double.toString(lat1proba), Double.toString(lon1proba), "00000"));
 		igra.addIgrac(new Igrac("Policajac",Double.toString(lat2proba), Double.toString(lon2proba), "11111"));
-		igra.addIgrac(new Igrac("Policajac",Double.toString(lat3proba), Double.toString(lon3proba), "22222"));
+		igra.addIgrac(new Igrac("Policajac",Double.toString(lat3proba), Double.toString(lon3proba), "22222"));*/
 		//////////////////////////////////////////////////////////////
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
+		brojac10s = 1;
+		brojac6min = 1;
 
 		
 		
@@ -187,7 +192,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	
     private void ucitajPromeneDeset() {
 		// TODO Auto-generated method stub
-    	/*
+    	
     	guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
@@ -204,7 +209,27 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						String idIgraca = obj.getString("idIgraca");
 						String latIgraca = obj.getString("latitude");
 						String lonIgraca = obj.getString("longitude");
-						igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
+						//igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
+						if(igrac.getUloga().equals("Policajac"))
+						{
+							if(igra.getIgracById(idIgraca).equals("Lopov"))
+							{
+								latLopova = latIgraca;
+								lonLopova = lonIgraca;
+							}
+							else
+							{
+								igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
+							}
+						}
+						else
+						{
+							latPolicajca[i] = latIgraca;
+							lonPolicajca[i] = lonIgraca;
+							idPolicajca[i] = idIgraca;
+						}
+						//TO-DO
+						//updateRadar();
 				    }
 				} catch (Exception e){
 					e.printStackTrace();
@@ -212,7 +237,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 			}
 		});
-	*/
+	
+    	/*
     	igra.getIgracAt(0).setLatitude(Double.toString(lat1proba));
  		igra.getIgracAt(0).setLongitude(Double.toString(lon1proba));
  		igra.getIgracAt(1).setLatitude(Double.toString(lat2proba));
@@ -232,7 +258,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	{
     		mapOverlays.add(igra.getIgracAt(0).getOverlay());
     	}
-    	*/
+    	*-/
  		if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
     	{
     		mapOverlays.add(igra.getIgracAt(0).getOverlay());
@@ -248,11 +274,53 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			mapOverlays.add(igra.getIgracAt(2).getOverlay());
 		}
 		
-    	
+    	*/
 	}
     
     private void ucitajPromeneSestMin() {
 		// TODO Auto-generated method stub
+    	guiThread = new Handler();
+		transThread = Executors.newSingleThreadExecutor();
+		transThread.submit(new Runnable() {
+			
+			public void run() {
+				
+				try{
+					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getImei(), igrac.getLatitude(), igrac.getLongitude());
+					JSONObject jsonObject = new JSONObject(info);
+					JSONObject obj;
+				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
+				    for(int i = 0; i<jsonArray.length(); i++){
+				    	obj = (JSONObject) jsonArray.get(i);
+						String idIgraca = obj.getString("idIgraca");
+						String latIgraca = obj.getString("latitude");
+						String lonIgraca = obj.getString("longitude");
+						igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
+						
+						//TO-DO
+						//updateRadar();
+						
+						if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
+				    	{
+				    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
+				    	}
+				    	//////////////////////////////////////////////////////////
+				    	if(!mapOverlays.contains(igra.getIgracAt(1).getOverlay()))
+				    	{
+				    		mapOverlays.add(igra.getIgracAt(1).getOverlay());
+				    	}    	
+						//////////////////////////////////////////////////////////
+						if(!mapOverlays.contains(igra.getIgracAt(2).getOverlay()))
+						{
+							mapOverlays.add(igra.getIgracAt(2).getOverlay());
+						}
+				    }
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		
 	}
     
@@ -481,8 +549,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
    		     public void onTick(long millisUntilFinished) {
    		    	 
-   				brojac10s = 0;
-   				brojac6min = 0;   		    	 
+   				  		    	 
    		    	 millisUntilFinished = millisUntilFinished/1000;
    				 int sati = (int) (millisUntilFinished/3600);
    				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
@@ -504,11 +571,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		         if(brojac10s>=10)	//10s refresh
    		         {
    		        	 brojac10s = 0;
-   		        	 ucitajPromeneDeset();
    		        	 if(brojac6min >= 36) // 6min refresh
    		        	 {
    		        		 ucitajPromeneSestMin();
    		        		 brojac6min = 0;
+   		        	 }
+   		        	 else
+   		        	 {
+   		        		ucitajPromeneDeset();
    		        	 }
    		        	 brojac6min++;
    		         }
@@ -516,12 +586,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		         brojac10s++;
    		         
    		         //////// proba
-   		         lat1proba += 0.01;
+   		        /* lat1proba += 0.01;
    		 		lat2proba += 0.01;
    		 		lat3proba += 0.01;
    		 		lon1proba += 0.01;
    		 		lon2proba += 0.01;
-   		 		lon3proba += 0.01;
+   		 		lon3proba += 0.01;*/
    		 		
    		 		
    		     }
