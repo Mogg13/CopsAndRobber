@@ -11,10 +11,14 @@ import org.json.JSONObject;
 import modis.copsandrobber.R;
 import android.R.drawable;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,6 +63,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	public void onCreate(Bundle savedInstanceState)	{
 		
 		super.onCreate(savedInstanceState);
+	    LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiverGameStart, new IntentFilter("start_the_game"));
+	    
 		igra = new Igra();
 		try {
 			Intent mapIntent = getIntent();
@@ -136,61 +143,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		//////////////////////////////////////////////////////////////
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
-		brojac10s = 0;
-		brojac6min = 0;
+
 		
-		new CountDownTimer(7200000, 1000) {
-
-		     public void onTick(long millisUntilFinished) {
-		    	 
-		    	 
-		    	 millisUntilFinished = millisUntilFinished/1000;
-				 int sati = (int) (millisUntilFinished/3600);
-				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
-				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-				  
-				 String minString = "";
-				 String secString = "";
-				 if(minuti<10)
-					 minString = "0" + Integer.toString(minuti);
-				 else
-					 minString = Integer.toString(minuti);
-				 if(sekundi<10)
-					 secString = "0" + Integer.toString(sekundi);
-				 else
-					 secString = Integer.toString(sekundi);
-				  
-		         timerIgre.setText( sati + ":" + minString + ":" + secString);
-		         
-		         if(brojac10s>=10)	//10s refresh
-		         {
-		        	 brojac10s = 0;
-		        	 ucitajPromeneDeset();
-		        	 if(brojac6min >= 36) // 6min refresh
-		        	 {
-		        		 ucitajPromeneSestMin();
-		        		 brojac6min = 0;
-		        	 }
-		        	 brojac6min++;
-		         }
-		         
-		         brojac10s++;
-		         
-		         //////// proba
-		         lat1proba += 0.01;
-		 		lat2proba += 0.01;
-		 		lat3proba += 0.01;
-		 		lon1proba += 0.01;
-		 		lon2proba += 0.01;
-		 		lon3proba += 0.01;
-		 		
-		 		
-		     }
-
-			public void onFinish() {
-		    	 timerIgre.setText("Kraj igre!");
-		     }
-		  }.start();
+		
 	}
 	
 	public void onClick(View v) {	
@@ -518,5 +473,64 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		map.getOverlays().add(overlay);
 	}
 	
+    private BroadcastReceiver mMessageReceiverGameStart = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+
+        	new CountDownTimer(7200000, 1000) {
+
+   		     public void onTick(long millisUntilFinished) {
+   		    	 
+   				brojac10s = 0;
+   				brojac6min = 0;   		    	 
+   		    	 millisUntilFinished = millisUntilFinished/1000;
+   				 int sati = (int) (millisUntilFinished/3600);
+   				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
+   				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+   				  
+   				 String minString = "";
+   				 String secString = "";
+   				 if(minuti<10)
+   					 minString = "0" + Integer.toString(minuti);
+   				 else
+   					 minString = Integer.toString(minuti);
+   				 if(sekundi<10)
+   					 secString = "0" + Integer.toString(sekundi);
+   				 else
+   					 secString = Integer.toString(sekundi);
+   				  
+   		         timerIgre.setText( sati + ":" + minString + ":" + secString);
+   		         
+   		         if(brojac10s>=10)	//10s refresh
+   		         {
+   		        	 brojac10s = 0;
+   		        	 ucitajPromeneDeset();
+   		        	 if(brojac6min >= 36) // 6min refresh
+   		        	 {
+   		        		 ucitajPromeneSestMin();
+   		        		 brojac6min = 0;
+   		        	 }
+   		        	 brojac6min++;
+   		         }
+   		         
+   		         brojac10s++;
+   		         
+   		         //////// proba
+   		         lat1proba += 0.01;
+   		 		lat2proba += 0.01;
+   		 		lat3proba += 0.01;
+   		 		lon1proba += 0.01;
+   		 		lon2proba += 0.01;
+   		 		lon3proba += 0.01;
+   		 		
+   		 		
+   		     }
+
+   			public void onFinish() {
+   		    	 timerIgre.setText("Kraj igre!");
+   		     }
+   		  }.start();
+        }
+    };
 
 }
