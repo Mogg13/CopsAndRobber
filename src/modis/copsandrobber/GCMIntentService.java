@@ -31,7 +31,9 @@ public class GCMIntentService extends GCMBaseIntentService {
         }
         else if(message.equals("pocetak_igre"))	//start
         {
-        	Log.i(TAG, "Received message: " + message);
+        	Log.i(TAG, "POCINJE IGRA"); 
+    	    Intent intent = new Intent("start_the_game");
+    	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
         else if(message.equals("ometac_aktiviran"))	//ne prikazivati lopova
         {
