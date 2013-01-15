@@ -43,14 +43,13 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postojece_igre);
         
-        longitude = "0";
-        latitude = "0";
-
+        longitude = "0.0";
+        latitude = "0.0";
 	    
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));
-		Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
-	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
+       /* LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));*/
+		//Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
+	    //LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
         
         try {
 			Intent igraIntent = getIntent();
@@ -126,9 +125,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 						guiProgressDialog(false);
 					}
 					
-				});
-				
-				
+				});				
     		}
     		else
     		{
@@ -204,12 +201,10 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				spinner.setAdapter(adapter);
 			}
-			
-		
 		});
 	}
     
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    /*private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 
         public void onReceive(Context context, Intent intent) {
           
@@ -221,7 +216,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 			}
 			Log.i("InfoLog", "primljen gps" + latitude + " " + longitude);
         }
-    };
+    };*/
 
     public void startMapActivity()
     {

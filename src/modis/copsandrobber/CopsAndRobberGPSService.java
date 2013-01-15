@@ -22,6 +22,8 @@ public class CopsAndRobberGPSService extends Service{
 	Context context;
 	double latitude;
 	double longitude;
+	ProximityIntentReceiver pir;
+	
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
@@ -36,8 +38,10 @@ public class CopsAndRobberGPSService extends Service{
 	public void onStart (Intent intent, int startId){
 		super.onStart(intent, startId);
 		Log.e("<<MyGpsService-onStart>>", "I am alive-GPS!");
-	
-	
+		
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter_poslati"));
+		
 		triggerService = new Thread (new Runnable() {
 			
 			public void run(){
@@ -46,7 +50,7 @@ public class CopsAndRobberGPSService extends Service{
 					Looper.prepare();
 					lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
 					myLocationListener = new GPSListener(context);
-					long minTime=5000;
+					long minTime=1000;
 					float minDistance = 1;
 					lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, myLocationListener);
 					Looper.loop();
@@ -57,8 +61,7 @@ public class CopsAndRobberGPSService extends Service{
 		});
 		triggerService.start();
 		
-		LocalBroadcastManager.getInstance(this).registerReceiver(
-	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter_poslati"));
+
 	}
 	
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {

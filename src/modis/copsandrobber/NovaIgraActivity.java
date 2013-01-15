@@ -49,13 +49,13 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nova_igra);
         
-        longitude = "0";
-        latitude = "0";        
+        longitude = "0.0";
+        latitude = "0.0";        
 	    
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));
-		Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
-	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
+       /* LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));*/
+		/*Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
+	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);*/
         
 		try {
 			Intent igraIntent = getIntent();
@@ -130,7 +130,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 		
 	}
 	
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    /*private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 
         public void onReceive(Context context, Intent intent) {
           
@@ -142,7 +142,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 			}
 			Log.i("InfoLog", "primljen gps" + latitude + " " + longitude);
         }
-    };
+    };*/
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)

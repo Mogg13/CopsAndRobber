@@ -12,6 +12,7 @@ import modis.copsandrobber.R;
 import android.R.drawable;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gcm.GCMRegistrar;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -51,7 +53,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private TextView timerIgre;
 	private int brojac10s;
 	private int brojac6min;
-	//private JedanOverlay jo;
+	Context context;
+	Intent intentMyService;
+	ComponentName service;
 	double lat1proba, lat2proba, lat3proba, lon1proba, lon2proba, lon3proba;
 	
 	@Override
@@ -65,6 +69,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 	    LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiverGameStart, new IntentFilter("start_the_game"));
+	    LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));
+	    intentMyService= new Intent(this, CopsAndRobberGPSService.class);
+		service = startService(intentMyService);
 	    
 		igra = new Igra();
 		try {
@@ -143,9 +151,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		//////////////////////////////////////////////////////////////
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
-
 		
-		
+	    Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
+	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
 	}
 	
 	public void onClick(View v) {	
@@ -153,19 +161,24 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	
     	switch(v.getId())
     	{
-    		case R.id.dugmePancir:
-    		
-    			break;
-    			
-    		case R.id.dugmeOmetac:
-        		
-    			break;
-    			
-    		case R.id.dugmePucaj:
-        		
+    		case R.id.dugmePancir:    		
+    			break;    			
+    		case R.id.dugmeOmetac:        		
+    			break;    			
+    		case R.id.dugmePucaj:        		
     			break;
     	}
 	}
+	
+	protected void onDestroy() { 
+		 
+        try { 
+           stopService(intentMyService);
+        } catch (Exception e) { 
+            Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+        } 
+        super.onDestroy(); 
+    } 
 	
 	private void ucitajPodatke() {
 		guiThread = new Handler();
@@ -247,13 +260,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		{
 			mapOverlays.add(igra.getIgracAt(2).getOverlay());
 		}
-		
-    	
 	}
     
     private void ucitajPromeneSestMin() {
 		// TODO Auto-generated method stub
-		
 	}
     
 	private void guiProgressDialog(final boolean start){
@@ -267,7 +277,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				}
 				else
 					progressDialog.dismiss();
-				
 			}
 		});
 	}
@@ -314,8 +323,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				    mapOverlays.add(new OkvirMape(igra));
 				    
 				    String imeObj, latObj, lonObj;
-				    				    
-				    
+
 				    JSONObject obj;
 				    JSONArray jsonArray = jsonObject.getJSONArray("predmeti");
 					for(int i = 0; i<jsonArray.length(); i++){
@@ -345,7 +353,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						lonObj = obj.getString("longitude");
 						id = obj.getInt("id");
 
-						
 						jArrayUslov = obj.getJSONArray("uslovi");
 						for(int j = 0; j<jArrayUslov.length(); j++)
 						{
@@ -367,10 +374,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						{
 							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
 						}
-						
-						
-						
-						
 					}
 					
 					//samo za test
@@ -392,6 +395,20 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 		});
 	}
+	
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+          
+            Bundle igraBundle = intent.getExtras();
+			if(igraBundle !=null)
+			{
+				igrac.setLatitude(intent.getStringExtra("latitude").toString());
+				igrac.setLongitude(intent.getStringExtra("longitude").toString());
+			}
+			Log.i("InfoLog", "primljen gps" + igrac.getLatitude() + " " + igrac.getLongitude());
+        }
+    };
 	
 	public int vratiKodSlicice(String ime)
 	{
