@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Handler guiThread;
 	Context context;
 	Intent intentMyService;
-	ComponentName service;
+	//ComponentName service;
 	BroadcastReceiver receiver;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +73,9 @@ public class MainActivity extends Activity implements OnClickListener {
         guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		
-		intentMyService= new Intent(this, CopsAndRobberGPSService.class);
-		service = startService(intentMyService);
-		
-		/*IntentFilter mainFilter = newIntentFilter(GPS_FILTER);
-		receiver = new MyMainLocalReceiver();
-		registerReceiver(receiver, mainFilter);*/
+		/*intentMyService= new Intent(this, CopsAndRobberGPSService.class);
+		service = startService(intentMyService);*/
+
 	}
 
 	public void onClick(View v) {	
@@ -90,15 +87,12 @@ public class MainActivity extends Activity implements OnClickListener {
     		
     		if(reg_number.equals(""))
     		{
-    			//transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable(){
     				public void run(){
     					guiProgressDialog(true);
 
     					while(reg_number.equals(""))
-    					{
-    						//Log.i("registracija","vrti se petlja");
-    					}
+    					{ }
     					guiNotifyUser("nova");
     					guiProgressDialog(false);
     				}    				
@@ -110,8 +104,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		}
 
     		break;
-    	case R.id.dugme_postojece_igre:
-    		
+    	case R.id.dugme_postojece_igre:    		
     		if(reg_number.equals(""))
     		{
     			transThread = Executors.newSingleThreadExecutor();
@@ -132,10 +125,8 @@ public class MainActivity extends Activity implements OnClickListener {
     		{
     			startPostojeceActivity();
     		}
-    		
-
     		break;
-    		case R.id.dugme_exit:
+    	case R.id.dugme_exit:
     		GCMRegistrar.unregister(this);
     		finish();
     		break;
@@ -153,7 +144,7 @@ public class MainActivity extends Activity implements OnClickListener {
         try { 
     		GCMRegistrar.unregister(this);
             GCMRegistrar.onDestroy(this); 
-            stopService(intentMyService);
+           // stopService(intentMyService);
             unregisterReceiver(receiver);
         } catch (Exception e) { 
             Log.e("UnRegister Receiver Error", "> " + e.getMessage()); 
@@ -189,20 +180,15 @@ public class MainActivity extends Activity implements OnClickListener {
 
     public void guiNotifyUser(final String act){
 		
-		guiThread.post(new Runnable() {
-			
-			public void run() {
-				
-				if(act.equals("nova"))
-				{
+		guiThread.post(new Runnable() {			
+			public void run() {				
+				if(act.equals("nova")){
 					startNovaActivity();
 				}
-				else
-				{
+				else{
 					startPostojeceActivity();
 				}
     				Toast.makeText(context, "prijavljen na google servis"  , Toast.LENGTH_SHORT).show();
-
 			}
 		});
 	}
