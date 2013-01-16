@@ -5,15 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 public class ProximityIntentReceiver extends BroadcastReceiver  {
 			
 	@Override
 	public void onReceive(Context arg0, Intent intent) {
 		
+		Log.i("PROXIMITY", "uhvaceno nesto");
 		String key = LocationManager.KEY_PROXIMITY_ENTERING;
 		Boolean entering = intent.getBooleanExtra(key, false);         
 		String tip_intenta = intent.getStringExtra("tip");
+		Log.i("PROXIMITY", tip_intenta);
 		
 		if(tip_intenta.equals("policija"))
 		{

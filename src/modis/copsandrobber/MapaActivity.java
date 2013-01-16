@@ -164,16 +164,17 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		//PROHIMITY ALERTI
 		if(igrac.getUloga().equals("Policajac"))
 		{
+			Log.i("PROXIMITY", "uso u petlju uu mapactivity");
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
 				if ( igra.getObjekatAt(i).getIme() == "policija")
 				{
-					Intent intent = new Intent("lokacija_policija");
+					Intent intent = new Intent("proximity_intent");
 					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 					intent.putExtra("tip", "policija");
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 30, -1, proximityIntent);
 					
-					IntentFilter filter = new IntentFilter("lokacija_policija");  
+					IntentFilter filter = new IntentFilter("proximity_intent");  
 				    registerReceiver(new ProximityIntentReceiver(), filter);
 				}
 			}
@@ -185,28 +186,28 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				imeIntenta="Lokacija_objekta"+i;
-				Intent intent = new Intent(imeIntenta);
+				//imeIntenta="Lokacija_objekta"+i;
+				Intent intent = new Intent("proximity_intent");
 				intent.putExtra("tip", "objekat");
 				intent.putExtra("vrednost", igra.getObjekatAt(i).getIme());
 				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
 				
-				IntentFilter filter = new IntentFilter(imeIntenta);  
+				IntentFilter filter = new IntentFilter("proximity_intent");  
 			    registerReceiver(new ProximityIntentReceiver(), filter);
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
 			{
-				imeIntenta="Lokacija_predmeta"+i;
-				Intent intent = new Intent(imeIntenta);
+				//imeIntenta="Lokacija_predmeta"+i;
+				Intent intent = new Intent("proximity_intent");
 				intent.putExtra("tip", "predmet");
 				intent.putExtra("vrednost", igra.getPredmetAt(i).getIme());
 				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
 				
-				IntentFilter filter = new IntentFilter(imeIntenta);  
+				IntentFilter filter = new IntentFilter("proximity_intent");  
 			    registerReceiver(new ProximityIntentReceiver(), filter);
 			}
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
