@@ -10,12 +10,16 @@ import org.json.JSONObject;
 
 import modis.copsandrobber.R;
 import android.R.drawable;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -57,6 +61,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	Intent intentMyService;
 	ComponentName service;
 	double lat1proba, lat2proba, lat3proba, lon1proba, lon2proba, lon3proba;
+	LocationManager lm;
+	GPSListener myLocationListener;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -69,10 +75,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 	    LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiverGameStart, new IntentFilter("start_the_game"));
-	    LocalBroadcastManager.getInstance(this).registerReceiver(
-	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));
-	    intentMyService= new Intent(this, CopsAndRobberGPSService.class);
-		service = startService(intentMyService);
 	    
 		igra = new Igra();
 		try {
@@ -152,9 +154,99 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
 		
-	    Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
-	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
+		//GSP LOKACIJA
+		lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
+		myLocationListener = new GPSListener();
+		long minTime=1000;
+		float minDistance = 1;
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, myLocationListener);
+		
+		//PROHIMITY ALERTI
+		if(igrac.getUloga().equals("Policajac"))
+		{
+			for(int i = 0;i<igra.getObjekti().size();i++)
+			{
+				if ( igra.getObjekatAt(i).getIme() == "policija")
+				{
+					Intent intent = new Intent("lokacija_policija");
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+					intent.putExtra("tip", "policija");
+					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 30, -1, proximityIntent);
+					
+					IntentFilter filter = new IntentFilter("lokacija_policija");  
+				    registerReceiver(new ProximityIntentReceiver(), filter);
+				}
+			}
+		    LocalBroadcastManager.getInstance(this).registerReceiver(
+		    		mMessageProxReceiverPolicija, new IntentFilter("u_policiji"));
+		}
+		else
+		{
+			String imeIntenta;
+			for(int i = 0;i<igra.getObjekti().size();i++)
+			{
+				imeIntenta="Lokacija_objekta"+i;
+				Intent intent = new Intent(imeIntenta);
+				intent.putExtra("tip", "objekat");
+				intent.putExtra("vrednost", igra.getObjekatAt(i).getIme());
+				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+				
+				lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
+				
+				IntentFilter filter = new IntentFilter(imeIntenta);  
+			    registerReceiver(new ProximityIntentReceiver(), filter);
+			}
+			for(int i = 0;i<igra.getPredmeti().size();i++)
+			{
+				imeIntenta="Lokacija_predmeta"+i;
+				Intent intent = new Intent(imeIntenta);
+				intent.putExtra("tip", "predmet");
+				intent.putExtra("vrednost", igra.getPredmetAt(i).getIme());
+				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+				
+				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
+				
+				IntentFilter filter = new IntentFilter(imeIntenta);  
+			    registerReceiver(new ProximityIntentReceiver(), filter);
+			}
+		    LocalBroadcastManager.getInstance(this).registerReceiver(
+		    		mMessageProxReceiverObjekat, new IntentFilter("u_objektu"));
+		    LocalBroadcastManager.getInstance(this).registerReceiver(
+		    		mMessageProxReceiverPredmet, new IntentFilter("u_predmetu"));
+		}
 	}
+	
+	private class GPSListener implements LocationListener{
+		
+		public GPSListener() {
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public void onLocationChanged(Location location) {
+			// TODO Auto-generated method stub
+			 igrac.setLongitude(Double.toString(location.getLongitude()));
+		     igrac.setLatitude(Double.toString(location.getLatitude()));
+		     
+		     Log.i("LOKACIJA", "primljen gps" + igrac.getLatitude() + " " + igrac.getLongitude());
+
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub			
+		}
+	};
 	
 	public void onClick(View v) {	
 		
@@ -173,7 +265,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	protected void onDestroy() { 
 		 
         try { 
-           stopService(intentMyService);
+           //stopService(intentMyService);
         } catch (Exception e) { 
             Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
         } 
@@ -396,20 +488,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		});
 	}
 	
-	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-
-        public void onReceive(Context context, Intent intent) {
-          
-            Bundle igraBundle = intent.getExtras();
-			if(igraBundle !=null)
-			{
-				igrac.setLatitude(intent.getStringExtra("latitude").toString());
-				igrac.setLongitude(intent.getStringExtra("longitude").toString());
-			}
-			Log.i("InfoLog", "primljen gps" + igrac.getLatitude() + " " + igrac.getLongitude());
-        }
-    };
-	
 	public int vratiKodSlicice(String ime)
 	{
 		int kod = 0;
@@ -533,7 +611,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		         brojac10s++;
    		         
    		         //////// proba
-   		         lat1proba += 0.01;
+   		        lat1proba += 0.01;
    		 		lat2proba += 0.01;
    		 		lat3proba += 0.01;
    		 		lon1proba += 0.01;
@@ -548,6 +626,34 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		     }
    		  }.start();
         }
+    };
+    
+    private BroadcastReceiver mMessageProxReceiverPolicija = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
+    };
+    private BroadcastReceiver mMessageProxReceiverObjekat = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
+    };
+    private BroadcastReceiver mMessageProxReceiverPredmet= new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
     };
 
 }
