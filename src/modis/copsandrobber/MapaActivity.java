@@ -181,9 +181,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 					intent.putExtra("tip", "policija");
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 30, -1, proximityIntent);
-					
-					IntentFilter filter = new IntentFilter("proximity_intent");  
-				    registerReceiver(new ProximityIntentReceiver(), filter);
 				}
 			}
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -202,8 +199,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
 				
-				IntentFilter filter = new IntentFilter("proximity_intent");  
-			    registerReceiver(new ProximityIntentReceiver(), filter);
+				
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
 			{
@@ -215,14 +211,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
 				
-				IntentFilter filter = new IntentFilter("proximity_intent");  
-			    registerReceiver(new ProximityIntentReceiver(), filter);
 			}
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverObjekat, new IntentFilter("u_objektu"));
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPredmet, new IntentFilter("u_predmetu"));
 		}
+		IntentFilter filter = new IntentFilter("proximity_intent");  
+	    registerReceiver(new ProximityIntentReceiver(), filter);
 	}
 	
 	private class GPSListener implements LocationListener{

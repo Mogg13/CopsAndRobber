@@ -114,7 +114,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     					while(reg_number.equals(""))
     					{
-    						Log.i("registracija","vrti se petlja");
+    						//Log.i("registracija","vrti se petlja");
     					}
     					guiNotifyUser("postojeca");
     					guiProgressDialog(false);
