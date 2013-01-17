@@ -63,11 +63,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private String [] latPolicajca = new String[3];
 	private String [] lonPolicajca = new String[3];
 	private String [] idPolicajca = new String [3];
-	Context context;
-	Intent intentMyService;
-	ComponentName service;
-	LocationManager lm;
-	GPSListener myLocationListener;
+	private Context context;
+	private Intent intentMyService;
+	private ComponentName service;
+	private LocationManager lm;
+	private GPSListener myLocationListener;
+	private ProximityIntentReceiver proxReciever;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -82,6 +83,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    		mMessageReceiverGameStart, new IntentFilter("start_the_game"));
 	    
 		igra = new Igra();
+		proxReciever = new ProximityIntentReceiver();
 		try {
 			Intent mapIntent = getIntent();
 			//igrac = (Igrac)mapIntent.getSerializableExtra("igrac");
@@ -243,8 +245,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				{
 					Log.i("PROXIMITY", "uso u petlju uu mapactivity");
 					Intent intent = new Intent("modis.copsandrobber.proximity_intent");
-					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 					intent.putExtra("tip", "policija");
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+					
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 30, -1, proximityIntent);
 					Log.i("PROXIMITY: ALARM", igra.getObjekatAt(i).getIme());
 				}
@@ -254,37 +257,44 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
 		    registerReceiver(new ProximityIntentReceiver(), filter);
 		}
-		/*else
+		else
 		{
 			String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				//imeIntenta="Lokacija_objekta"+i;
-				Intent intent = new Intent("modis.copsandrobber.proximity_intent");
+				imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
+				Intent intent = new Intent(imeIntenta);
 				intent.putExtra("tip", "objekat");
 				intent.putExtra("vrednost", igra.getObjekatAt(i).getIme());
-				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
 				
+				IntentFilter filter = new IntentFilter(imeIntenta);  
+			    registerReceiver(proxReciever, filter);
 				
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
 			{
-				//imeIntenta="Lokacija_predmeta"+i;
-				Intent intent = new Intent("modis.copsandrobber.proximity_intent");
+				imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
+				Intent intent = new Intent(imeIntenta);
 				intent.putExtra("tip", "predmet");
 				intent.putExtra("vrednost", igra.getPredmetAt(i).getIme());
-				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
 				
+				IntentFilter filter = new IntentFilter(imeIntenta);  
+			    registerReceiver(proxReciever, filter);
 			}
+			/*IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
+		    registerReceiver(new ProximityIntentReceiver(), filter);
+			*/
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverObjekat, new IntentFilter("u_objektu"));
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPredmet, new IntentFilter("u_predmetu"));
-		}*/
+		}
 	}
 	
 	private void ucitajPodatke() {

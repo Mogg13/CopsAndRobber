@@ -17,11 +17,21 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 		String key = LocationManager.KEY_PROXIMITY_ENTERING;
 		 
 		
-		//Bundle extras = intent.getExtras();
-		String tip_intenta = intent.getStringExtra("tip");
+		Bundle extras = intent.getExtras();
+		//String tip_intenta = intent.getStringExtra("tip");
 		Boolean entering = intent.getBooleanExtra(key, false); 
-		Log.i("PROXIMITY", tip_intenta);
-		
+		//Log.i("PROXIMITY", tip_intenta);
+		if(extras !=null)
+		{
+			Log.i("PROXIMITY Extras", "Extras nije NULL");
+			String tip_intenta = extras.getString("tip");
+			Log.i("PROXIMITY", tip_intenta);
+		}
+		else
+		{
+			Log.i("PROXIMITY Extras NULL", "Extras je NULL");
+		}
+		/*
 		if(tip_intenta.equals("policija"))
 		{
 			if (entering) {
@@ -47,7 +57,10 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 	    	    LocalBroadcastManager.getInstance(arg0).sendBroadcast(in);
 			}
 		}
-		
+		*/
+		///////////test
+		Intent in = new Intent("u_policiji");
+		LocalBroadcastManager.getInstance(arg0).sendBroadcast(in);
 	}
 
 }
