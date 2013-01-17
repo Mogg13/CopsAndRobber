@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -14,8 +15,11 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 		
 		Log.i("PROXIMITY", "uhvaceno nesto");
 		String key = LocationManager.KEY_PROXIMITY_ENTERING;
-		Boolean entering = intent.getBooleanExtra(key, false);         
+		 
+		
+		//Bundle extras = intent.getExtras();
 		String tip_intenta = intent.getStringExtra("tip");
+		Boolean entering = intent.getBooleanExtra(key, false); 
 		Log.i("PROXIMITY", tip_intenta);
 		
 		if(tip_intenta.equals("policija"))
