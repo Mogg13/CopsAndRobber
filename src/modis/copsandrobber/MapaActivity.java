@@ -698,12 +698,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		        	 brojac10s = 0;
    		        	 if(brojac6min >= 36) // 6min refresh
    		        	 {
-   		        		 ucitajPromeneSestMin();
+   		        		 //ucitajPromeneSestMin();
+   		        		 ucitajPromeneDeset(); //treba obrnuto
    		        		 brojac6min = 0;
    		        	 }
    		        	 else
    		        	 {
-   		        		ucitajPromeneDeset();
+   		        		//ucitajPromeneDeset();
+   		        		ucitajPromeneSestMin(); // treba obrnuto
    		        	 }
    		        	 brojac6min++;
    		         }
