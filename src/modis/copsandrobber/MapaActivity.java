@@ -262,16 +262,19 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
-				Intent intent = new Intent(imeIntenta);
-				intent.putExtra("tip", "objekat");
-				intent.putExtra("vrednost", igra.getObjekatAt(i).getIme());
-				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-				
-				lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
-				
-				IntentFilter filter = new IntentFilter(imeIntenta);  
-			    registerReceiver(proxReciever, filter);
+				if ( !igra.getObjekatAt(i).getIme().equals("policija"))
+				{
+					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
+					Intent intent = new Intent(imeIntenta);
+					intent.putExtra("tip", "objekat");
+					intent.putExtra("vrednost", igra.getObjekatAt(i).getIme());
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+					
+					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
+					
+					IntentFilter filter = new IntentFilter(imeIntenta);  
+				    registerReceiver(proxReciever, filter);
+				}
 				
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
