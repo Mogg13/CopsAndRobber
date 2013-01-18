@@ -49,7 +49,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private MapController controller;
 	private ImageView [] radar = new ImageView[5];
 	private Handler guiThread;
-	//Context context;
 	private ExecutorService transThread;
 	private ProgressDialog progressDialog;
 	private List<Overlay> mapOverlays;
@@ -69,6 +68,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private LocationManager lm;
 	private GPSListener myLocationListener;
 	private ProximityIntentReceiver proxReciever;
+	private Boolean statusIgre;
+	//private String entering;
+	private Intent pomocniIntent;
+	
+	//broj metaka koje ima policajac
+	private int brojMetaka;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -115,6 +120,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	View dugmePucaj = findViewById(R.id.dugmePucaj);
         	dugmePucaj.setOnClickListener(this);
+        	
+        	brojMetaka = 3;
         }
         else
         {
@@ -174,6 +181,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		
 		//IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
 	    //registerReceiver(new ProximityIntentReceiver(), filter);
+		
+		statusIgre = false;
 
 	}
 	
@@ -237,10 +246,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		//PROHIMITY ALERTI
 		if(igrac.getUloga().equals("Policajac"))
 		{
-			Log.i("PROXIMITY: OBJEKAT", Integer.toString(igra.getObjekti().size()));
+			//Log.i("PROXIMITY: OBJEKAT", Integer.toString(igra.getObjekti().size()));
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				Log.i("PROXIMITY: OBJEKAT", igra.getObjekatAt(i).getIme());
+				//Log.i("PROXIMITY: OBJEKAT", igra.getObjekatAt(i).getIme());
 				if ( igra.getObjekatAt(i).getIme().equals("policija"))
 				{
 					Log.i("PROXIMITY", "uso u petlju uu mapactivity");
@@ -249,7 +258,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 					
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 30, -1, proximityIntent);
-					Log.i("PROXIMITY: ALARM", igra.getObjekatAt(i).getIme());
+					//Log.i("PROXIMITY: ALARM", igra.getObjekatAt(i).getIme());
 				}
 			}
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -329,7 +338,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			public void run() {
 				
 				try{
-					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getImei(), igrac.getLatitude(), igrac.getLongitude());
+					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
 					JSONObject jsonObject = new JSONObject(info);
 					JSONObject obj;
 				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
@@ -402,10 +411,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		{
 			mapOverlays.add(igra.getIgracAt(2).getOverlay());
 		}
-
-		
     	*/
-
 	}
     
     private void ucitajPromeneSestMin() {
@@ -417,7 +423,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			public void run() {
 				
 				try{
-					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getImei(), igrac.getLatitude(), igrac.getLongitude());
+					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
 					JSONObject jsonObject = new JSONObject(info);
 					JSONObject obj;
 				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
@@ -484,26 +490,19 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					igra.setLatitude1(pom);
 					//Toast.makeText(UhvatiLopovaApplication.getContext(), pom, Toast.LENGTH_SHORT).show();
 					pom = jsonObject.getString("latitude2");
-					igra.setLatitude2(pom);
-					
+					igra.setLatitude2(pom);					
 					pom = jsonObject.getString("latitude3");
-					igra.setLatitude3(pom);
-					
+					igra.setLatitude3(pom);					
 					pom = jsonObject.getString("latitude4");
-					igra.setLatitude4(pom);
-					
+					igra.setLatitude4(pom);					
 					pom = jsonObject.getString("longitude1");
-					igra.setLongitude1(pom);
-					
+					igra.setLongitude1(pom);					
 					pom = jsonObject.getString("longitude2");
-					igra.setLongitude2(pom);
-					
+					igra.setLongitude2(pom);					
 					pom = jsonObject.getString("longitude3");
-					igra.setLongitude3(pom);
-					
+					igra.setLongitude3(pom);					
 					pom = jsonObject.getString("longitude4");
-					igra.setLongitude4(pom);
-					
+					igra.setLongitude4(pom);					
 					id = jsonObject.getInt("idIgre");
 					igra.setId(id);
 					
@@ -541,7 +540,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						latObj = obj.getString("latitude");
 						lonObj = obj.getString("longitude");
 						id = obj.getInt("id");
-
 						jArrayUslov = obj.getJSONArray("uslovi");
 						for(int j = 0; j<jArrayUslov.length(); j++)
 						{
@@ -549,12 +547,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							uslovId = objUslov.getInt("idpUslova");
 							//predmetUslov = igra.getPredmetWithId(uslovId);
 							predObj.add(igra.getPredmetWithId(uslovId));
-						}
-						
+						}						
 						igra.addObjekat(new Objekat(imeObj,latObj,lonObj, predObj, id, 0));
 						predObj = new ArrayList<Predmet>();
-						//Log.i("Ubacujem...", imeObj);
-						
+						//Log.i("Ubacujem...", imeObj);						
 						if(imeObj.equals("sigurna kuca") && igrac.getUloga().equals("Policajac"))
 						{
 							//do nothing
@@ -563,8 +559,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						{
 							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
 						}
-					}
-					
+					}					
 					ucitajProximityPodesavanja();
 					//samo za test
 					/*
@@ -576,8 +571,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						}
 					}
 				    */
-				    //mapOverlays.add(new JedanOverlay(R.drawable.cabin, "43.31452941894531", "21.888486862182617"));
-					
+				    //mapOverlays.add(new JedanOverlay(R.drawable.cabin, "43.31452941894531", "21.888486862182617"));					
 				} catch (Exception e){
 					e.printStackTrace();
 					
@@ -719,23 +713,44 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		 		lon1proba += 0.01;
    		 		lon2proba += 0.01;
    		 		lon3proba += 0.01;*/
-   		 		
-   		 		
    		     }
 
    			public void onFinish() {
    		    	 timerIgre.setText("Kraj igre!");
    		     }
    		  }.start();
+   		  
+   		  statusIgre = true;
         }
     };
-    
     private BroadcastReceiver mMessageProxReceiverPolicija = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
-			// TODO Auto-generated method stub
 			
+			pomocniIntent = arg1;
+			//entering = arg1.getStringExtra("entering");
+			if(statusIgre == true)
+			{	//
+				brojMetaka = 3;
+			}
+			else
+			{
+				guiThread = new Handler();
+				transThread = Executors.newSingleThreadExecutor();
+				transThread.submit(new Runnable() {
+					
+					public void run() {
+						try{
+							String entering = pomocniIntent.getStringExtra("entering");
+							CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), entering);
+						} catch (Exception e){
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}			
 		}
     	
     };
@@ -753,7 +768,21 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
 			// TODO Auto-generated method stub
-			
+			pomocniIntent = arg1; 
+			guiThread = new Handler();
+			transThread = Executors.newSingleThreadExecutor();
+			transThread.submit(new Runnable() {
+				
+				public void run() {
+					try{
+						int i = Integer.parseInt(pomocniIntent.getStringExtra("vrednost"));
+						CopsandrobberHTTPHelper.PredmetRobed(igra.getId(), igra.getPredmetAt(i).getId());
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+
+				}
+			});
 		}
     	
     };

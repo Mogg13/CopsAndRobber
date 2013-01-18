@@ -9,7 +9,7 @@ public class Igrac implements Serializable {
 	
 	private String longitude, latitude;
 	private String uloga;
-	private String reg_id;
+	private String regId;
 	private JedanOverlay overlay;
 	
 	public Igrac()
@@ -17,7 +17,7 @@ public class Igrac implements Serializable {
 	
 	public Igrac(String uloga, String lat, String longi, String id)
 	{
-		this.reg_id = id;
+		this.regId = id;
 		this.uloga = uloga;
 		this.latitude=lat;
 		this.longitude=longi;
@@ -46,19 +46,11 @@ public class Igrac implements Serializable {
 	public void setUloga(String uloga) {
 		this.uloga = uloga;
 	}
-	public String getImei() {
-		return reg_id;
+	public String getRegId() {
+		return regId;
 	}
-	public void setImei(String id) {
-		this.reg_id = id;
-	}
-
-	public String getReg_id() {
-		return reg_id;
-	}
-
-	public void setReg_id(String reg_id) {
-		this.reg_id = reg_id;
+	public void setRegId(String reg_id) {
+		this.regId = reg_id;
 	}
 
 	public JedanOverlay getOverlay() {

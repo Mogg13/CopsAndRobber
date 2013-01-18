@@ -172,7 +172,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				i.putExtra("uloga", igrac.getUloga());
     				i.putExtra("lat", igrac.getLatitude());
     				i.putExtra("lon", igrac.getLongitude());
-    				i.putExtra("reg_id", igrac.getReg_id());
+    				i.putExtra("reg_id", igrac.getRegId());
         			startActivity(i);
     				Toast.makeText(context, "Kreirana igra: " + ime , Toast.LENGTH_SHORT).show();
     			}

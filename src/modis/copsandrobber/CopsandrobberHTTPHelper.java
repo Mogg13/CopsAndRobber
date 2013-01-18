@@ -37,7 +37,7 @@ private static final String url = "http://uhvatilopova.site11.com";
 			nameValuePairs.add(new BasicNameValuePair("pozicija", igrac.getUloga()));
 			nameValuePairs.add(new BasicNameValuePair("latitude", igrac.getLatitude()));
 			nameValuePairs.add(new BasicNameValuePair("longitude", igrac.getLongitude()));
-			nameValuePairs.add(new BasicNameValuePair("idIgraca", igrac.getImei()));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", igrac.getRegId()));
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			
 			
@@ -74,7 +74,7 @@ private static final String url = "http://uhvatilopova.site11.com";
 			nameValuePairs.add(new BasicNameValuePair("pozicija", igrac.getUloga()));
 			nameValuePairs.add(new BasicNameValuePair("latitude", igrac.getLatitude()));
 			nameValuePairs.add(new BasicNameValuePair("longitude", igrac.getLongitude()));
-			nameValuePairs.add(new BasicNameValuePair("idIgraca", igrac.getImei()));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", igrac.getRegId()));
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			
 			HttpResponse response = httpClient.execute(httpPost);
@@ -187,6 +187,37 @@ private static final String url = "http://uhvatilopova.site11.com";
 			retStr = "Error during upload!";
 		}
 		return retStr;
+	}
+
+	public static void onPosition(String regId, String latitude, String longitude, int id, String en) {
+		
+		HttpPost httpPost = new HttpPost(url + "/on_position.php");			
+		try {			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("longitude", longitude));
+			nameValuePairs.add(new BasicNameValuePair("latitude", latitude));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
+			nameValuePairs.add(new BasicNameValuePair("entering", en));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void PredmetRobed(int id, int id2) {
+
+		HttpPost httpPost = new HttpPost(url + "/on_position.php");			
+		try {			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("idPredmeta", Integer.toString(id2)));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
