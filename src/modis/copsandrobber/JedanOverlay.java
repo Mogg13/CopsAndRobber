@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
@@ -23,21 +24,26 @@ public class JedanOverlay extends Overlay implements Serializable{
 	private Context context;
 	private String lat;
 	private String lon;
+	
+	// vezano za touch event
 	private Objekat objekat;
+	private String uloga;
 	
 	public JedanOverlay(int kod, String lat, String lon)
 	{
 		bmp = BitmapFactory.decodeResource(CopsAndRobberApplication.getContext().getResources(), kod);
 		this.lat = lat;
 		this.lon = lon;
+		this.objekat = null;
 	}
 	
-	public JedanOverlay(int kod, String lat, String lon, Objekat obj)
+	public JedanOverlay(int kod, String lat, String lon, Objekat obj, String ulo)
 	{
 		bmp = BitmapFactory.decodeResource(CopsAndRobberApplication.getContext().getResources(), kod);
 		this.lat = lat;
 		this.lon = lon;
 		this.objekat = obj;
+		this.uloga = ulo;
 	}
 	
 	public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when)
@@ -78,20 +84,24 @@ public class JedanOverlay extends Overlay implements Serializable{
 		if(event.getAction() == MotionEvent.ACTION_UP){
 			if(objekat != null)
 			{
-				if(!objekat.getIme().equals("sigurna kuca") && !objekat.getIme().equals("policija"))
+				if(uloga.equals("Lopov"))
 				{
-					Point screenPts = new Point();
-					
-					String lat = objekat.getLatitude();
-					String lon = objekat.getLongitude();
-					int latE6 = (int)(Double.parseDouble(lat)*1E6);
-					int lonE6 = (int)(Double.parseDouble(lon)*1E6);
-					GeoPoint p = new GeoPoint(latE6, lonE6);
-					mapView.getProjection().toPixels(p, screenPts);
-					if(Math.abs(screenPts.x - (int)event.getX())<bmp.getWidth()/2 && screenPts.y - (int)event.getY() < bmp.getHeight())
+					if(!objekat.getIme().equals("sigurna kuca") && !objekat.getIme().equals("policija"))
 					{
-						//Toast.makeText(CopsAndRobberApplication.getContext(), "Overay", Toast.LENGTH_SHORT).show();
-						MapaActivity.napraviDialogZaObjekat(objekat);
+						Point screenPts = new Point();
+						
+						String lat = objekat.getLatitude();
+						String lon = objekat.getLongitude();
+						int latE6 = (int)(Double.parseDouble(lat)*1E6);
+						int lonE6 = (int)(Double.parseDouble(lon)*1E6);
+						GeoPoint p = new GeoPoint(latE6, lonE6);
+						mapView.getProjection().toPixels(p, screenPts);
+						if(Math.abs(screenPts.x - (int)event.getX())<bmp.getWidth()/2 && Math.abs(screenPts.y - (int)event.getY()) < bmp.getHeight())
+						{
+							//Toast.makeText(CopsAndRobberApplication.getContext(), "Overay", Toast.LENGTH_SHORT).show();
+							Log.i("TOUCH", objekat.getIme());
+							MapaActivity.napraviDialogZaObjekat(objekat);
+						}
 					}
 				}
 			}

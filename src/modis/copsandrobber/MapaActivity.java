@@ -16,6 +16,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
@@ -30,7 +31,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -63,7 +66,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private String [] latPolicajca = new String[3];
 	private String [] lonPolicajca = new String[3];
 	private String [] idPolicajca = new String [3];
-	private Context context;
+	private static Context context;
 	private Intent intentMyService;
 	private ComponentName service;
 	private LocationManager lm;
@@ -92,7 +95,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    
 		igra = new Igra();
 		proxReciever = new ProximityIntentReceiver();
-		//inicijalizovano = false;
+		context = this;
 		try {
 			Intent mapIntent = getIntent();
 			//igrac = (Igrac)mapIntent.getSerializableExtra("igrac");
@@ -679,7 +682,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						}
 						else
 						{
-							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, oTemp));
+							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, oTemp, igrac.getUloga()));
 						}
 					}					
 					ucitajProximityPodesavanja();
@@ -947,11 +950,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     };
 
     
-    public static void napraviDialogZaObjekat(Objekat obj)
-    {
-    	
-    }
-    
     private void UpdateStatusObjekta(int id)
     {
     	for(int i=0; i<igra.getObjekti().size();i++)
@@ -965,5 +963,48 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	}
 
     }
+    
+    public static void napraviDialogZaObjekat(Objekat obj)
+    {
+    	String msg = "";
+    	List<String> list = new ArrayList<String>();
+    	for (int i=0; i<obj.getPredmeti().size(); i++)
+    	{
+    		if(i>0)
+    			msg += ", ";
+    		msg += obj.getPredmetAt(i).getIme();
+    	}
+    	//CharSequence[] items = list.toArray(new CharSequence[list.size()]);
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+ 
+			// set title
+			alertDialogBuilder.setTitle("Potrebni predmeti:");
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setMessage(msg)
+				.setCancelable(false)
+				/*.setItems(items, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int item) {
+			            //...
+			        }
+				})*/
+				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, close
+						// current activity
+						dialog.cancel();
+					}
+				
+				  });
+				
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();
+			
+    }
+    
 
 }
