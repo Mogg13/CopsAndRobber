@@ -71,6 +71,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private Boolean statusIgre;
 	//private String entering;
 	private Intent pomocniIntent;
+	//private boolean inicijalizovano;
 	
 	//broj metaka koje ima policajac
 	private int brojMetaka;
@@ -89,6 +90,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    
 		igra = new Igra();
 		proxReciever = new ProximityIntentReceiver();
+		//inicijalizovano = false;
 		try {
 			Intent mapIntent = getIntent();
 			//igrac = (Igrac)mapIntent.getSerializableExtra("igrac");
@@ -133,8 +135,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	View dugmeOmetac = findViewById(R.id.dugmeOmetac);
         	dugmeOmetac.setOnClickListener(this);
         	
-        	dugmeOmetac.setEnabled(false);
-        	dugmePancir.setEnabled(false);
+        	// da se onemoguce dugmici
+        	//dugmeOmetac.setEnabled(false);
+        	//dugmePancir.setEnabled(false);
         }
 		//Inicijalizacija mape
 		initMapView();
@@ -184,63 +187,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		
 		statusIgre = false;
 		
-		//////////////////////////////////////// SAMO PRIVREMENO
-		new CountDownTimer(7200000, 1000) {
-
-  		     public void onTick(long millisUntilFinished) {
-  		    	 
-  				  		    	 
-  		    	 millisUntilFinished = millisUntilFinished/1000;
-  				 int sati = (int) (millisUntilFinished/3600);
-  				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
-  				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-  				  
-  				 String minString = "";
-  				 String secString = "";
-  				 if(minuti<10)
-  					 minString = "0" + Integer.toString(minuti);
-  				 else
-  					 minString = Integer.toString(minuti);
-  				 if(sekundi<10)
-  					 secString = "0" + Integer.toString(sekundi);
-  				 else
-  					 secString = Integer.toString(sekundi);
-  				  
-  		         timerIgre.setText( sati + ":" + minString + ":" + secString);
-  		         
-  		         if(brojac10s>=10)	//10s refresh
-  		         {
-  		        	 brojac10s = 0;
-  		        	 if(brojac6min >= 36) // 6min refresh
-  		        	 {
-  		        		 //ucitajPromeneSestMin();
-  		        		 ucitajPromeneDeset(); //treba obrnuto
-  		        		 brojac6min = 0;
-  		        	 }
-  		        	 else
-  		        	 {
-  		        		//ucitajPromeneDeset();
-  		        		ucitajPromeneSestMin(); // treba obrnuto
-  		        	 }
-  		        	 brojac6min++;
-  		         }
-  		         
-  		         brojac10s++;
-  		         
-  		         //////// proba
-  		        /* lat1proba += 0.01;
-  		 		lat2proba += 0.01;
-  		 		lat3proba += 0.01;
-  		 		lon1proba += 0.01;
-  		 		lon2proba += 0.01;
-  		 		lon3proba += 0.01;*/
-  		     }
-
-  			public void onFinish() {
-  		    	 timerIgre.setText("Kraj igre!");
-  		     }
-  		  }.start();
-  		  ////////////////////////////////////////////  DO OVDE
+		
 	}
 	
 	private class GPSListener implements LocationListener{
@@ -279,11 +226,129 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	
     	switch(v.getId())
     	{
-    		case R.id.dugmePancir:    		
+    		case R.id.dugmePancir: 
+				////////////////////////////////////////SAMO PRIVREMENO
+    			inicijalizujIgrace();
+    			
+				new CountDownTimer(7200000, 1000) {
+				
+				public void onTick(long millisUntilFinished) {
+				
+					    	 
+				millisUntilFinished = millisUntilFinished/1000;
+				int sati = (int) (millisUntilFinished/3600);
+				int minuti = (int) ((millisUntilFinished % 3600) / 60);
+				int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+				
+				String minString = "";
+				String secString = "";
+				if(minuti<10)
+				minString = "0" + Integer.toString(minuti);
+				else
+				minString = Integer.toString(minuti);
+				if(sekundi<10)
+				secString = "0" + Integer.toString(sekundi);
+				else
+				secString = Integer.toString(sekundi);
+				
+				timerIgre.setText( sati + ":" + minString + ":" + secString);
+				
+				if(brojac10s>=20)	//10s refresh
+				{
+				brojac10s = 0;
+				if(brojac6min >= 2) // 6min refresh
+				{
+					 ucitajPromeneSestMin();
+					 
+					 brojac6min = 0;
+				}
+				else
+				{
+					ucitajPromeneDeset();
+					
+				}
+				brojac6min++;
+				}
+				
+				brojac10s++;
+				
+				//////// proba
+				/* lat1proba += 0.01;
+				lat2proba += 0.01;
+				lat3proba += 0.01;
+				lon1proba += 0.01;
+				lon2proba += 0.01;
+				lon3proba += 0.01;*/
+				}
+				
+				public void onFinish() {
+				timerIgre.setText("Kraj igre!");
+				}
+				}.start();
+				////////////////////////////////////////////  DO OVDE
     			break;    			
     		case R.id.dugmeOmetac:        		
     			break;    			
-    		case R.id.dugmePucaj:        		
+    		case R.id.dugmePucaj: 
+			////////////////////////////////////////SAMO PRIVREMENO
+    		inicijalizujIgrace();
+    			    			
+			new CountDownTimer(7200000, 1000) {
+			
+			public void onTick(long millisUntilFinished) {
+			
+				    	 
+			millisUntilFinished = millisUntilFinished/1000;
+			int sati = (int) (millisUntilFinished/3600);
+			int minuti = (int) ((millisUntilFinished % 3600) / 60);
+			int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+			
+			String minString = "";
+			String secString = "";
+			if(minuti<10)
+			minString = "0" + Integer.toString(minuti);
+			else
+			minString = Integer.toString(minuti);
+			if(sekundi<10)
+			secString = "0" + Integer.toString(sekundi);
+			else
+			secString = Integer.toString(sekundi);
+			
+			timerIgre.setText( sati + ":" + minString + ":" + secString);
+			
+			if(brojac10s>=20)	//10s refresh
+			{
+			brojac10s = 0;
+			if(brojac6min >= 2) // 6min refresh
+			{
+				 ucitajPromeneSestMin();
+				 
+				 brojac6min = 0;
+			}
+			else
+			{
+				ucitajPromeneDeset();
+				
+			}
+			brojac6min++;
+			}
+			
+			brojac10s++;
+			
+			//////// proba
+			/* lat1proba += 0.01;
+			lat2proba += 0.01;
+			lat3proba += 0.01;
+			lon1proba += 0.01;
+			lon2proba += 0.01;
+			lon3proba += 0.01;*/
+			}
+			
+			public void onFinish() {
+			timerIgre.setText("Kraj igre!");
+			}
+			}.start();
+			////////////////////////////////////////////  DO OVDE
     			break;
     	}
 	}
@@ -388,16 +453,18 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     private void ucitajPromeneDeset() {
 		// TODO Auto-generated method stub
     	
-    	guiThread = new Handler();
+    	/*guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
-			public void run() {
+			public void run() {*/
 				
 				try{
 					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
 					JSONObject jsonObject = new JSONObject(info);
 					JSONObject obj;
+					String str = info;
+					Log.i("JSONNN_"+igrac.getUloga(), str);
 				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
 				    for(int i = 0; i<jsonArray.length(); i++){
 				    	obj = (JSONObject) jsonArray.get(i);
@@ -407,7 +474,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						//igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
 						if(igrac.getUloga().equals("Policajac"))
 						{
-							if(igra.getIgracById(idIgraca).equals("Lopov"))
+							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
 							{
 								latLopova = latIgraca;
 								lonLopova = lonIgraca;
@@ -429,23 +496,25 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-				
+				/*
 			}
 		});
-	
+	*/
 	}
     
     private void ucitajPromeneSestMin() {
 		// TODO Auto-generated method stub
-    	guiThread = new Handler();
+    	/*guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
-			public void run() {
+			public void run() {*/
 				
 				try{
 					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
 					JSONObject jsonObject = new JSONObject(info);
+					String str = info;
+					Log.i("JSONNN_"+igrac.getUloga(), str);
 					JSONObject obj;
 				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
 				    for(int i = 0; i<jsonArray.length(); i++){
@@ -457,30 +526,56 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						
 						//TO-DO
 						//updateRadar();
-						
-						if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
-				    	{
-				    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
-				    	}
+						if(igra.getIgraci().size()>0)
+							if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
+					    	{
+					    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
+					    	}
 				    	//////////////////////////////////////////////////////////
-				    	if(!mapOverlays.contains(igra.getIgracAt(1).getOverlay()))
-				    	{
-				    		mapOverlays.add(igra.getIgracAt(1).getOverlay());
-				    	}    	
+						if(igra.getIgraci().size()>1)
+					    	if(!mapOverlays.contains(igra.getIgracAt(1).getOverlay()))
+					    	{
+					    		mapOverlays.add(igra.getIgracAt(1).getOverlay());
+					    	}    	
 						//////////////////////////////////////////////////////////
-						if(!mapOverlays.contains(igra.getIgracAt(2).getOverlay()))
-						{
-							mapOverlays.add(igra.getIgracAt(2).getOverlay());
-						}
+						if(igra.getIgraci().size()>2)
+							if(!mapOverlays.contains(igra.getIgracAt(2).getOverlay()))
+							{
+								mapOverlays.add(igra.getIgracAt(2).getOverlay());
+							}
 				    }
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-				
+				/*
 			}
 		});
-		
+		*/
 	}
+    
+    public void inicijalizujIgrace()//poziva se kad dodje start signal
+    {
+    	
+    	try{
+			final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
+			JSONObject jsonObject = new JSONObject(info);
+			String str = info;
+			Log.i("JSONNN", str);
+			JSONObject obj;
+		    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
+		    for(int i = 0; i<jsonArray.length(); i++){
+		    	obj = (JSONObject) jsonArray.get(i);
+				String idIgraca = obj.getString("idIgraca");
+				String latIgraca = obj.getString("latitude");
+				String lonIgraca = obj.getString("longitude");
+				String uloga = obj.getString("uloga");
+				igra.addIgrac(new Igrac(uloga, latIgraca, lonIgraca, idIgraca));
+				
+		    }
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+    }
     
 	private void guiProgressDialog(final boolean start){
 		guiThread.post(new Runnable() {
@@ -582,17 +677,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						}
 					}					
 					ucitajProximityPodesavanja();
-					//samo za test
-					/*
-					for(int i=0; i<igra.getObjekti().size(); i++)
-					{
-						for(int j = 0; j<igra.getObjekatAt(i).getPredmeti().size(); j++)
-						{
-							Log.i("Objekat " + igra.getObjekatAt(i).getIme() + " " + igra.getObjekatAt(i).getId(), igra.getObjekatAt(i).getPredmetAt(j).getIme() + " " + igra.getObjekatAt(i).getPredmetAt(j).getId() );
-						}
-					}
-				    */
-				    //mapOverlays.add(new JedanOverlay(R.drawable.cabin, "43.31452941894531", "21.888486862182617"));					
+										
 				} catch (Exception e){
 					e.printStackTrace();
 					
@@ -684,7 +769,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     private BroadcastReceiver mMessageReceiverGameStart = new BroadcastReceiver() {
 
         public void onReceive(Context context, Intent intent) {
-
+        	
+        	inicijalizujIgrace();
+        	
         	new CountDownTimer(7200000, 1000) {
 
    		     public void onTick(long millisUntilFinished) {
@@ -713,27 +800,20 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		        	 brojac10s = 0;
    		        	 if(brojac6min >= 36) // 6min refresh
    		        	 {
-   		        		 //ucitajPromeneSestMin();
-   		        		 ucitajPromeneDeset(); //treba obrnuto
+   		        		 ucitajPromeneSestMin();
+   		        		 
    		        		 brojac6min = 0;
    		        	 }
    		        	 else
    		        	 {
-   		        		//ucitajPromeneDeset();
-   		        		ucitajPromeneSestMin(); // treba obrnuto
+   		        		ucitajPromeneDeset();
+   		        		
    		        	 }
    		        	 brojac6min++;
    		         }
    		         
    		         brojac10s++;
    		         
-   		         //////// proba
-   		        /* lat1proba += 0.01;
-   		 		lat2proba += 0.01;
-   		 		lat3proba += 0.01;
-   		 		lon1proba += 0.01;
-   		 		lon2proba += 0.01;
-   		 		lon3proba += 0.01;*/
    		     }
 
    			public void onFinish() {

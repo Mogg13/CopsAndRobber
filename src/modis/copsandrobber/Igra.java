@@ -150,7 +150,7 @@ public class Igra {
 	}
 	public void EditIgraci(String idIgraca, String latitude1, String longitude1){
 		for(int i = 0; i<igraci.size(); i++){
-			if(igraci.get(i).getRegId() == idIgraca)
+			if(igraci.get(i).getRegId().equals(idIgraca))
 			{
 				igraci.get(i).setLatitude(latitude1);
 				igraci.get(i).setLongitude(longitude1);
@@ -161,7 +161,7 @@ public class Igra {
 	public Igrac getIgracById(String id)
 	{	Igrac res =new Igrac();
 		for(int i = 0; i<igraci.size(); i++){
-			if(igraci.get(i).getRegId() == id)
+			if(igraci.get(i).getRegId().equals(id))
 			{
 				res = igraci.get(i);
 			}
