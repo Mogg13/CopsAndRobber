@@ -9,6 +9,7 @@ public class Objekat {
 	private List<Predmet> predmeti;
 	private int id;	
 	private int status;
+	private int dostupan;
 	
 	public Objekat()
 	{		
@@ -23,9 +24,16 @@ public class Objekat {
 		this.predmeti = predmeti;
 		this.id = id;
 		this.status = status;
+		this.dostupan = 0;
 	}
 	
-	
+	public int getDostupan() {
+		return dostupan;
+	}
+
+	public void setDostupan(int dostupan) {
+		this.dostupan = dostupan;
+	}
 
 	public void addPredmet(Predmet p)
 	{

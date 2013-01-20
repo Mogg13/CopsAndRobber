@@ -75,6 +75,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	//private boolean inicijalizovano;
 	
 	//broj metaka koje ima policajac
+	private TextView brmetaka;
 	private int brojMetaka;
 	
 	@Override
@@ -358,6 +359,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		 
         try { 
            //stopService(intentMyService);
+        	this.unregisterReceiver(proxReciever);
         } catch (Exception e) { 
             Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
         } 
@@ -396,10 +398,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			{
 				if ( !igra.getObjekatAt(i).getIme().equals("policija"))
 				{
+					Log.i("OOOOOOO", igra.getObjekatAt(i).getIme());
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
 					Intent intent = new Intent(imeIntenta);
 					intent.putExtra("tip", "objekat");
-					intent.putExtra("vrednost", igra.getObjekatAt(i).getIme());
+					intent.putExtra("vrednost", i);
 					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 					
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
@@ -411,10 +414,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
 			{
+				Log.i("PPPPPPPP", igra.getPredmetAt(i).getIme());
 				imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
 				Intent intent = new Intent(imeIntenta);
 				intent.putExtra("tip", "predmet");
-				intent.putExtra("vrednost", igra.getPredmetAt(i).getIme());
+				intent.putExtra("vrednost", i);
 				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
@@ -836,6 +840,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			if(statusIgre == true)
 			{	//
 				brojMetaka = 3;
+				brmetaka = (TextView) findViewById(R.id.textBrMetaka);
+				brmetaka.setText("3");
 			}
 			else
 			{
@@ -861,8 +867,48 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
-			// TODO Auto-generated method stub
 			
+			pomocniIntent = arg1; 
+			Log.i("PROXI", "pre sigurna kuca");
+			guiThread = new Handler();
+			transThread = Executors.newSingleThreadExecutor();
+			transThread.submit(new Runnable() {
+				
+				public void run() {
+					try{
+						Bundle b = pomocniIntent.getExtras();
+						int i = b.getInt("vrednost");
+						String entering = b.getString("entering");
+						if(statusIgre == false)
+						{
+							Log.i("PROXI", igra.getObjekatAt(i).getIme());
+							if(igra.getObjekatAt(i).getIme().equals("sigurna kuca"))
+							{
+								Log.i("PROXI", entering);
+								CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), entering);
+							}
+						}
+						else
+						{
+							Log.i("PROXI", "igra u toku");
+							if(igra.getObjekatAt(i).getStatus() == 0 && entering.equals("true"))
+							{
+								if(igra.getObjekatAt(i).getDostupan() == igra.getObjekatAt(i).getPredmeti().size())
+								{
+									igra.getObjekatAt(i).setStatus(1);
+									CopsandrobberHTTPHelper.ObjectRobbed(igra.getId(), igra.getObjekatAt(i).getId(), igrac.getRegId());
+								}
+							}
+							
+						}
+						
+						
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+
+				}
+			});
 		}
     	
     };
@@ -878,21 +924,46 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 				public void run() {
 					try{
-						int i = Integer.parseInt(pomocniIntent.getStringExtra("vrednost"));
-						CopsandrobberHTTPHelper.PredmetRobed(igra.getId(), igra.getPredmetAt(i).getId());
+						Bundle b = pomocniIntent.getExtras();
+						int i = b.getInt("vrednost");
+						CopsandrobberHTTPHelper.PredmetRobbed(igra.getId(), igra.getPredmetAt(i).getId());
+						if(igra.getPredmetAt(i).getIme() == "pancir")
+						{
+							
+						}
+						else if(igra.getPredmetAt(i).getIme() == "ometac")
+						{
+							
+						}
+						else
+							UpdateStatusObjekta(igra.getPredmetAt(i).getId());
 					} catch (Exception e){
 						e.printStackTrace();
 					}
-
 				}
 			});
 		}
     	
     };
+
     
     public static void napraviDialogZaObjekat(Objekat obj)
     {
     	
+    }
+    
+    private void UpdateStatusObjekta(int id)
+    {
+    	for(int i=0; i<igra.getObjekti().size();i++)
+    	{
+    		for(int j=0;j<igra.getObjekatAt(i).getPredmeti().size();j++)
+    		{
+    			if(id == igra.getObjekatAt(i).getPredmetAt(j).getId())
+    				igra.getObjekatAt(i).setDostupan(igra.getObjekatAt(i).getDostupan() + 1);
+    			
+    		}
+    	}
+
     }
 
 }
