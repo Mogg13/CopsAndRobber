@@ -191,9 +191,10 @@ private static final String url = "http://uhvatilopova.site11.com";
 
 	public static void onPosition(String regId, String latitude, String longitude, int id, String en) {
 		
-		HttpPost httpPost = new HttpPost(url + "/on_position.php");			
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/at_position.php");			
 		try {			
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
 			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
 			nameValuePairs.add(new BasicNameValuePair("longitude", longitude));
 			nameValuePairs.add(new BasicNameValuePair("latitude", latitude));
@@ -201,20 +202,40 @@ private static final String url = "http://uhvatilopova.site11.com";
 			nameValuePairs.add(new BasicNameValuePair("entering", en));
 			
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+			httpClient.execute(httpPost);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void PredmetRobed(int id, int id2) {
+	public static void PredmetRobbed(int id, int id2) {
 
-		HttpPost httpPost = new HttpPost(url + "/on_position.php");			
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/predmet_robbed.php");			
 		try {			
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
 			nameValuePairs.add(new BasicNameValuePair("idPredmeta", Integer.toString(id2)));
 			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httpClient.execute(httpPost);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void ObjectRobbed(int id, int id2, String regId) {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/object_robbed.php");			
+		try {			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("idObjekta", Integer.toString(id2)));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
+			
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+			httpClient.execute(httpPost);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

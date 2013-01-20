@@ -1,5 +1,6 @@
 package modis.copsandrobber;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,21 +18,10 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 		String key = LocationManager.KEY_PROXIMITY_ENTERING;
 		 		
 		Bundle extras = intent.getExtras();
-		//String tip_intenta = intent.getStringExtra("tip");
 		Boolean entering = intent.getBooleanExtra(key, false); 
-		//Log.i("PROXIMITY", tip_intenta);
-		/*if(extras !=null)
-		{
-			Log.i("PROXIMITY Extras", "Extras nije NULL");
-			String tip_intenta = extras.getString("tip");
-			Log.i("PROXIMITY", tip_intenta);
-		}
-		else
-		{
-			Log.i("PROXIMITY Extras NULL", "Extras je NULL");
-		}
-		*/
+
 		String tip_intenta = extras.getString("tip");
+		Log.i("PROXII", tip_intenta);
 		if(tip_intenta.equals("policija"))
 		{
 			if (entering) {
@@ -48,9 +38,10 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 		}
 		else if(tip_intenta.equals("objekat"))
 		{
-			String kod = intent.getStringExtra("vrednost");
+			int kod = extras.getInt("vrednost");
 			if (entering) {
 				Intent in = new Intent("u_objektu");
+				Log.i("PROXI", Integer.toString(kod));
 				in.putExtra("vrednost", kod);
 				in.putExtra("entering", "true");
 				LocalBroadcastManager.getInstance(arg0).sendBroadcast(in);
@@ -58,6 +49,7 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 			else
 			{
 				Intent in = new Intent("u_objektu");
+				Log.i("PROXI 2", Integer.toString(kod));
 				in.putExtra("vrednost", kod);
 				in.putExtra("entering", "false");
 				LocalBroadcastManager.getInstance(arg0).sendBroadcast(in);
@@ -65,12 +57,18 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 		}
 		else
 		{
-			String kod = intent.getStringExtra("vrednost");
-			if (entering) {
+			int kod = extras.getInt("vrednost");
+			if (entering) 
+			{
 	    	    Intent in = new Intent("u_predmetu");
 	    	    in.putExtra("vrednost", kod);
+	    	    Log.i("PROXI P", Integer.toString(kod));
 	    	    LocalBroadcastManager.getInstance(arg0).sendBroadcast(in);
+				LocationManager locManager = (LocationManager) arg0.getSystemService(Context.LOCATION_SERVICE);
+			    PendingIntent pendingIntent = PendingIntent.getBroadcast(arg0, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			    locManager.removeProximityAlert(pendingIntent);
 			}
+
 		}		
 	}
 }
