@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import modis.copsandrobber.R;
 import android.R.drawable;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -663,8 +664,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							uslovId = objUslov.getInt("idpUslova");
 							//predmetUslov = igra.getPredmetWithId(uslovId);
 							predObj.add(igra.getPredmetWithId(uslovId));
-						}						
-						igra.addObjekat(new Objekat(imeObj,latObj,lonObj, predObj, id, 0));
+						}
+						Objekat oTemp = new Objekat(imeObj,latObj,lonObj, predObj, id, 0);
+						igra.addObjekat(oTemp);
 						predObj = new ArrayList<Predmet>();
 						//Log.i("Ubacujem...", imeObj);						
 						if(imeObj.equals("sigurna kuca") && igrac.getUloga().equals("Policajac"))
@@ -673,7 +675,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						}
 						else
 						{
-							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
+							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, oTemp));
 						}
 					}					
 					ucitajProximityPodesavanja();
@@ -887,5 +889,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		}
     	
     };
+    
+    public static void napraviDialogZaObjekat(Objekat obj)
+    {
+    	
+    }
 
 }
