@@ -141,8 +141,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	dugmeOmetac.setOnClickListener(this);
         	
         	// da se onemoguce dugmici
-        	//dugmeOmetac.setEnabled(false);
-        	//dugmePancir.setEnabled(false);
+        	dugmeOmetac.setEnabled(false);
+        	dugmePancir.setEnabled(false);
         }
 		//Inicijalizacija mape
 		initMapView();
@@ -160,19 +160,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
 		
-		//jo = new JedanOverlay(R.drawable.cop, "43.35689985", "21.88989982");
-		/////////////////////////////////////////////////////////// PROBA
-		/*lat1proba = 43.356885;
-		lat2proba = 43.456986;
-		lat3proba = 43.559869;
-		lon1proba = 21.886598;
-		lon2proba = 21.986656;
-		lon3proba = 21.786525;
-		
-		igra.addIgrac(new Igrac("Lopov",Double.toString(lat1proba), Double.toString(lon1proba), "00000"));
-		igra.addIgrac(new Igrac("Policajac",Double.toString(lat2proba), Double.toString(lon2proba), "11111"));
-		igra.addIgrac(new Igrac("Policajac",Double.toString(lat3proba), Double.toString(lon3proba), "22222"));*/
-		//////////////////////////////////////////////////////////////
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
 
@@ -185,10 +172,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		long minTime=1000;
 		float minDistance = 1;
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, myLocationListener);
-		
-		
-		//IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
-	    //registerReceiver(new ProximityIntentReceiver(), filter);
 		
 		statusIgre = false;
 		
@@ -232,128 +215,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	switch(v.getId())
     	{
     		case R.id.dugmePancir: 
-				////////////////////////////////////////SAMO PRIVREMENO
-    			inicijalizujIgrace();
-    			
-				new CountDownTimer(7200000, 1000) {
 				
-				public void onTick(long millisUntilFinished) {
-				
-					    	 
-				millisUntilFinished = millisUntilFinished/1000;
-				int sati = (int) (millisUntilFinished/3600);
-				int minuti = (int) ((millisUntilFinished % 3600) / 60);
-				int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-				
-				String minString = "";
-				String secString = "";
-				if(minuti<10)
-				minString = "0" + Integer.toString(minuti);
-				else
-				minString = Integer.toString(minuti);
-				if(sekundi<10)
-				secString = "0" + Integer.toString(sekundi);
-				else
-				secString = Integer.toString(sekundi);
-				
-				timerIgre.setText( sati + ":" + minString + ":" + secString);
-				
-				if(brojac10s>=20)	//10s refresh
-				{
-				brojac10s = 0;
-				if(brojac6min >= 2) // 6min refresh
-				{
-					 ucitajPromeneSestMin();
-					 
-					 brojac6min = 0;
-				}
-				else
-				{
-					ucitajPromeneDeset();
-					
-				}
-				brojac6min++;
-				}
-				
-				brojac10s++;
-				
-				//////// proba
-				/* lat1proba += 0.01;
-				lat2proba += 0.01;
-				lat3proba += 0.01;
-				lon1proba += 0.01;
-				lon2proba += 0.01;
-				lon3proba += 0.01;*/
-				}
-				
-				public void onFinish() {
-				timerIgre.setText("Kraj igre!");
-				}
-				}.start();
-				////////////////////////////////////////////  DO OVDE
     			break;    			
     		case R.id.dugmeOmetac:        		
     			break;    			
     		case R.id.dugmePucaj: 
-			////////////////////////////////////////SAMO PRIVREMENO
-    		inicijalizujIgrace();
-    			    			
-			new CountDownTimer(7200000, 1000) {
 			
-			public void onTick(long millisUntilFinished) {
-			
-				    	 
-			millisUntilFinished = millisUntilFinished/1000;
-			int sati = (int) (millisUntilFinished/3600);
-			int minuti = (int) ((millisUntilFinished % 3600) / 60);
-			int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-			
-			String minString = "";
-			String secString = "";
-			if(minuti<10)
-			minString = "0" + Integer.toString(minuti);
-			else
-			minString = Integer.toString(minuti);
-			if(sekundi<10)
-			secString = "0" + Integer.toString(sekundi);
-			else
-			secString = Integer.toString(sekundi);
-			
-			timerIgre.setText( sati + ":" + minString + ":" + secString);
-			
-			if(brojac10s>=20)	//10s refresh
-			{
-			brojac10s = 0;
-			if(brojac6min >= 2) // 6min refresh
-			{
-				 ucitajPromeneSestMin();
-				 
-				 brojac6min = 0;
-			}
-			else
-			{
-				ucitajPromeneDeset();
-				
-			}
-			brojac6min++;
-			}
-			
-			brojac10s++;
-			
-			//////// proba
-			/* lat1proba += 0.01;
-			lat2proba += 0.01;
-			lat3proba += 0.01;
-			lon1proba += 0.01;
-			lon2proba += 0.01;
-			lon3proba += 0.01;*/
-			}
-			
-			public void onFinish() {
-			timerIgre.setText("Kraj igre!");
-			}
-			}.start();
-			////////////////////////////////////////////  DO OVDE
     			break;
     	}
 	}
@@ -429,9 +296,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				IntentFilter filter = new IntentFilter(imeIntenta);  
 			    registerReceiver(proxReciever, filter);
 			}
-			/*IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
-		    registerReceiver(new ProximityIntentReceiver(), filter);
-			*/
+			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverObjekat, new IntentFilter("u_objektu"));
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -970,25 +835,16 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	List<String> list = new ArrayList<String>();
     	for (int i=0; i<obj.getPredmeti().size(); i++)
     	{
-    		if(i>0)
-    			msg += ", ";
-    		msg += obj.getPredmetAt(i).getIme();
+    		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
     	}
-    	//CharSequence[] items = list.toArray(new CharSequence[list.size()]);
+    	
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
- 
 			// set title
 			alertDialogBuilder.setTitle("Potrebni predmeti:");
- 
 			// set dialog message
 			alertDialogBuilder
 				.setMessage(msg)
 				.setCancelable(false)
-				/*.setItems(items, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int item) {
-			            //...
-			        }
-				})*/
 				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
 						// if this button is clicked, close

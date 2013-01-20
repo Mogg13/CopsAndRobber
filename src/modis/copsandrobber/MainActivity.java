@@ -41,7 +41,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 	    LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiver, new IntentFilter("googleservice_registration"));
-		
+	
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
 		final String regId = GCMRegistrar.getRegistrationId(this); 
