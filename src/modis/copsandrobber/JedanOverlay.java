@@ -84,10 +84,10 @@ public class JedanOverlay extends Overlay implements Serializable{
 		if(event.getAction() == MotionEvent.ACTION_UP){
 			if(objekat != null)
 			{
-				if(uloga.equals("Lopov"))
-				{
-					if(!objekat.getIme().equals("sigurna kuca") && !objekat.getIme().equals("policija"))
-					{
+				//if(uloga.equals("Lopov"))
+				//{
+				//	if(!objekat.getIme().equals("sigurna kuca") && !objekat.getIme().equals("policija"))
+				//	{
 						Point screenPts = new Point();
 						
 						String lat = objekat.getLatitude();
@@ -100,10 +100,10 @@ public class JedanOverlay extends Overlay implements Serializable{
 						{
 							//Toast.makeText(CopsAndRobberApplication.getContext(), "Overay", Toast.LENGTH_SHORT).show();
 							Log.i("TOUCH", objekat.getIme());
-							MapaActivity.napraviDialogZaObjekat(objekat);
+							MapaActivity.napraviDialogZaObjekat(objekat, uloga);
 						}
-					}
-				}
+				//	}
+				//}
 			}
 		}
 		return false;

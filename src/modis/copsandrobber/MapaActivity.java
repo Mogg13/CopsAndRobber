@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import modis.copsandrobber.R;
 import android.R.drawable;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -36,7 +35,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.google.android.gcm.GCMRegistrar;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -77,9 +75,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private Intent pomocniIntent;
 	//private boolean inicijalizovano;
 	
-	//broj metaka koje ima policajac
 	private TextView brmetaka;
 	private int brojMetaka;
+	private View dugmePucaj;
+	private View dugmePancir;
+	private View dugmeOmetac;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -125,7 +125,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         {
         	setContentView(R.layout.map_policajac);
         	
-        	View dugmePucaj = findViewById(R.id.dugmePucaj);
+        	dugmePucaj = findViewById(R.id.dugmePucaj);
         	dugmePucaj.setOnClickListener(this);
         	
         	brojMetaka = 3;
@@ -134,10 +134,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         {
         	setContentView(R.layout.map_lopov);
         	
-        	View dugmePancir = findViewById(R.id.dugmePancir);
+        	dugmePancir = findViewById(R.id.dugmePancir);
         	dugmePancir.setOnClickListener(this);
         	
-        	View dugmeOmetac = findViewById(R.id.dugmeOmetac);
+        	dugmeOmetac = findViewById(R.id.dugmeOmetac);
         	dugmeOmetac.setOnClickListener(this);
         	
         	// da se onemoguce dugmici
@@ -173,9 +173,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		float minDistance = 1;
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, myLocationListener);
 		
-		statusIgre = false;
-		
-		
+		statusIgre = false;		
 	}
 	
 	private class GPSListener implements LocationListener{
@@ -198,12 +196,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub			
 		}
-
 		@Override
 		public void onProviderEnabled(String provider) {
 			// TODO Auto-generated method stub			
 		}
-
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			// TODO Auto-generated method stub			
@@ -214,13 +210,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	
     	switch(v.getId())
     	{
-    		case R.id.dugmePancir: 
-				
+    		case R.id.dugmePancir: 				
     			break;    			
     		case R.id.dugmeOmetac:        		
     			break;    			
-    		case R.id.dugmePucaj: 
-			
+    		case R.id.dugmePucaj: 			
     			break;
     	}
 	}
@@ -317,7 +311,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-
 				guiProgressDialog(false);
 			}
 		});
@@ -442,8 +435,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				String latIgraca = obj.getString("latitude");
 				String lonIgraca = obj.getString("longitude");
 				String uloga = obj.getString("uloga");
-				igra.addIgrac(new Igrac(uloga, latIgraca, lonIgraca, idIgraca));
-				
+				igra.addIgrac(new Igrac(uloga, latIgraca, lonIgraca, idIgraca));				
 		    }
 		} catch (Exception e){
 			e.printStackTrace();
@@ -499,7 +491,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					projection = map.getProjection();
 				    mapOverlays.add(new OkvirMape(igra));
 				    
-				    String imeObj, latObj, lonObj;
+				    String imeObj, latObj, lonObj, cenaObj;
 
 				    JSONObject obj;
 				    JSONArray jsonArray = jsonObject.getJSONArray("predmeti");
@@ -528,6 +520,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						imeObj = obj.getString("naziv");
 						latObj = obj.getString("latitude");
 						lonObj = obj.getString("longitude");
+						cenaObj = obj.getString("cena");
 						id = obj.getInt("id");
 						jArrayUslov = obj.getJSONArray("uslovi");
 						for(int j = 0; j<jArrayUslov.length(); j++)
@@ -537,7 +530,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							//predmetUslov = igra.getPredmetWithId(uslovId);
 							predObj.add(igra.getPredmetWithId(uslovId));
 						}
-						Objekat oTemp = new Objekat(imeObj,latObj,lonObj, predObj, id, 0);
+						Objekat oTemp = new Objekat(imeObj,latObj,lonObj, predObj, id, 0, cenaObj);
 						igra.addObjekat(oTemp);
 						predObj = new ArrayList<Predmet>();
 						//Log.i("Ubacujem...", imeObj);						
@@ -550,11 +543,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, oTemp, igrac.getUloga()));
 						}
 					}					
-					ucitajProximityPodesavanja();
-										
+					ucitajProximityPodesavanja();										
 				} catch (Exception e){
-					e.printStackTrace();
-					
+					e.printStackTrace();					
 				}
 			}
 		});
@@ -613,8 +604,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		if(ime.equals("pancir"))
 			kod = R.drawable.clothes_male;
 		if(ime.equals("ometac"))
-			kod = R.drawable.mobilephonetower;
-		
+			kod = R.drawable.mobilephonetower;		
 		return kod;
 	}
 
@@ -624,7 +614,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		controller = map.getController();
 		map.setSatellite(true);
 		map.setBuiltInZoomControls(true);
-
 	}
 	
 	private void initMyLocation() {
@@ -648,8 +637,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	new CountDownTimer(7200000, 1000) {
 
-   		     public void onTick(long millisUntilFinished) {
-   		    	 
+   		     public void onTick(long millisUntilFinished) {   		    	 
    				  		    	 
    		    	 millisUntilFinished = millisUntilFinished/1000;
    				 int sati = (int) (millisUntilFinished/3600);
@@ -680,16 +668,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		        	 }
    		        	 else
    		        	 {
-   		        		ucitajPromeneDeset();
-   		        		
+   		        		ucitajPromeneDeset();   		        		
    		        	 }
    		        	 brojac6min++;
-   		         }
-   		         
-   		         brojac10s++;
-   		         
+   		         }   		         
+   		         brojac10s++;   		         
    		     }
-
    			public void onFinish() {
    		    	 timerIgre.setText("Kraj igre!");
    		     }
@@ -724,7 +708,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						} catch (Exception e){
 							e.printStackTrace();
 						}
-
 					}
 				});
 			}			
@@ -761,20 +744,26 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							Log.i("PROXI", "igra u toku");
 							if(igra.getObjekatAt(i).getStatus() == 0 && entering.equals("true"))
 							{
-								if(igra.getObjekatAt(i).getDostupan() == igra.getObjekatAt(i).getPredmeti().size())
+								/*if(igra.getObjekatAt(i).getDostupan() == igra.getObjekatAt(i).getPredmeti().size())
+								{
+									igra.getObjekatAt(i).setStatus(1);
+									CopsandrobberHTTPHelper.ObjectRobbed(igra.getId(), igra.getObjekatAt(i).getId(), igrac.getRegId());
+								}*/
+								int j = 0;
+								while(igra.getObjekatAt(i).getPredmetAt(j).getStatus() == 1 && (j+1) != igra.getObjekatAt(i).getPredmeti().size())
+								{
+									j++;
+								}
+								if((j+1) == igra.getObjekatAt(i).getPredmeti().size())
 								{
 									igra.getObjekatAt(i).setStatus(1);
 									CopsandrobberHTTPHelper.ObjectRobbed(igra.getId(), igra.getObjekatAt(i).getId(), igrac.getRegId());
 								}
 							}
-							
 						}
-						
-						
 					} catch (Exception e){
 						e.printStackTrace();
 					}
-
 				}
 			});
 		}
@@ -792,19 +781,23 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 				public void run() {
 					try{
-						Bundle b = pomocniIntent.getExtras();
-						int i = b.getInt("vrednost");
-						CopsandrobberHTTPHelper.PredmetRobbed(igra.getId(), igra.getPredmetAt(i).getId());
-						if(igra.getPredmetAt(i).getIme() == "pancir")
-						{
-							
+						if(statusIgre == true)
+						{		
+							Bundle b = pomocniIntent.getExtras();
+							int i = b.getInt("vrednost");
+							CopsandrobberHTTPHelper.PredmetRobbed(igra.getId(), igra.getPredmetAt(i).getId());
+							igra.getPredmetAt(i).setStatus(1);
+							if(igra.getPredmetAt(i).getIme() == "pancir")
+							{							
+					        	dugmePancir.setEnabled(true);
+							}
+							else if(igra.getPredmetAt(i).getIme() == "ometac")
+							{
+								dugmeOmetac.setEnabled(true);
+							}
+							//else
+								//UpdateStatusObjekta(igra.getPredmetAt(i).getId());
 						}
-						else if(igra.getPredmetAt(i).getIme() == "ometac")
-						{
-							
-						}
-						else
-							UpdateStatusObjekta(igra.getPredmetAt(i).getId());
 					} catch (Exception e){
 						e.printStackTrace();
 					}
@@ -815,32 +808,41 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     };
 
     
-    private void UpdateStatusObjekta(int id)
+    /*private void UpdateStatusObjekta(int id)
     {
     	for(int i=0; i<igra.getObjekti().size();i++)
     	{
     		for(int j=0;j<igra.getObjekatAt(i).getPredmeti().size();j++)
     		{
     			if(id == igra.getObjekatAt(i).getPredmetAt(j).getId())
+    			{
     				igra.getObjekatAt(i).setDostupan(igra.getObjekatAt(i).getDostupan() + 1);
+    			}
     			
     		}
     	}
 
-    }
+    }*/
     
-    public static void napraviDialogZaObjekat(Objekat obj)
+    public static void napraviDialogZaObjekat(Objekat obj, String uloga)
     {
     	String msg = "";
-    	List<String> list = new ArrayList<String>();
-    	for (int i=0; i<obj.getPredmeti().size(); i++)
+    	//List<String> list = new ArrayList<String>();
+    	if(!obj.getIme().equals("sigurna kuca") && !obj.getIme().equals("policija"))
     	{
-    		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
+	    	msg = "Vrednost objekta: " + obj.getCena() +"\n";
+	    	if( uloga.equals("Lopov"))    		
+	    	{
+	        	msg += "Potrebni predmeti:" +"\n";
+	        	for (int i=0; i<obj.getPredmeti().size(); i++)
+	        	{
+	        		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
+	        	}
+	    	}
     	}
-    	
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 			// set title
-			alertDialogBuilder.setTitle("Potrebni predmeti:");
+			alertDialogBuilder.setTitle(obj.getIme());
 			// set dialog message
 			alertDialogBuilder
 				.setMessage(msg)
@@ -851,7 +853,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						// current activity
 						dialog.cancel();
 					}
-				
 				  });
 				
 				// create alert dialog
