@@ -786,23 +786,23 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							Bundle b = pomocniIntent.getExtras();
 							int i = b.getInt("vrednost");
 							CopsandrobberHTTPHelper.PredmetRobbed(igra.getId(), igra.getPredmetAt(i).getId());
-							igra.getPredmetAt(i).setStatus(1);
-							if(igra.getPredmetAt(i).getIme() == "pancir")
-							{							
-					        	dugmePancir.setEnabled(true);
-							}
-							else if(igra.getPredmetAt(i).getIme() == "ometac")
-							{
-								dugmeOmetac.setEnabled(true);
-							}
-							//else
-								//UpdateStatusObjekta(igra.getPredmetAt(i).getId());
 						}
 					} catch (Exception e){
 						e.printStackTrace();
 					}
 				}
 			});
+			Bundle b = pomocniIntent.getExtras();
+			int i = b.getInt("vrednost");
+			igra.getPredmetAt(i).setStatus(1);
+			if(igra.getPredmetAt(i).getIme().equals("pancir"))
+			{															
+	        	dugmePancir.setEnabled(true);
+			}
+			else if(igra.getPredmetAt(i).getIme().equals("ometac"))
+			{
+				dugmeOmetac.setEnabled(true);
+			}
 		}
     	
     };
