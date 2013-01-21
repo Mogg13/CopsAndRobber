@@ -64,9 +64,7 @@ public class ProximityIntentReceiver extends BroadcastReceiver  {
 	    	    in.putExtra("vrednost", kod);
 	    	    Log.i("PROXI P", Integer.toString(kod));
 	    	    LocalBroadcastManager.getInstance(arg0).sendBroadcast(in);
-				LocationManager locManager = (LocationManager) arg0.getSystemService(Context.LOCATION_SERVICE);
-			    PendingIntent pendingIntent = PendingIntent.getBroadcast(arg0, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-			    locManager.removeProximityAlert(pendingIntent);
+
 			}
 
 		}		
