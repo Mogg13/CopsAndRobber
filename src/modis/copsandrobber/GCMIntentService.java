@@ -2,6 +2,7 @@ package modis.copsandrobber;
 //import com.google.android.gcm.GCMBaseIntentService; 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,10 +25,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	protected void onMessage(Context arg0, Intent arg1) {
 
-        String message = arg1.getExtras().getString("kod_poruke");
+		Bundle b = arg1.getExtras();
+        String message = b.getString("kod_poruke");
         if(message.equals("opljackan_objekat")) //objekat opljackan        	
         {
         	Log.i(TAG, "Received message: " + message);
+        	int id = Integer.parseInt(b.getString("idObjekta"));
+        	Intent intent = new Intent("object_robbed_intent");
+        	intent.putExtra("idObjekta", id);
+    	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
         else if(message.equals("pocetak_igre"))	//start
         {
