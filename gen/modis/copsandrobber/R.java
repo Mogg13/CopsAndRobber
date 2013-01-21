@@ -72,8 +72,9 @@ public final class R {
         public static final int xmine=0x7f020034;
         public static final int xmobilephonetower=0x7f020035;
         public static final int xophthalmologist=0x7f020036;
-        public static final int xphoto=0x7f020037;
-        public static final int xpostal=0x7f020038;
+        public static final int xphones=0x7f020037;
+        public static final int xphoto=0x7f020038;
+        public static final int xpostal=0x7f020039;
     }
     public static final class id {
         public static final int dugmeOmetac=0x7f09000c;

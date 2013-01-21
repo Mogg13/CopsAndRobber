@@ -513,7 +513,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						//Log.i("Ubacujem...", imeObj);
 						if(igrac.getUloga().equals("Lopov"))
 						{
-							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj));
+							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, imeObj));
 						}
 						//Log.i("Ubaceno...", imeObj);
 					}
@@ -547,9 +547,18 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						}
 						else
 						{
-							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, oTemp, igrac.getUloga()));
+							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, oTemp, igrac.getUloga(), imeObj));
 						}
-					}					
+					}
+					// kod za menjanje overlay ikonice
+					/*for(int i=0;i<mapOverlays.size();i++)
+					{
+						if(mapOverlays.get(i) instanceof JedanOverlay)
+							if(((JedanOverlay)mapOverlays.get(i)).getIme().equals("luk i strela"))
+							{
+								((JedanOverlay)mapOverlays.get(i)).setBitmap(vratiKodXSlicice("luk i strela"));
+							}
+					}*/
 					ucitajProximityPodesavanja();
 										
 				} catch (Exception e){
@@ -614,6 +623,61 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			kod = R.drawable.clothes_male;
 		if(ime.equals("ometac"))
 			kod = R.drawable.mobilephonetower;
+		
+		return kod;
+	}
+	
+	public int vratiKodXSlicice(String ime)
+	{
+		int kod = 0;
+		
+		if(ime.equals("banka1"))
+			kod = R.drawable.xbank;
+		if(ime.equals("banka2"))
+			kod = R.drawable.xbank;	
+		if(ime.equals("menjacnica1"))
+			kod = R.drawable.xbankeuro;
+		if(ime.equals("menjacnica2"))
+			kod = R.drawable.xbankeuro;
+		if(ime.equals("zlatara"))
+			kod = R.drawable.xhotel1star;
+		
+		
+		if(ime.equals("luk i strela"))
+			kod = R.drawable.xarchery;
+		if(ime.equals("kljuc"))
+			kod = R.drawable.xcarrental;
+		if(ime.equals("alat"))
+			kod = R.drawable.xcarrepair;
+		if(ime.equals("lupa"))
+			kod = R.drawable.xcluster;
+		if(ime.equals("okular"))
+			kod = R.drawable.xcluster3;
+		if(ime.equals("kompjuter"))
+			kod = R.drawable.xcomputer;
+		if(ime.equals("sedativi"))
+			kod = R.drawable.xdrugs;
+		if(ime.equals("aparat za gasenje"))
+			kod = R.drawable.xfire_extinguisher;
+		if(ime.equals("pistolj"))
+			kod = R.drawable.xgun;
+		if(ime.equals("puska"))
+			kod = R.drawable.xhunting;
+		if(ime.equals("night vision"))
+			kod = R.drawable.xophthalmologist;
+		if(ime.equals("cekic"))
+			kod = R.drawable.xmine;
+		if(ime.equals("mobilni"))
+			kod = R.drawable.xphones;
+		if(ime.equals("fotoaparat"))
+			kod = R.drawable.xphoto;
+		if(ime.equals("dokument"))
+			kod = R.drawable.xpostal;
+		
+		if(ime.equals("pancir"))
+			kod = R.drawable.xclothes_male;
+		if(ime.equals("ometac"))
+			kod = R.drawable.xmobilephonetower;
 		
 		return kod;
 	}

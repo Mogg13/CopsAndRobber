@@ -1,11 +1,8 @@
 package modis.copsandrobber;
 
-import java.io.Serializable;
 
-import android.content.Context;
-import android.telephony.TelephonyManager;
 
-public class Igrac implements Serializable {
+public class Igrac {
 	
 	private String longitude, latitude;
 	private String uloga;
@@ -22,9 +19,9 @@ public class Igrac implements Serializable {
 		this.latitude=lat;
 		this.longitude=longi;
 		if(uloga.equals("Policajac"))
-			this.overlay = new JedanOverlay(R.drawable.cop,lat,longi);
+			this.overlay = new JedanOverlay(R.drawable.cop,lat,longi, "Policajac");
 		else
-			this.overlay = new JedanOverlay(R.drawable.robber,lat,longi);
+			this.overlay = new JedanOverlay(R.drawable.robber,lat,longi, "Lopov");
 	}
 	public String getLongitude() {
 		return longitude;
