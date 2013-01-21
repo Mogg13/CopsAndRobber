@@ -141,8 +141,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	dugmeOmetac.setOnClickListener(this);
         	
         	// da se onemoguce dugmici
-        	dugmeOmetac.setEnabled(false);
-        	dugmePancir.setEnabled(false);
+        	//dugmeOmetac.setEnabled(false);
+        	//dugmePancir.setEnabled(false);
         }
 		//Inicijalizacija mape
 		initMapView();
@@ -210,11 +210,105 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	
     	switch(v.getId())
     	{
-    		case R.id.dugmePancir: 				
+    		case R.id.dugmePancir: 
+    			inicijalizujIgrace();
+            	
+            	new CountDownTimer(7200000, 1000) {
+
+       		     public void onTick(long millisUntilFinished) {   		    	 
+       				  		    	 
+       		    	 millisUntilFinished = millisUntilFinished/1000;
+       				 int sati = (int) (millisUntilFinished/3600);
+       				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
+       				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+       				  
+       				 String minString = "";
+       				 String secString = "";
+       				 if(minuti<10)
+       					 minString = "0" + Integer.toString(minuti);
+       				 else
+       					 minString = Integer.toString(minuti);
+       				 if(sekundi<10)
+       					 secString = "0" + Integer.toString(sekundi);
+       				 else
+       					 secString = Integer.toString(sekundi);
+       				  
+       		         timerIgre.setText( sati + ":" + minString + ":" + secString);
+       		         
+       		         if(brojac10s>=10)	//10s refresh
+       		         {
+       		        	 brojac10s = 0;
+       		        	 if(brojac6min >= 36) // 6min refresh
+       		        	 {
+       		        		 ucitajPromeneSestMin();
+       		        		 
+       		        		 brojac6min = 0;
+       		        	 }
+       		        	 else
+       		        	 {
+       		        		ucitajPromeneDeset();   		        		
+       		        	 }
+       		        	 brojac6min++;
+       		         }   		         
+       		         brojac10s++;   		         
+       		     }
+       			public void onFinish() {
+       		    	 timerIgre.setText("Kraj igre!");
+       		     }
+       		  }.start();
+       		  
+       		  statusIgre = true;
     			break;    			
     		case R.id.dugmeOmetac:        		
     			break;    			
-    		case R.id.dugmePucaj: 			
+    		case R.id.dugmePucaj: 	
+    			inicijalizujIgrace();
+            	
+            	new CountDownTimer(7200000, 1000) {
+
+       		     public void onTick(long millisUntilFinished) {   		    	 
+       				  		    	 
+       		    	 millisUntilFinished = millisUntilFinished/1000;
+       				 int sati = (int) (millisUntilFinished/3600);
+       				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
+       				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+       				  
+       				 String minString = "";
+       				 String secString = "";
+       				 if(minuti<10)
+       					 minString = "0" + Integer.toString(minuti);
+       				 else
+       					 minString = Integer.toString(minuti);
+       				 if(sekundi<10)
+       					 secString = "0" + Integer.toString(sekundi);
+       				 else
+       					 secString = Integer.toString(sekundi);
+       				  
+       		         timerIgre.setText( sati + ":" + minString + ":" + secString);
+       		         
+       		         if(brojac10s>=10)	//10s refresh
+       		         {
+       		        	 brojac10s = 0;
+       		        	 if(brojac6min >= 36) // 6min refresh
+       		        	 {
+       		        		 ucitajPromeneSestMin();
+       		        		 
+       		        		 brojac6min = 0;
+       		        	 }
+       		        	 else
+       		        	 {
+       		        		ucitajPromeneDeset();   		        		
+       		        	 }
+       		        	 brojac6min++;
+       		         }   		         
+       		         brojac10s++;   		         
+       		     }
+       			public void onFinish() {
+       		    	 timerIgre.setText("Kraj igre!");
+       		     }
+       		  }.start();
+       		  
+       		  statusIgre = true;
     			break;
     	}
 	}
@@ -312,8 +406,16 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					e.printStackTrace();
 				}
 				guiProgressDialog(false);
+				//notify();				
 			}
 		});
+		/*
+		try {
+			guiThread.wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 	
     private void ucitajPromeneDeset() {
@@ -356,9 +458,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							lonPolicajca[i] = lonIgraca;
 							idPolicajca[i] = idIgraca;
 						}
-						//TO-DO
-						//updateRadar();
+						
+						
 				    }
+				    
+				    updateRadar();
+				    
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -390,26 +495,44 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						String lonIgraca = obj.getString("longitude");
 						igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
 						
-						//TO-DO
-						//updateRadar();
-						if(igra.getIgraci().size()>0)
-							if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
-					    	{
-					    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
-					    	}
-				    	//////////////////////////////////////////////////////////
-						if(igra.getIgraci().size()>1)
-					    	if(!mapOverlays.contains(igra.getIgracAt(1).getOverlay()))
-					    	{
-					    		mapOverlays.add(igra.getIgracAt(1).getOverlay());
-					    	}    	
-						//////////////////////////////////////////////////////////
-						if(igra.getIgraci().size()>2)
-							if(!mapOverlays.contains(igra.getIgracAt(2).getOverlay()))
+						if(igrac.getUloga().equals("Policajac"))
+						{
+							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
 							{
-								mapOverlays.add(igra.getIgracAt(2).getOverlay());
+								latLopova = latIgraca;
+								lonLopova = lonIgraca;
 							}
+						}
+						else
+						{
+							latPolicajca[i] = latIgraca;
+							lonPolicajca[i] = lonIgraca;
+							idPolicajca[i] = idIgraca;
+						}
 				    }
+				    
+				  
+					if(igra.getIgraci().size()>0)
+						if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
+				    	{
+				    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
+				    	}
+			    	//////////////////////////////////////////////////////////
+					if(igra.getIgraci().size()>1)
+				    	if(!mapOverlays.contains(igra.getIgracAt(1).getOverlay()))
+				    	{
+				    		mapOverlays.add(igra.getIgracAt(1).getOverlay());
+				    	}    	
+					//////////////////////////////////////////////////////////
+					if(igra.getIgraci().size()>2)
+						if(!mapOverlays.contains(igra.getIgracAt(2).getOverlay()))
+						{
+							mapOverlays.add(igra.getIgracAt(2).getOverlay());
+						}
+					
+					
+					updateRadar();
+					
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -418,6 +541,37 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		});
 		*/
 	}
+    
+    public void updateRadar()
+    {
+    	//ako je kod 1 - onda je pozvana iz ucitajPromeneDeset
+    	// ako je kod 2 - onda je pozvana iz ucitajPromeneSestMin
+    	float [] results = new float[1];
+    	float distance = 0;
+    	if(igrac.getUloga().equals("Policajac"))
+		{
+			Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(latLopova), Double.parseDouble(lonLopova), results);
+			distance = results[0];
+			
+		}
+		else
+		{
+			float pom;
+			distance = 999999999;
+			for(int i=0;i<3;i++)
+			{
+				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(latPolicajca[i]), Double.parseDouble(lonPolicajca[i]), results);
+				pom = results[0];
+				if (pom < distance)
+				{
+					distance = pom;
+				}
+			}					
+		}
+    	
+    	
+    	Log.i("DISTANCE", Float.toString(distance));
+    }
     
     public void inicijalizujIgrace()//poziva se kad dodje start signal
     {
