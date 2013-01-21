@@ -560,7 +560,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		{
 			float pom;
 			distance = 999999999;
-			for(int i=0;i<3;i++)
+			/*for(int i=0;i<3;i++)
 			{
 				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(latPolicajca[i]), Double.parseDouble(lonPolicajca[i]), results);
 				pom = results[0];
@@ -568,7 +568,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				{
 					distance = pom;
 				}
-			}					
+			}	*/				
 		}
     	
     	
