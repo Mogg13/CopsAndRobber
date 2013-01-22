@@ -25,11 +25,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	protected void onMessage(Context arg0, Intent arg1) {
 
+		Log.i("GCMMMMMMM", "stigo na pocetak");
 		Bundle b = arg1.getExtras();
         String message = b.getString("kod_poruke");
-        if(message.equals("opljackan_objekat")) //objekat opljackan        	
+        
+        if(message.equals("objekat_opljackan")) //objekat opljackan        	
         {
-        	Log.i(TAG, "Received message: " + message);
+        	Log.i(TAG, "OBJEKAT OPLJACKAN: " + message);
         	int id = Integer.parseInt(b.getString("idObjekta"));
         	Intent intent = new Intent("object_robbed_intent");
         	intent.putExtra("idObjekta", id);
@@ -44,10 +46,22 @@ public class GCMIntentService extends GCMBaseIntentService {
         else if(message.equals("ometac_aktiviran"))	//ne prikazivati lopova
         {
         	Log.i(TAG, "Received message: " + message);
+        	Intent intent = new Intent("ometac_aktiviran");
+    	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
         else if(message.equals("pancir_akticiran"))	//lopov ima pancir
         {
         	Log.i(TAG, "Received message: " + message);
+        	Intent intent = new Intent("pancir_akticiran");
+    	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
+        else if(message.equals("kraj_igre"))
+        {
+        	Log.i(TAG, "Received message: " + message);
+        	String poruka = b.getString("poruka");
+        	Intent intent = new Intent("end_the_game");
+        	intent.putExtra("poruka", poruka);
+    	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
 		//Log.i(TAG, "Received message: ");
 	}

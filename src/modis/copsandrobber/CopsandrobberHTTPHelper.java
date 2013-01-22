@@ -241,4 +241,52 @@ private static final String url = "http://uhvatilopova.site11.com";
 		}
 	}
 
+	public static void EndGame(int id, String poruka) {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/end_game.php");			
+		try {			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("poruka", poruka));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+			httpClient.execute(httpPost);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void AktivirajPancir(int id, String regId) {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/gcm_armor_activated.php");			
+		try {			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+			httpClient.execute(httpPost);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void AktivirajOmetac(int id, String regId) {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/gcm_ometac_activiran.php");			
+		try {			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("idIgaca", regId));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+			httpClient.execute(httpPost);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
