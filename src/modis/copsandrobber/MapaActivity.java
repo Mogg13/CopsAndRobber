@@ -464,7 +464,22 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						String idIgraca = obj.getString("idIgraca");
 						String latIgraca = obj.getString("latitude");
 						String lonIgraca = obj.getString("longitude");
-						igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+						if(aktOmetac && igrac.getUloga().equals("Policajac"))
+						{
+							aktOmetac = false;
+							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
+							{
+								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
+							}
+							else
+							{
+								igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+							}
+						}
+						else
+						{
+							igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+						}
 				    }
 				    
 				    for(int i=0;i<igra.getIgraci().size(); i++)
