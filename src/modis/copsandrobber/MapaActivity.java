@@ -267,6 +267,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    				Log.i("TAG", "Lopov upucan");
 	    				UhvacenLopov();
 	    			}
+	    			brojMetaka--;
+	    			brmetaka = (TextView) findViewById(R.id.textBrMetaka);
+					brmetaka.setText(brojMetaka);
+	    			if(brojMetaka == 0)
+	    			{
+	    				dugmePucaj.setEnabled(false);
+	    			}
+	    			
     			}
     			break;
     	}
@@ -883,8 +891,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		        	 brojac10s = 0;
    		        	 if(brojac6min >= 36) // 6min refresh
    		        	 {
-   		        		 ucitajPromeneSestMin();
-   		        		 
+   		        		 ucitajPromeneSestMin();   		        		 
    		        		 brojac6min = 0;
    		        	 }
    		        	 else
@@ -914,6 +921,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				brojMetaka = 3;
 				brmetaka = (TextView) findViewById(R.id.textBrMetaka);
 				brmetaka.setText("3");
+				dugmePucaj.setEnabled(true);
 			}
 			else
 			{
