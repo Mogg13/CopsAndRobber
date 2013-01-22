@@ -213,104 +213,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	switch(v.getId())
     	{
     		case R.id.dugmePancir: 
-    			inicijalizujIgrace();
-            	
-            	new CountDownTimer(7200000, 1000) {
-
-       		     public void onTick(long millisUntilFinished) {   		    	 
-       				  		    	 
-       		    	 millisUntilFinished = millisUntilFinished/1000;
-       				 int sati = (int) (millisUntilFinished/3600);
-       				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
-       				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-       				  
-       				 String minString = "";
-       				 String secString = "";
-       				 if(minuti<10)
-       					 minString = "0" + Integer.toString(minuti);
-       				 else
-       					 minString = Integer.toString(minuti);
-       				 if(sekundi<10)
-       					 secString = "0" + Integer.toString(sekundi);
-       				 else
-       					 secString = Integer.toString(sekundi);
-       				  
-       		         timerIgre.setText( sati + ":" + minString + ":" + secString);
-       		         
-       		         if(brojac10s >= 10)	//10s refresh - 20
-       		         {
-       		        	 brojac10s = 0;
-       		        	 if(brojac6min >= 36) // 6min refresh
-       		        	 {
-       		        		 ucitajPromeneSestMin();
-       		        		 
-       		        		 brojac6min = 0;
-       		        	 }
-       		        	 else
-       		        	 {
-       		        		ucitajPromeneDeset();   		        		
-       		        	 }
-       		        	 brojac6min++;
-       		         }   		         
-       		         brojac10s++;   		         
-       		     }
-       			public void onFinish() {
-       		    	 timerIgre.setText("Kraj igre!");
-       		     }
-       		  }.start();
-       		  
-       		  statusIgre = true;
+    			
     			break;    			
     		case R.id.dugmeOmetac:        		
     			break;    			
     		case R.id.dugmePucaj: 	
-    			inicijalizujIgrace();
-            	
-            	new CountDownTimer(7200000, 1000) {
-
-       		     public void onTick(long millisUntilFinished) {   		    	 
-       				  		    	 
-       		    	 millisUntilFinished = millisUntilFinished/1000;
-       				 int sati = (int) (millisUntilFinished/3600);
-       				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
-       				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-       				  
-       				 String minString = "";
-       				 String secString = "";
-       				 if(minuti<10)
-       					 minString = "0" + Integer.toString(minuti);
-       				 else
-       					 minString = Integer.toString(minuti);
-       				 if(sekundi<10)
-       					 secString = "0" + Integer.toString(sekundi);
-       				 else
-       					 secString = Integer.toString(sekundi);
-       				  
-       		         timerIgre.setText( sati + ":" + minString + ":" + secString);
-       		         
-       		         if(brojac10s >= 10)	//10s refresh - 20
-       		         {
-       		        	 brojac10s = 0;
-       		        	 if(brojac6min >= 36) // 6min refresh
-       		        	 {
-       		        		 ucitajPromeneSestMin();
-       		        		 
-       		        		 brojac6min = 0;
-       		        	 }
-       		        	 else
-       		        	 {
-       		        		ucitajPromeneDeset();   		        		
-       		        	 }
-       		        	 brojac6min++;
-       		         }   		         
-       		         brojac10s++;   		         
-       		     }
-       			public void onFinish() {
-       		    	 timerIgre.setText("Kraj igre!");
-       		     }
-       		  }.start();
-       		  
-       		  statusIgre = true;
+    			
     			break;
     	}
 	}
