@@ -26,16 +26,22 @@ public class Igrac {
 	public String getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(String longitude) {
+	public void setLongitudeAndOverlay(String longitude) {
 		this.longitude = longitude;
 		this.overlay.setLon(longitude);
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 	public String getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(String latitude) {
+	public void setLatitudeAndOveray(String latitude) {
 		this.latitude = latitude;
 		this.overlay.setLat(latitude);
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 	public String getUloga() {
 		return uloga;

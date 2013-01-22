@@ -60,10 +60,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private int brojac6min;
 	//private JedanOverlay jo;
 	//double lat1proba, lat2proba, lat3proba, lon1proba, lon2proba, lon3proba;
-	private String latLopova, lonLopova;
-	private String [] latPolicajca = new String[3];
-	private String [] lonPolicajca = new String[3];
-	private String [] idPolicajca = new String [3];
+	//private String latLopova, lonLopova;
+	//private String [] latPolicajca = new String[3];
+	//private String [] lonPolicajca = new String[3];
+	//private String [] idPolicajca = new String [3];
 	private static Context context;
 	private Intent intentMyService;
 	private ComponentName service;
@@ -157,7 +157,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		radar[3] = (ImageView) findViewById(R.id.radarLinija3);
 		radar[4] = (ImageView) findViewById(R.id.radarLinija4);
 		
-		radar[0].setImageResource(drawable.button_onoff_indicator_on);
+		
 		
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
@@ -237,7 +237,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
        				  
        		         timerIgre.setText( sati + ":" + minString + ":" + secString);
        		         
-       		         if(brojac10s>=10)	//10s refresh
+       		         if(brojac10s >= 10)	//10s refresh - 20
        		         {
        		        	 brojac10s = 0;
        		        	 if(brojac6min >= 36) // 6min refresh
@@ -288,7 +288,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
        				  
        		         timerIgre.setText( sati + ":" + minString + ":" + secString);
        		         
-       		         if(brojac10s>=10)	//10s refresh
+       		         if(brojac10s >= 10)	//10s refresh - 20
        		         {
        		        	 brojac10s = 0;
        		        	 if(brojac6min >= 36) // 6min refresh
@@ -446,19 +446,20 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						{
 							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
 							{
-								latLopova = latIgraca;
-								lonLopova = lonIgraca;
+								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
 							}
 							else
 							{
-								igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
+								igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+								if(!mapOverlays.contains(igra.getIgracById(idIgraca).getOverlay()) && igra.getIgracById(idIgraca).getLatitude() != null)
+						    	{
+						    		mapOverlays.add(igra.getIgracById(idIgraca).getOverlay());
+						    	}
 							}
 						}
 						else
 						{
-							latPolicajca[i] = latIgraca;
-							lonPolicajca[i] = lonIgraca;
-							idPolicajca[i] = idIgraca;
+							igra.editIgrac(idIgraca, latIgraca, lonIgraca);
 						}
 						
 						
@@ -495,44 +496,17 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						String idIgraca = obj.getString("idIgraca");
 						String latIgraca = obj.getString("latitude");
 						String lonIgraca = obj.getString("longitude");
-						igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
-						
-						if(igrac.getUloga().equals("Policajac"))
-						{
-							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
-							{
-								latLopova = latIgraca;
-								lonLopova = lonIgraca;
-							}
-						}
-						else
-						{
-							latPolicajca[i] = latIgraca;
-							lonPolicajca[i] = lonIgraca;
-							idPolicajca[i] = idIgraca;
-						}
+						igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
 				    }
 				    
-				  
-					if(igra.getIgraci().size()>0)
-						if(!mapOverlays.contains(igra.getIgracAt(0).getOverlay()))
+				    for(int i=0;i<igra.getIgraci().size(); i++)
+				    {
+				    	if(!mapOverlays.contains(igra.getIgracAt(i).getOverlay()))
 				    	{
-				    		mapOverlays.add(igra.getIgracAt(0).getOverlay());
+				    		mapOverlays.add(igra.getIgracAt(i).getOverlay());
 				    	}
-			    	//////////////////////////////////////////////////////////
-					if(igra.getIgraci().size()>1)
-				    	if(!mapOverlays.contains(igra.getIgracAt(1).getOverlay()))
-				    	{
-				    		mapOverlays.add(igra.getIgracAt(1).getOverlay());
-				    	}    	
-					//////////////////////////////////////////////////////////
-					if(igra.getIgraci().size()>2)
-						if(!mapOverlays.contains(igra.getIgracAt(2).getOverlay()))
-						{
-							mapOverlays.add(igra.getIgracAt(2).getOverlay());
-						}
-					
-					
+				    }
+										
 					updateRadar();
 					
 				} catch (Exception e){
@@ -546,30 +520,87 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     
     public void updateRadar()
     {
-    	//ako je kod 1 - onda je pozvana iz ucitajPromeneDeset
-    	// ako je kod 2 - onda je pozvana iz ucitajPromeneSestMin
     	float [] results = new float[1];
-    	float distance = 0;
+    	float distance = 999999999;
+    	
     	if(igrac.getUloga().equals("Policajac"))
 		{
-			Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(latLopova), Double.parseDouble(lonLopova), results);
-			distance = results[0];
+    		Igrac igracZaRadar;
+    		igracZaRadar = igra.getLopov();
+    		if(igracZaRadar.getLatitude() != null && igracZaRadar.getLongitude()!= null)
+    		{
+    			Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), 
+					Double.parseDouble(igracZaRadar.getLatitude()), Double.parseDouble(igracZaRadar.getLongitude()), results);
+    			distance = results[0];
+    		}
 			
 		}
 		else
 		{
 			float pom;
-			distance = 999999999;
-			/*for(int i=0;i<3;i++)
+			//distance = 999999999;
+			for(int i=0;i<igra.getIgraci().size();i++)
 			{
-				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(latPolicajca[i]), Double.parseDouble(lonPolicajca[i]), results);
+				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), 
+						Double.parseDouble(igra.getIgracAt(i).getLatitude()), Double.parseDouble(igra.getIgracAt(i).getLongitude()), results);
 				pom = results[0];
 				if (pom < distance)
 				{
 					distance = pom;
 				}
-			}	*/				
+				
+			}					
 		}
+    	float faktor = 40;
+    	if(distance>5*faktor)
+    	{
+    		radar[0].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[1].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[2].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[3].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[4].setImageResource(drawable.button_onoff_indicator_off);
+    	}
+    	else if(distance>4*faktor)
+    	{
+    		radar[0].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[1].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[2].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[3].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[4].setImageResource(drawable.button_onoff_indicator_off);
+    	}
+    	else if(distance>3*faktor)
+    	{
+    		radar[0].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[1].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[2].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[3].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[4].setImageResource(drawable.button_onoff_indicator_off);
+    	}
+    	else if(distance>2*faktor)
+    	{
+    		radar[0].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[1].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[2].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[3].setImageResource(drawable.button_onoff_indicator_off);
+    		radar[4].setImageResource(drawable.button_onoff_indicator_off);
+    	}
+    	else if(distance > faktor)
+    	{
+    		radar[0].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[1].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[2].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[3].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[4].setImageResource(drawable.button_onoff_indicator_off);
+    	}
+    	else if(distance <= faktor)
+    	{
+    		radar[0].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[1].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[2].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[3].setImageResource(drawable.button_onoff_indicator_on);
+    		radar[4].setImageResource(drawable.button_onoff_indicator_on);
+    	}
+    	
     	
     	
     	Log.i("DISTANCE", Float.toString(distance));
@@ -879,7 +910,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    				  
    		         timerIgre.setText( sati + ":" + minString + ":" + secString);
    		         
-   		         if(brojac10s >= 20)	//10s refresh - 20
+   		         if(brojac10s >= 10)	//10s refresh - 20
    		         {
    		        	 brojac10s = 0;
    		        	 if(brojac6min >= 36) // 6min refresh

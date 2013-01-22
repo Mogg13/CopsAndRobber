@@ -148,12 +148,22 @@ public class Igra {
 		}
 		return this.predmeti.get(k);
 	}
-	public void EditIgraci(String idIgraca, String latitude1, String longitude1){
+	public void editIgrac(String idIgraca, String latitude1, String longitude1){
 		for(int i = 0; i<igraci.size(); i++){
 			if(igraci.get(i).getRegId().equals(idIgraca))
 			{
 				igraci.get(i).setLatitude(latitude1);
 				igraci.get(i).setLongitude(longitude1);
+			}
+		}
+	}
+	
+	public void editIgracWithOverlay(String idIgraca, String latitude1, String longitude1){
+		for(int i = 0; i<igraci.size(); i++){
+			if(igraci.get(i).getRegId().equals(idIgraca))
+			{
+				igraci.get(i).setLatitudeAndOveray(latitude1);
+				igraci.get(i).setLongitudeAndOverlay(longitude1);
 			}
 		}
 	}
@@ -166,6 +176,18 @@ public class Igra {
 				res = igraci.get(i);
 			}
 		}
+		return res;
+	}
+	
+	public Igrac getLopov()
+	{
+		Igrac res = new Igrac();
+		for(int i = 0; i<igraci.size(); i++){
+			if(igraci.get(i).getUloga().equals("Lopov"))
+			{
+				res = igraci.get(i);
+			}
+		}		
 		return res;
 	}
 }
