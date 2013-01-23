@@ -444,7 +444,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						
 				    }
 				    
-				    updateRadar();
+				    guiThread.post(new Runnable() {
+						
+						public void run() {
+							updateRadar();
+						}
+					});
 				    
 				} catch (Exception e){
 					e.printStackTrace();
