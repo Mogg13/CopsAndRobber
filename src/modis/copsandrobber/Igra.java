@@ -169,7 +169,8 @@ public class Igra {
 	}
 	
 	public Igrac getIgracById(String id)
-	{	Igrac res =new Igrac();
+	{	
+		Igrac res = new Igrac();
 		for(int i = 0; i<igraci.size(); i++){
 			if(igraci.get(i).getRegId().equals(id))
 			{
@@ -181,7 +182,7 @@ public class Igra {
 	
 	public Igrac getLopov()
 	{
-		Igrac res = new Igrac();
+		Igrac res = null;
 		for(int i = 0; i<igraci.size(); i++){
 			if(igraci.get(i).getUloga().equals("Lopov"))
 			{
@@ -193,7 +194,7 @@ public class Igra {
 	
 	public Objekat getObjekatByName(String name)
 	{
-		Objekat res = new Objekat();
+		Objekat res = null;
 		for(int i=0; i<objekti.size(); i++)
 		{
 			if(objekti.get(i).getIme().equals(name))
