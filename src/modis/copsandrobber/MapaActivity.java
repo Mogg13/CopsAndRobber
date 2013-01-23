@@ -102,6 +102,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		igra = new Igra();
 		proxReciever = new ProximityIntentReceiver();
 		context = this;
+		guiThread = new Handler();
 		try {
 			Intent mapIntent = getIntent();
 			Bundle mapBundle = mapIntent.getExtras();
@@ -222,7 +223,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	{
     		case R.id.dugmePancir: 
     			Log.i("TAG", "Aktiviran pancir");
-    			guiThread = new Handler();
+    			
     			transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable() {
     				
@@ -238,7 +239,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     			break;    			
     		case R.id.dugmeOmetac: 
     			Log.i("TAG", "Aktiviran ometac");
-    			guiThread = new Handler();
+    			//guiThread = new Handler();
     			transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable() {
     				
@@ -281,7 +282,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	}
 	
 	private void UhvacenLopov() {
-		guiThread = new Handler();
+		//guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
@@ -400,11 +401,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     private void ucitajPromeneDeset() {
 		// TODO Auto-generated method stub
     	
-    	/*guiThread = new Handler();
+    	guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
-			public void run() {*/
+			public void run() {
 				
 				try{
 					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
@@ -415,9 +416,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
 				    for(int i = 0; i<jsonArray.length(); i++){
 				    	obj = (JSONObject) jsonArray.get(i);
-						String idIgraca = obj.getString("idIgraca");
-						String latIgraca = obj.getString("latitude");
-						String lonIgraca = obj.getString("longitude");
+						final String idIgraca = obj.getString("idIgraca");
+						final String latIgraca = obj.getString("latitude");
+						final String lonIgraca = obj.getString("longitude");
 						//igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
 						if(igrac.getUloga().equals("Policajac"))
 						{
@@ -427,11 +428,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							}
 							else
 							{
-								igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+								guiPromeneDeset(idIgraca, latIgraca, lonIgraca);
+								/*igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
 								if(!mapOverlays.contains(igra.getIgracById(idIgraca).getOverlay()) && igra.getIgracById(idIgraca).getLatitude() != null)
 						    	{
 						    		mapOverlays.add(igra.getIgracById(idIgraca).getOverlay());
-						    	}
+						    	}*/
 							}
 						}
 						else
@@ -442,37 +444,72 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						
 				    }
 				    
-				    updateRadar();
+				    guiThread.post(new Runnable() {
+						
+						public void run() {
+							updateRadar();
+						}
+					});
 				    
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-				/*
+				
 			}
 		});
-	*/
+	
 	}
     
+    private void guiPromeneDeset(final String idIgraca, final String latIgraca, final String lonIgraca)
+    {
+    	guiThread.post(new Runnable() {
+			
+			public void run() {
+				igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+				if(!mapOverlays.contains(igra.getIgracById(idIgraca).getOverlay()) && igra.getIgracById(idIgraca).getLatitude() != null)
+		    	{
+		    		mapOverlays.add(igra.getIgracById(idIgraca).getOverlay());
+		    	}
+			}
+		});
+    }
+    
     private void ucitajPromeneSestMin() {
-    	/*guiThread = new Handler();
+    	guiThread = new Handler();
 		transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
-			public void run() {*/
+			public void run() {
 				
 				try{
 					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
 					JSONObject jsonObject = new JSONObject(info);
 					String str = info;
 					Log.i("JSONNN_"+igrac.getUloga(), str);
-					JSONObject obj;
-				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
-				    for(int i = 0; i<jsonArray.length(); i++){
+					
+				    final JSONArray jsonArray = jsonObject.getJSONArray("igraci");
+				    guiPromeneSestMin(jsonArray);
+				    /*for(int i = 0; i<jsonArray.length(); i++){
 				    	obj = (JSONObject) jsonArray.get(i);
 						String idIgraca = obj.getString("idIgraca");
 						String latIgraca = obj.getString("latitude");
 						String lonIgraca = obj.getString("longitude");
-						igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+						if(aktOmetac && igrac.getUloga().equals("Policajac"))
+						{
+							aktOmetac = false;
+							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
+							{
+								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
+							}
+							else
+							{
+								igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+							}
+						}
+						else
+						{
+							igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+						}
 				    }
 				    
 				    for(int i=0;i<igra.getIgraci().size(); i++)
@@ -483,16 +520,67 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				    	}
 				    }
 										
-					updateRadar();
+					updateRadar();*/
 					
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-				/*
+				
 			}
 		});
-		*/
+		
 	}
+    
+    private void guiPromeneSestMin(final JSONArray jsonArray)
+    {
+    	guiThread.post(new Runnable() {
+			
+			public void run() {
+				try
+				{
+					JSONObject obj;
+					for(int i = 0; i<jsonArray.length(); i++){
+				    	obj = (JSONObject) jsonArray.get(i);
+						String idIgraca = obj.getString("idIgraca");
+						String latIgraca = obj.getString("latitude");
+						String lonIgraca = obj.getString("longitude");
+						if(aktOmetac && igrac.getUloga().equals("Policajac"))
+						{
+							aktOmetac = false;
+							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
+							{
+								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
+							}
+							else
+							{
+								igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+							}
+						}
+						else
+						{
+							igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
+						}
+				    }
+				    
+					//dodavanje overleja
+				    for(int i=0;i<igra.getIgraci().size(); i++)
+				    {
+				    	if(!mapOverlays.contains(igra.getIgracAt(i).getOverlay()))
+				    	{
+				    		mapOverlays.add(igra.getIgracAt(i).getOverlay());
+				    	}
+				    }
+										
+					updateRadar();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+    }
+    
     
     public void updateRadar()
     {
@@ -584,25 +672,32 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     
     public void inicijalizujIgrace()//poziva se kad dodje start signal
     {
+    	//guiThread = new Handler();
+		transThread = Executors.newSingleThreadExecutor();
+		transThread.submit(new Runnable() {
+			
+			public void run() {
     	
-    	try{
-			final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
-			JSONObject jsonObject = new JSONObject(info);
-			String str = info;
-			Log.i("JSONNN", str);
-			JSONObject obj;
-		    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
-		    for(int i = 0; i<jsonArray.length(); i++){
-		    	obj = (JSONObject) jsonArray.get(i);
-				String idIgraca = obj.getString("idIgraca");
-				String latIgraca = obj.getString("latitude");
-				String lonIgraca = obj.getString("longitude");
-				String uloga = obj.getString("uloga");
-				igra.addIgrac(new Igrac(uloga, latIgraca, lonIgraca, idIgraca));				
-		    }
-		} catch (Exception e){
-			e.printStackTrace();
-		}
+		    	try{
+					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
+					JSONObject jsonObject = new JSONObject(info);
+					String str = info;
+					Log.i("JSONNN", str);
+					JSONObject obj;
+				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
+				    for(int i = 0; i<jsonArray.length(); i++){
+				    	obj = (JSONObject) jsonArray.get(i);
+						String idIgraca = obj.getString("idIgraca");
+						String latIgraca = obj.getString("latitude");
+						String lonIgraca = obj.getString("longitude");
+						String uloga = obj.getString("uloga");
+						igra.addIgrac(new Igrac(uloga, latIgraca, lonIgraca, idIgraca));				
+				    }
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
     }
     
 	private void guiProgressDialog(final boolean start){
@@ -925,7 +1020,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 			else
 			{
-				guiThread = new Handler();
+				//guiThread = new Handler();
 				transThread = Executors.newSingleThreadExecutor();
 				transThread.submit(new Runnable() {
 					
@@ -956,7 +1051,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				Log.i("PROXI", igra.getObjekatAt(i).getIme());
 				if(igra.getObjekatAt(i).getIme().equals("sigurna kuca"))
 				{
-					guiThread = new Handler();
+					//guiThread = new Handler();
 					transThread = Executors.newSingleThreadExecutor();
 					transThread.submit(new Runnable() {
 						
@@ -999,7 +1094,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					    PendingIntent pendingIntent = PendingIntent.getBroadcast(arg0, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 					    locManager.removeProximityAlert(pendingIntent);					    
 					    
-						guiThread = new Handler();
+						//guiThread = new Handler();
 						transThread = Executors.newSingleThreadExecutor();
 						transThread.submit(new Runnable() {
 							
@@ -1049,7 +1144,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			if(statusIgre == true)
 			{
 				pomocniIntent = arg1; 
-				guiThread = new Handler();
+				//guiThread = new Handler();
 				transThread = Executors.newSingleThreadExecutor();
 				transThread.submit(new Runnable() {
 					
