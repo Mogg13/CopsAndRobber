@@ -257,29 +257,25 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     			if(!aktPancir)
     			{
 	    			float[] results = new float[1];
-	    			int daljina;
-	    			int i = 0;
-	    			while(!igra.getIgracAt(i).getUloga().equals("Lopov") && i < 4)
-	    				i++;
-	    			Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getIgracAt(i).getLatitude()), Double.parseDouble(igra.getIgracAt(i).getLongitude()), results);
-	    			daljina = (int) results[0];
-	    			if(daljina < 30)
+	    			int daljina = 100;
+	    			if(igra.getLopov() != null){
+	    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getLopov().getLatitude()), Double.parseDouble(igra.getLopov().getLongitude()), results);
+	    				daljina = (int) results[0];
+	    			}
+	    			if(daljina <= 30)
 	    			{
 	    				Log.i("TAG", "Lopov upucan");
 	    				UhvacenLopov();
 	    			}
 	    			brojMetaka--;
 
-	    			i = 0;
-	    			while(!igra.getObjekatAt(i).getIme().equals("policija") && (i+1) < igra.getObjekti().size())
-	    				i++;
-	    			if(igra.getObjekatAt(i).getIme().equals("policija"))
-	    			{
-	    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), results);
-	    				daljina = (int) results[0];
-	    				if(daljina < 30)
-	    					brojMetaka = 3;
+	    			if(igra.getObjekatByName("policija") != null){
+	    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getObjekatByName("policija").getLatitude()), Double.parseDouble(igra.getObjekatByName("policija").getLongitude()), results);
+    					daljina = (int) results[0];
 	    			}
+    				if(daljina <= 30)
+    					brojMetaka = 3;
+
 					brmetaka.setText(Integer.toString(brojMetaka));
 	    			if(brojMetaka == 0)
 	    			{
@@ -601,7 +597,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		{
     		Igrac igracZaRadar;
     		igracZaRadar = igra.getLopov();
-    		if(igracZaRadar.getLatitude() != null && igracZaRadar.getLongitude()!= null)
+    		if(igracZaRadar != null)
     		{
     			Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), 
 					Double.parseDouble(igracZaRadar.getLatitude()), Double.parseDouble(igracZaRadar.getLongitude()), results);
@@ -842,7 +838,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					{
 						Location.distanceBetween(latitude, longitude, Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), results);
 						res = results[0];
-						if(res<=30)
+						if(res <= 30)
 						{
 							transThread = Executors.newSingleThreadExecutor();
 							transThread.submit(new Runnable() {
