@@ -190,4 +190,17 @@ public class Igra {
 		}		
 		return res;
 	}
+	
+	public Objekat getObjekatByName(String name)
+	{
+		Objekat res = new Objekat();
+		for(int i=0; i<objekti.size(); i++)
+		{
+			if(objekti.get(i).getIme().equals(name))
+			{
+				res = objekti.get(i);
+			}
+		}
+		return res;
+	}
 }

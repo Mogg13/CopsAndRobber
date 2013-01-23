@@ -168,10 +168,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		radar[4] = (ImageView) findViewById(R.id.radarLinija4);
 		
 		
-		
-		progressDialog = new ProgressDialog(this);
-		ucitajPodatke();
-		
 		//tajmer
 		timerIgre = (TextView) findViewById(R.id.timerIgre);
 
@@ -184,6 +180,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		long minTime=1000;
 		float minDistance = 1;
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, myLocationListener);
+		
+		progressDialog = new ProgressDialog(this);
+		ucitajPodatke();
 		
 		statusIgre = false;			
 		aktPancir = false;
@@ -812,6 +811,44 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								((JedanOverlay)mapOverlays.get(i)).setBitmap(vratiKodXSlicice("luk i strela"));
 							}
 					}*/
+					Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					double longitude = location.getLongitude();
+					double latitude = location.getLatitude();
+					igrac.setLatitude(Double.toString(latitude));
+					igrac.setLongitude(Double.toString(longitude));
+					Objekat o;
+					float [] results = new float[1];
+					float res;
+					if(igrac.getUloga().equals("Policajac"))
+					{
+						o=igra.getObjekatByName("policija");
+					}
+					else
+					{
+						o=igra.getObjekatByName("sigurna kuca");
+					}
+					
+					if(o != null)
+					{
+						Location.distanceBetween(latitude, longitude, Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), results);
+						res = results[0];
+						if(res<=30)
+						{
+							transThread = Executors.newSingleThreadExecutor();
+							transThread.submit(new Runnable() {
+								
+								public void run() {
+									try{
+										CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), "true");
+									} catch (Exception e){
+										e.printStackTrace();
+									}
+								}
+							});
+						}
+						
+					}
+					
 					ucitajProximityPodesavanja();
 										
 				} catch (Exception e){
@@ -1015,7 +1052,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			if(statusIgre == true)
 			{	//
 				brojMetaka = 3;
-				brmetaka = (TextView) findViewById(R.id.textBrMetaka);
 				brmetaka.setText("3");
 				dugmePucaj.setEnabled(true);
 			}
