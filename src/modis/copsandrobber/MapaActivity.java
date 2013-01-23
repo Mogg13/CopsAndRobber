@@ -984,6 +984,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					}
 					if((j+1) == igra.getObjekatAt(i).getPredmeti().size())
 					{
+						//opljacan objekat
 						igra.getObjekatAt(i).setStatus(1);
 						for(int k=0;k<mapOverlays.size();k++)
 						{
@@ -996,7 +997,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 						LocationManager locManager = (LocationManager) arg0.getSystemService(Context.LOCATION_SERVICE);
 					    PendingIntent pendingIntent = PendingIntent.getBroadcast(arg0, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-					    locManager.removeProximityAlert(pendingIntent);
+					    locManager.removeProximityAlert(pendingIntent);					    
 					    
 						guiThread = new Handler();
 						transThread = Executors.newSingleThreadExecutor();
@@ -1013,6 +1014,27 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								}
 							}
 						});
+						
+						//da li su svi obj opljcakani
+						int br=0;
+						while((br+1) < igra.getObjekti().size() && igra.getObjekatAt(br).getStatus() == 1)
+							br++;
+						if((br+1) == igra.getObjekti().size())
+						{
+							//kraj igre lopov pobedio
+							guiThread = new Handler();
+							transThread = Executors.newSingleThreadExecutor();
+							transThread.submit(new Runnable() {
+								
+								public void run() {
+									try{
+										CopsandrobberHTTPHelper.EndGame(igra.getId(), "Lopov je pobednik");
+									} catch (Exception e){
+										e.printStackTrace();
+									}
+								}
+							});
+						}
 					}
 					
 				}
