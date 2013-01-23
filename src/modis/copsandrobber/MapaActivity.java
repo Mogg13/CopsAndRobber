@@ -134,6 +134,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	dugmePucaj.setOnClickListener(this);
         	
         	brojMetaka = 3;
+			brmetaka = (TextView) findViewById(R.id.metkoviText);
         	LocalBroadcastManager.getInstance(this).registerReceiver(
     	    		mMessageReceiverObjectRobbed, new IntentFilter("object_robbed_intent"));
     	    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -269,8 +270,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    				UhvacenLopov();
 	    			}
 	    			brojMetaka--;
-	    			brmetaka = (TextView) findViewById(R.id.textBrMetaka);
-					brmetaka.setText(brojMetaka);
+
+					brmetaka.setText(Integer.toString(brojMetaka));
 	    			if(brojMetaka == 0)
 	    			{
 	    				dugmePucaj.setEnabled(false);
