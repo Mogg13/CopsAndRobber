@@ -173,6 +173,49 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		igra.setStatus(0);			
 		aktPancir = false;
 		aktOmetac = false;
+		
+		timer = new CountDownTimer(7200000, 1000) {
+
+  		     public void onTick(long millisUntilFinished) {   		    	 
+  				  		    	 
+  		    	 millisUntilFinished = millisUntilFinished/1000;
+  				 int sati = (int) (millisUntilFinished/3600);
+  				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
+  				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+  				  
+  				 String minString = "";
+  				 String secString = "";
+  				 if(minuti<10)
+  					 minString = "0" + Integer.toString(minuti);
+  				 else
+  					 minString = Integer.toString(minuti);
+  				 if(sekundi<10)
+  					 secString = "0" + Integer.toString(sekundi);
+  				 else
+  					 secString = Integer.toString(sekundi);
+  				  
+  		         timerIgre.setText( sati + ":" + minString + ":" + secString);
+  		         
+  		         if(brojac10s >= 10)	//10s refresh - 20
+  		         {
+  		        	 brojac10s = 0;
+  		        	 if(brojac6min >= 36) // 6min refresh
+  		        	 {
+  		        		 ucitajPromeneSestMin();   		        		 
+  		        		 brojac6min = 0;
+  		        	 }
+  		        	 else
+  		        	 {
+  		        		ucitajPromeneDeset();   		        		
+  		        	 }
+  		        	 brojac6min++;
+  		         }   		         
+  		         brojac10s++;   		         
+  		     }
+  			public void onFinish() {
+  		    	 napraviDialogZaKrajIgre("Vreme je isteklo!");
+  		     }
+  		  };
 	}
 	
 	private class GPSListener implements LocationListener{
@@ -986,48 +1029,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	inicijalizujIgrace();
         	
-        	timer = new CountDownTimer(7200000, 1000) {
-
-   		     public void onTick(long millisUntilFinished) {   		    	 
-   				  		    	 
-   		    	 millisUntilFinished = millisUntilFinished/1000;
-   				 int sati = (int) (millisUntilFinished/3600);
-   				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
-   				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-   				  
-   				 String minString = "";
-   				 String secString = "";
-   				 if(minuti<10)
-   					 minString = "0" + Integer.toString(minuti);
-   				 else
-   					 minString = Integer.toString(minuti);
-   				 if(sekundi<10)
-   					 secString = "0" + Integer.toString(sekundi);
-   				 else
-   					 secString = Integer.toString(sekundi);
-   				  
-   		         timerIgre.setText( sati + ":" + minString + ":" + secString);
-   		         
-   		         if(brojac10s >= 10)	//10s refresh - 20
-   		         {
-   		        	 brojac10s = 0;
-   		        	 if(brojac6min >= 36) // 6min refresh
-   		        	 {
-   		        		 ucitajPromeneSestMin();   		        		 
-   		        		 brojac6min = 0;
-   		        	 }
-   		        	 else
-   		        	 {
-   		        		ucitajPromeneDeset();   		        		
-   		        	 }
-   		        	 brojac6min++;
-   		         }   		         
-   		         brojac10s++;   		         
-   		     }
-   			public void onFinish() {
-   		    	 napraviDialogZaKrajIgre("Vreme je isteklo!");
-   		     }
-   		  }.start();
+        	timer.start();
    		  
    		  igra.setStatus(1);
    		  if(igrac.getUloga().equals("Policajac"))
@@ -1349,8 +1351,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     }
     public void RestartGame()
     {
-    	timer.cancel();
-    	timer = null;
+    	if(timer != null){
+    		Log.i("TIMER", "uso u petlju");
+    		timer.cancel();
+    		timer = null;
+    	}
     	timerIgre.setText("0:00:00");
     	
     	igra.setStatus(0);
