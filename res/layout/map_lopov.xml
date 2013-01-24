@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/background"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -12,7 +12,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.76"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="0.15"
             android:gravity="bottom"
             android:orientation="vertical"
             android:paddingBottom="5dp" >
@@ -54,25 +55,45 @@
                 android:src="@android:drawable/button_onoff_indicator_off" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/timerIgre"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.09"
-            android:text="@string/timer_igre_label" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.075"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/timerIgre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/timer_igre_label" />
+	        
+	        <TextView
+	            android:id="@+id/ulovText"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="right"
+	            android:layout_marginTop="5dp"
+	            android:text="@string/ulov_label" />
+	        
+        </LinearLayout>
 
         <Button
             android:id="@+id/dugmePancir"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.25"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.25"
             android:text="@string/dugme_pancir_label" />
 
         <Button
             android:id="@+id/dugmeOmetac"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.34"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.25"
             android:text="@string/dugme_ometac_label" />
 
     </LinearLayout>

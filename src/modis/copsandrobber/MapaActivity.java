@@ -75,6 +75,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	//private String entering;
 	private Intent pomocniIntent;
 	//private boolean inicijalizovano;
+	private int ulov;
 	
 	private TextView brmetaka;
 	private int brojMetaka;
@@ -157,6 +158,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	dugmeOmetac.setEnabled(false);
         	dugmePancir.setEnabled(false);
         }
+        ulov = 0;
+		
 		//Inicijalizacija mape
 		initMapView();
 		initMyLocation();
@@ -1125,6 +1128,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								if(pom)
 								{
 									igra.getObjekatAt(i).setStatus(1);
+									ulov += Integer.parseInt(igra.getObjekatAt(i).getCena());
+									TextView u = (TextView) findViewById(R.id.ulovText);
+									u.setText(Integer.toString(ulov)+" din.");
 									CopsandrobberHTTPHelper.ObjectRobbed(igra.getId(), igra.getObjekatAt(i).getId(), igrac.getRegId());
 									
 									guiThread.post(new Runnable() {
@@ -1149,10 +1155,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 									int br = 0;
 									boolean pom2 = true;
 									while( br < igra.getObjekti().size() && pom2 == true)
-									{
-										br++;
+									{										
 										if(igra.getObjekatAt(br).getStatus() != 1)
 											pom2 = false;
+										br++;
 									}										
 									if(pom2)
 										CopsandrobberHTTPHelper.EndGame(igra.getId(), "Lopov je pobednik");											
