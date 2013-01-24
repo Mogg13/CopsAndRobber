@@ -132,6 +132,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	dugmePucaj = findViewById(R.id.dugmePucaj);
         	dugmePucaj.setOnClickListener(this);
+        	dugmePucaj.setEnabled(false);
         	
         	brojMetaka = 3;
 			brmetaka = (TextView) findViewById(R.id.metkoviText);
@@ -253,11 +254,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     			});
     			dugmeOmetac.setEnabled(false);
     			break;    			
-    		case R.id.dugmePucaj: 	
+    		case R.id.dugmePucaj: 
+    			int daljina = 100;
+    			float[] results = new float[1];	
     			if(!aktPancir)
-    			{
-	    			float[] results = new float[1];
-	    			int daljina = 100;
+    			{		
 	    			if(igra.getLopov() != null){
 	    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getLopov().getLatitude()), Double.parseDouble(igra.getLopov().getLongitude()), results);
 	    				daljina = (int) results[0];
@@ -266,23 +267,21 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    			{
 	    				Log.i("TAG", "Lopov upucan");
 	    				UhvacenLopov();
-	    			}
-	    			brojMetaka--;
-
-	    			if(igra.getObjekatByName("policija") != null){
-	    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getObjekatByName("policija").getLatitude()), Double.parseDouble(igra.getObjekatByName("policija").getLongitude()), results);
-    					daljina = (int) results[0];
-	    			}
-    				if(daljina <= 30)
-    					brojMetaka = 3;
-
-					brmetaka.setText(Integer.toString(brojMetaka));
-	    			if(brojMetaka == 0)
-	    			{
-	    				dugmePucaj.setEnabled(false);
-	    			}
-	    			
+	    			}	
     			}
+    			brojMetaka--;
+    			if(igra.getObjekatByName("policija") != null){
+    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getObjekatByName("policija").getLatitude()), Double.parseDouble(igra.getObjekatByName("policija").getLongitude()), results);
+					daljina = (int) results[0];
+    			}
+				if(daljina <= 30)
+					brojMetaka = 3;
+
+				brmetaka.setText(Integer.toString(brojMetaka));
+    			if(brojMetaka == 0)
+    			{
+    				dugmePucaj.setEnabled(false);
+    			}	 
     			break;
     	}
 	}
@@ -1050,6 +1049,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
    		  }.start();
    		  
    		  statusIgre = true;
+   		  if(igrac.getUloga().equals("Policajac"))
+   			  dugmePucaj.setEnabled(true);
         }
     };
     private BroadcastReceiver mMessageProxReceiverPolicija = new BroadcastReceiver() {
