@@ -1123,9 +1123,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 														((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(igra.getObjekatAt(i).getIme()));
 													}
 											}
+											napraviDialogZaOpljackanObjekat(igra.getObjekatAt(i).getIme());
 										}
 									});
-									napraviDialogZaOpljackanObjekat(igra.getObjekatAt(i).getIme());
+									
 									
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 									LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -1324,8 +1325,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
     	if(igrac.getUloga().equals("Policajac"))
     	{
-    		msg += "Objekat" + imeObjekta;
-        	msg += "je opljckan!";        	
+    		msg += "Objekat " + imeObjekta;
+        	msg += " je opljckan!";        	
     		alertDialogBuilder.setTitle("Dogodila se pljacka!");
     	}
     	else
