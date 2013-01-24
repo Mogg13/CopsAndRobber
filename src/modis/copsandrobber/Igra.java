@@ -148,65 +148,112 @@ public class Igra {
 		}
 		return this.predmeti.get(k);
 	}
+	
 	public void editIgrac(String idIgraca, String latitude1, String longitude1){
-		for(int i = 0; i<igraci.size(); i++){
+		
+		Igrac ig = getIgracById(idIgraca);
+		ig.setLatitude(latitude1);
+		ig.setLongitude(longitude1);
+		/*for(int i = 0; i<igraci.size(); i++){
 			if(igraci.get(i).getRegId().equals(idIgraca))
 			{
 				igraci.get(i).setLatitude(latitude1);
 				igraci.get(i).setLongitude(longitude1);
 			}
-		}
+		}*/
 	}
 	
 	public void editIgracWithOverlay(String idIgraca, String latitude1, String longitude1){
-		for(int i = 0; i<igraci.size(); i++){
+		
+		Igrac ig = getIgracById(idIgraca);
+		ig.setLatitudeAndOveray(latitude1);
+		ig.setLongitudeAndOverlay(longitude1);
+		/*for(int i = 0; i<igraci.size(); i++){
 			if(igraci.get(i).getRegId().equals(idIgraca))
 			{
 				igraci.get(i).setLatitudeAndOveray(latitude1);
 				igraci.get(i).setLongitudeAndOverlay(longitude1);
 			}
-		}
+		}*/
 	}
 	
 	public Igrac getIgracById(String id)
 	{	
 		Igrac res = new Igrac();
-		for(int i = 0; i<igraci.size(); i++){
+		boolean nadjen = false;
+		int i = 0;
+		while(i<igraci.size() && !nadjen)
+		{
+			if(igraci.get(i).getRegId().equals(id))
+			{
+				res = igraci.get(i);
+				nadjen = true;
+			}
+			i++;
+		}
+		/*for(int i = 0; i<igraci.size(); i++){
 			if(igraci.get(i).getRegId().equals(id))
 			{
 				res = igraci.get(i);
 			}
 		}
+		*/
 		return res;
 	}
 	
 	public Igrac getLopov()
 	{
 		Igrac res = null;
+		boolean nadjen = false;
+		int i = 0;
+		while(i<igraci.size() && !nadjen)
+		{
+			if(igraci.get(i).getUloga().equals("Lopov"))
+			{
+				res = igraci.get(i);
+				nadjen = true;
+			}
+			i++;
+		}
+		/*
 		for(int i = 0; i<igraci.size(); i++){
 			if(igraci.get(i).getUloga().equals("Lopov"))
 			{
 				res = igraci.get(i);
 			}
 		}		
+		*/
 		return res;
 	}
 	
 	public Objekat getObjekatByName(String name)
 	{
 		Objekat res = null;
-		for(int i=0; i<objekti.size(); i++)
+		boolean nadjen = false;
+		int i = 0;
+		while(i<objekti.size() && !nadjen)
+		{
+			if(objekti.get(i).getIme().equals(name))
+			{
+				res = objekti.get(i);
+				nadjen = true;
+			}
+			i++;
+		}
+		/*for(int i=0; i<objekti.size(); i++)
 		{
 			if(objekti.get(i).getIme().equals(name))
 			{
 				res = objekti.get(i);
 			}
-		}
+		}*/
+		
 		return res;
 	}
 	
 	public Objekat getObjekatWithId(int id)
 	{
+
 		int k = 0;
 		while(k < this.objekti.size() && this.objekti.get(k).getId() != id)
 		{
