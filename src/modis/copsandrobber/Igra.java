@@ -13,8 +13,7 @@ public class Igra {
 	private List<Predmet> predmeti;
 	private int status;
 	
-	public Igra()
-	{
+	public Igra(){
 		igraci = new ArrayList<Igrac>();
 		objekti = new ArrayList<Objekat>();
 		predmeti = new ArrayList<Predmet>();
@@ -36,87 +35,95 @@ public class Igra {
 		this.id = id;
 	}
 
-	public void addObjekat(Objekat o)
-	{
+	public void addObjekat(Objekat o){
 		objekti.add(o);
 	}
 	
-	public void addPredmet(Predmet p)
-	{
+	public void addPredmet(Predmet p){
 		predmeti.add(p);
 	}
 	
-	public void addIgrac(Igrac i)
-	{
+	public void addIgrac(Igrac i){
 		igraci.add(i);
 	}
 	
-	public Igrac getIgracAt(int i)
-	{
+	public Igrac getIgracAt(int i){
 		return igraci.get(i);
 	}
 	
-	public Objekat getObjekatAt(int i)
-	{
+	public Objekat getObjekatAt(int i){
 		return objekti.get(i);
 	}
 	
-	public Predmet getPredmetAt(int i)
-	{
+	public Predmet getPredmetAt(int i){
 		return predmeti.get(i);
 	}
 	
-	public List<Objekat> getObjekti() {
+	public List<Objekat> getObjekti(){
 		return objekti;
 	}
-	public void setObjekti(List<Objekat> objekti) {
+	
+	public void setObjekti(List<Objekat> objekti){
 		this.objekti = objekti;
 	}
-	public List<Predmet> getPredmeti() {
+	
+	public List<Predmet> getPredmeti(){
 		return predmeti;
 	}
-	public void setPredmeti(List<Predmet> predmeti) {
+	
+	public void setPredmeti(List<Predmet> predmeti){
 		this.predmeti = predmeti;
 	}
-	public String getLatitude1() {
+	public String getLatitude1(){
 		return latitude1;
 	}
-	public void setLatitude1(String latitude1) {
+	
+	public void setLatitude1(String latitude1){
 		this.latitude1 = latitude1;
 	}
-	public String getLongitude1() {
+	public String getLongitude1(){
 		return longitude1;
 	}
-	public void setLongitude1(String longitude1) {
+	
+	public void setLongitude1(String longitude1){
 		this.longitude1 = longitude1;
 	}
-	public String getLatitude2() {
+	
+	public String getLatitude2(){
 		return latitude2;
 	}
-	public void setLatitude2(String latitude2) {
+	
+	public void setLatitude2(String latitude2){
 		this.latitude2 = latitude2;
 	}
-	public String getLongitude2() {
+	
+	public String getLongitude2(){		
 		return longitude2;
 	}
-	public void setLongitude2(String longitude2) {
+	
+	public void setLongitude2(String longitude2){
 		this.longitude2 = longitude2;
 	}
-	public String getLatitude3() {
+	
+	public String getLatitude3(){
 		return latitude3;
 	}
-	public void setLatitude3(String latitude3) {
+	
+	public void setLatitude3(String latitude3){
 		this.latitude3 = latitude3;
 	}
+	
 	public String getLongitude3() {
 		return longitude3;
 	}
+	
 	public void setLongitude3(String longitude3) {
 		this.longitude3 = longitude3;
 	}
 	public String getLatitude4() {
 		return latitude4;
 	}
+	
 	public void setLatitude4(String latitude4) {
 		this.latitude4 = latitude4;
 	}
@@ -139,8 +146,7 @@ public class Igra {
 		this.igraci = igraci;
 	}
 	
-	public Predmet getPredmetWithId(int id)
-	{
+	public Predmet getPredmetWithId(int id){
 		int k=0;
 		while(k<this.predmeti.size() && this.predmeti.get(k).getId() != id)
 		{
@@ -177,8 +183,7 @@ public class Igra {
 		}*/
 	}
 	
-	public Igrac getIgracById(String id)
-	{	
+	public Igrac getIgracById(String id){	
 		Igrac res = new Igrac();
 		boolean nadjen = false;
 		int i = 0;
@@ -201,8 +206,7 @@ public class Igra {
 		return res;
 	}
 	
-	public Igrac getLopov()
-	{
+	public Igrac getLopov(){
 		Igrac res = null;
 		boolean nadjen = false;
 		int i = 0;
@@ -226,8 +230,7 @@ public class Igra {
 		return res;
 	}
 	
-	public Objekat getObjekatByName(String name)
-	{
+	public Objekat getObjekatByName(String name){
 		Objekat res = null;
 		boolean nadjen = false;
 		int i = 0;
@@ -251,12 +254,10 @@ public class Igra {
 		return res;
 	}
 	
-	public Objekat getObjekatWithId(int id)
-	{
+	public Objekat getObjekatWithId(int id){
 
 		int k = 0;
-		while(k < this.objekti.size() && this.objekti.get(k).getId() != id)
-		{
+		while(k < this.objekti.size() && this.objekti.get(k).getId() != id){
 			k++;
 		}
 		return this.objekti.get(k);
