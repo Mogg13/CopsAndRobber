@@ -818,43 +818,46 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							}
 					}*/
 					Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-					double longitude = location.getLongitude();
-					double latitude = location.getLatitude();
-					igrac.setLatitude(Double.toString(latitude));
-					igrac.setLongitude(Double.toString(longitude));
-					Objekat o;
-					float [] results = new float[1];
-					float res;
-					if(igrac.getUloga().equals("Policajac"))
+					if(location != null)
 					{
-						o=igra.getObjekatByName("policija");
-					}
-					else
-					{
-						o=igra.getObjekatByName("sigurna kuca");
-					}
+						double longitude = location.getLongitude();
+						double latitude = location.getLatitude();
 					
-					if(o != null)
-					{
-						Location.distanceBetween(latitude, longitude, Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), results);
-						res = results[0];
-						if(res <= 30)
+						igrac.setLatitude(Double.toString(latitude));
+						igrac.setLongitude(Double.toString(longitude));
+						Objekat o;
+						float [] results = new float[1];
+						float res;
+						if(igrac.getUloga().equals("Policajac"))
 						{
-							transThread = Executors.newSingleThreadExecutor();
-							transThread.submit(new Runnable() {
-								
-								public void run() {
-									try{
-										CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), "true");
-									} catch (Exception e){
-										e.printStackTrace();
-									}
-								}
-							});
+							o=igra.getObjekatByName("policija");
+						}
+						else
+						{
+							o=igra.getObjekatByName("sigurna kuca");
 						}
 						
+						if(o != null)
+						{
+							Location.distanceBetween(latitude, longitude, Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), results);
+							res = results[0];
+							if(res <= 30)
+							{
+								transThread = Executors.newSingleThreadExecutor();
+								transThread.submit(new Runnable() {
+									
+									public void run() {
+										try{
+											CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), "true");
+										} catch (Exception e){
+											e.printStackTrace();
+										}
+									}
+								});
+							}
+							
+						}
 					}
-					
 					ucitajProximityPodesavanja();
 										
 				} catch (Exception e){
