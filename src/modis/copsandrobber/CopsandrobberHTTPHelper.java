@@ -291,4 +291,9 @@ public class CopsandrobberHTTPHelper {
 		}
 	}
 
+	public static void RestartGame(int id, String regId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
