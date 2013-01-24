@@ -1090,7 +1090,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), entering);
 							}
 						}
-						else
+						else if(!igra.getObjekatAt(i).getIme().equals("sigurna kuca"))
 						{
 							Log.i("PROXI", "igra u toku");
 							if(igra.getObjekatAt(i).getStatus() == 0 && entering.equals("true"))
@@ -1106,14 +1106,15 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								if(pom)
 								{
 									igra.getObjekatAt(i).setStatus(1);
-									ulov += Integer.parseInt(igra.getObjekatAt(i).getCena());
-									TextView u = (TextView) findViewById(R.id.ulovText);
-									u.setText(Integer.toString(ulov)+" din.");
+									ulov += Integer.parseInt(igra.getObjekatAt(i).getCena());									
 									CopsandrobberHTTPHelper.ObjectRobbed(igra.getId(), igra.getObjekatAt(i).getId(), igrac.getRegId());
 									
 									guiThread.post(new Runnable() {
 										
 										public void run() {
+											TextView u = (TextView) findViewById(R.id.ulovText);
+											u.setText(Integer.toString(ulov)+" din.");
+											
 											for(int k=0;k<mapOverlays.size();k++)
 											{
 												if(mapOverlays.get(k) instanceof JedanOverlay)
@@ -1366,5 +1367,16 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		dugmePancir.setEnabled(false);
     		dugmeOmetac.setEnabled(false);
     	}
+    	transThread = Executors.newSingleThreadExecutor();
+		transThread.submit(new Runnable() {
+			
+			public void run() {
+				try{
+					CopsandrobberHTTPHelper.RestartGame(igra.getId(), igrac.getRegId());
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
     }
 }
