@@ -204,4 +204,14 @@ public class Igra {
 		}
 		return res;
 	}
+	
+	public Objekat getObjekatWithId(int id)
+	{
+		int k = 0;
+		while(k < this.objekti.size() && this.objekti.get(k).getId() != id)
+		{
+			k++;
+		}
+		return this.objekti.get(k);
+	}
 }

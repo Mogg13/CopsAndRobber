@@ -1115,11 +1115,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							if(igra.getObjekatAt(i).getStatus() == 0 && entering.equals("true"))
 							{
 								int j = 0;
-								while(igra.getObjekatAt(i).getPredmetAt(j).getStatus() == 1 && (j+1) != igra.getObjekatAt(i).getPredmeti().size())
+								boolean pom = true;
+								while( j < igra.getObjekatAt(i).getPredmeti().size() && pom == true)
 								{
+									if(igra.getObjekatAt(i).getPredmetAt(j).getStatus() != 1)
+										pom = false;
 									j++;
 								}
-								if((j+1) == igra.getObjekatAt(i).getPredmeti().size())
+								if(pom)
 								{
 									igra.getObjekatAt(i).setStatus(1);
 									CopsandrobberHTTPHelper.ObjectRobbed(igra.getId(), igra.getObjekatAt(i).getId(), igrac.getRegId());
@@ -1144,9 +1147,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 									locManager.removeProximityAlert(pendingIntent);	
 									
 									int br = 0;
-									while((br+1) < igra.getObjekti().size() && igra.getObjekatAt(br).getStatus() == 1)
+									boolean pom2 = true;
+									while( br < igra.getObjekti().size() && pom2 == true)
+									{
 										br++;
-									if((br+1) == igra.getObjekti().size())
+										if(igra.getObjekatAt(br).getStatus() != 1)
+											pom2 = false;
+									}										
+									if(pom2)
 										CopsandrobberHTTPHelper.EndGame(igra.getId(), "Lopov je pobednik");											
 								}
 							}
@@ -1249,15 +1257,13 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			Log.i("OBJEKAT", "ma");
 			Bundle b = arg1.getExtras();
 			int idObj = b.getInt("idObjekta");
-			int i = 0;
-			while(idObj != igra.getObjekatAt(i).getId() && (i+1) != igra.getObjekti().size())
-				i++;
+			Objekat o = igra.getObjekatWithId(idObj);
 			for(int k=0;k<mapOverlays.size();k++)
 			{
 				if(mapOverlays.get(k) instanceof JedanOverlay)
-					if(((JedanOverlay)mapOverlays.get(k)).getIme().equals(igra.getObjekatAt(i).getIme()))
+					if(((JedanOverlay)mapOverlays.get(k)).getIme().equals(o.getIme()))
 					{
-						((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(igra.getObjekatAt(i).getIme()));
+						((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(o.getIme()));
 					}
 			}
 		}
@@ -1292,7 +1298,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			// poslati toast
 			Bundle b = arg1.getExtras();
 			String poruka = b.getString("poruka");
-			Toast.makeText(CopsAndRobberApplication.getContext(), poruka+ " KRAJ IGRE!", Toast.LENGTH_LONG).show();
+			//Toast.makeText(CopsAndRobberApplication.getContext(), poruka+ " KRAJ IGRE!", Toast.LENGTH_LONG).show();
+			napraviDialogZaKrajIgre(poruka);
 			// iskljuciti tajmer
 			if(timer != null)
 			{
@@ -1303,4 +1310,28 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			// 
 		}    	
     };
+    public void napraviDialogZaKrajIgre(String poruka)
+    {
+    	String msg = poruka + "\n\n";
+    	msg += "Ukoliko zelite ponovo da igrade idite na svoja pocetna mesta! \n";
+    	msg += "Za izlazak iz igre pritisnite exit";
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle("Kraj igre!");
+		alertDialogBuilder
+			.setMessage(msg)
+			.setCancelable(false)
+			.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.cancel();
+				}
+			  })
+			.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					MapaActivity.this.finish();
+				}
+			});
+			
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+    }
 }
