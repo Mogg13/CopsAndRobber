@@ -1140,6 +1140,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 											}
 										}
 									});
+									napraviDialogZaOpljackanObjekat(igra.getObjekatAt(i).getIme());
 									
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 									LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -1149,10 +1150,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 									int br = 0;
 									boolean pom2 = true;
 									while( br < igra.getObjekti().size() && pom2 == true)
-									{
-										br++;
+									{										
 										if(igra.getObjekatAt(br).getStatus() != 1)
 											pom2 = false;
+										br++;
 									}										
 									if(pom2)
 										CopsandrobberHTTPHelper.EndGame(igra.getId(), "Lopov je pobednik");											
@@ -1266,6 +1267,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(o.getIme()));
 					}
 			}
+			napraviDialogZaOpljackanObjekat(o.getIme());
 		}
     	
     };
@@ -1331,6 +1333,36 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				}
 			});
 			
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+    }
+    public void napraviDialogZaOpljackanObjekat(String imeObjekta)
+    {
+    	String msg = "";
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+    	if(igrac.getUloga().equals("Policajac"))
+    	{
+    		msg += "Objekat" + imeObjekta;
+        	msg += "je opljckan!";
+        	
+    		alertDialogBuilder.setTitle("Dogodila se pljacka!");
+    	}
+    	else
+    	{
+    		msg += "Zaradili ste: ";
+        	msg += igra.getObjekatByName(imeObjekta).getCena();
+        	
+    		alertDialogBuilder.setTitle("Uspesna pljacka " + imeObjekta +"!");
+    	}
+    	
+		alertDialogBuilder
+			.setMessage(msg)
+			.setCancelable(false)
+			.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.cancel();
+				}
+			  });			
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
     }
