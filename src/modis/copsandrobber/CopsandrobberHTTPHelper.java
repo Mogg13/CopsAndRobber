@@ -20,8 +20,8 @@ import org.json.JSONObject;
 
 public class CopsandrobberHTTPHelper {
 	
-	//private static final String url = "http://uhvatilopova.site11.com";
-	private static final String url = "http://copsandrobber.freetzi.com/";
+	private static final String url = "http://uhvatilopova.site11.com";
+	//private static final String url = "http://copsandrobber.freetzi.com/";
 
 	
 	public static String napraviNovuIgru(Igrac igrac, String imeIgre)
@@ -298,7 +298,7 @@ public class CopsandrobberHTTPHelper {
 		try {			
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
-			nameValuePairs.add(new BasicNameValuePair("idIgaca", regId));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
 			
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
 			httpClient.execute(httpPost);
