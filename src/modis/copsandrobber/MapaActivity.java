@@ -80,6 +80,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	
 	public void onCreate(Bundle savedInstanceState)	{
 		
+		Log.i("LIFECYCLE","MAPAActivity - onCreate");
 		super.onCreate(savedInstanceState);
 	    LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiverGameStart, new IntentFilter("start_the_game"));
@@ -328,6 +329,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 	protected void onDestroy() { 
 		 
+		Log.i("LIFECYCLE","MAPAActivity - onDestroy");
         try { 
            //stopService(intentMyService);
         	if(timer != null)
@@ -1372,7 +1374,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	else{
     		dugmePancir.setEnabled(false);
     		dugmeOmetac.setEnabled(false);
-    		ulov = 0;
+    		ulov = 0;    		
+    		TextView u = (TextView) findViewById(R.id.ulovText);
+			u.setText(Integer.toString(ulov)+" din.");
     		
     		for(int i=0;i<igra.getPredmeti().size();i++)
     		{
@@ -1417,7 +1421,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		
 		for(int i=0;i<igra.getIgraci().size(); i++)
 	    {
-	    	if(!mapOverlays.contains(igra.getIgracAt(i).getOverlay()))
+	    	if(mapOverlays.contains(igra.getIgracAt(i).getOverlay()))
 	    	{
 	    		mapOverlays.remove(igra.getIgracAt(i).getOverlay());
 	    	}
@@ -1443,5 +1447,26 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 		});
 		*/
+    }
+    
+    protected void onStart()
+    {
+    	Log.i("LIFECYCLE","MAPAActivity - onStart");
+    	super.onStart();
+    }
+    protected void onStop()
+    {
+    	Log.i("LIFECYCLE","MAPAActivity - onStop");
+    	super.onStop();
+    }
+    protected void onPause()
+    {
+    	Log.i("LIFECYCLE","MAPAActivity - onPause");
+    	super.onPause();
+    }
+    protected void onResume()
+    {
+    	Log.i("LIFECYCLE","MAPAActivity - onResume");
+    	super.onResume();
     }
 }

@@ -46,6 +46,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 	
 	
 	public void onCreate(Bundle savedInstanceState) {
+		Log.i("LIFECYCLE","NovaActivity - onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nova_igra);
         
@@ -194,4 +195,30 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 			}
 		});
 	}
+    
+    protected void onDestroy()
+    {
+    	Log.i("LIFECYCLE","NovaActivity - onDestroy");
+    	super.onDestroy();
+    }
+    protected void onStart()
+    {
+    	Log.i("LIFECYCLE","NovaActivity - onStart");
+    	super.onStart();
+    }
+    protected void onStop()
+    {
+    	Log.i("LIFECYCLE","NovaActivity - onStop");
+    	super.onStop();
+    }
+    protected void onPause()
+    {
+    	Log.i("LIFECYCLE","NovaActivity - onPause");
+    	super.onPause();
+    }
+    protected void onResume()
+    {
+    	Log.i("LIFECYCLE","NovaActivity - onResume");
+    	super.onResume();
+    }
 }

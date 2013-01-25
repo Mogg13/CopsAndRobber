@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	BroadcastReceiver receiver;
 	
 	protected void onCreate(Bundle savedInstanceState) {
-		
+		Log.i("LIFECYCLE","MainActivity - onCreate");
 	    LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiver, new IntentFilter("googleservice_registration"));
 	
@@ -140,6 +140,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	protected void onDestroy() { 
+		
+		Log.i("LIFECYCLE","MainActivity - onDestroy");
  
         try { 
     		GCMRegistrar.unregister(this);
@@ -207,6 +209,27 @@ public class MainActivity extends Activity implements OnClickListener {
 		i = new Intent(context, PostojeceIgreActivity.class);
 		i.putExtra("googleservice_num", reg_number);
 		startActivity(i);
+    }
+    
+    protected void onStart()
+    {
+    	Log.i("LIFECYCLE","MainActivity - onStart");
+    	super.onStart();
+    }
+    protected void onStop()
+    {
+    	Log.i("LIFECYCLE","MainActivity - onStop");
+    	super.onStop();
+    }
+    protected void onPause()
+    {
+    	Log.i("LIFECYCLE","MainActivity - onPause");
+    	super.onPause();
+    }
+    protected void onResume()
+    {
+    	Log.i("LIFECYCLE","MainActivity - onResume");
+    	super.onResume();
     }
 
 }

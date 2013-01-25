@@ -40,6 +40,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 
 	public void onCreate(Bundle savedInstanceState) {
 		
+		Log.i("LIFECYCLE","PostojeceActivity - onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postojece_igre);
         
@@ -229,6 +230,30 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 		startActivity(i);
     }
     
-	
+    protected void onDestroy()
+    {
+    	Log.i("LIFECYCLE","PostojeceActivity - onDestroy");
+    	super.onDestroy();
+    }
+    protected void onStart()
+    {
+    	Log.i("LIFECYCLE","PostojeceActivity - onStart");
+    	super.onStart();
+    }
+    protected void onStop()
+    {
+    	Log.i("LIFECYCLE","PostojeceActivity - onStop");
+    	super.onStop();
+    }
+    protected void onPause()
+    {
+    	Log.i("LIFECYCLE","PostojeceActivity - onPause");
+    	super.onPause();
+    }
+    protected void onResume()
+    {
+    	Log.i("LIFECYCLE","PostojeceActivity - onResume");
+    	super.onResume();
+    }
     
 }
