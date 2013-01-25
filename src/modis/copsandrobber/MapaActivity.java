@@ -170,7 +170,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
 		
-		igra.setStatus(0);			
+		//igra.setStatus(0);			
 		aktPancir = false;
 		aktOmetac = false;
 		
@@ -1292,7 +1292,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			if(timer != null)
 			{
 				timer.cancel();
-				timer = null;
+				//timer = null;
+				Log.i("TIMER", "uso u petlju");
 			}
 		}    	
     };
@@ -1351,19 +1352,19 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     }
     public void RestartGame()
     {
-    	if(timer != null){
-    		Log.i("TIMER", "uso u petlju");
+    	/*if(timer != null){
+    		
     		timer.cancel();
     		timer = null;
-    	}
+    	}*/
     	timerIgre.setText("0:00:00");
-    	
-    	igra.setStatus(0);
-    	for(int i=0;i<igra.getObjekti().size();i++)
+    	String imeIgre = igra.getIme();
+    	//igra.setStatus(0);
+    	/*for(int i=0;i<igra.getObjekti().size();i++)
     		igra.getObjekatAt(i).setStatus(0);
     	for(int i=0;i<igra.getPredmeti().size();i++)
-    		igra.getPredmetAt(i).setStatus(0);
-    	ucitajProximityPodesavanja();
+    		igra.getPredmetAt(i).setStatus(0);*/
+    	//ucitajProximityPodesavanja();
     	if(igrac.getUloga().equals("Policajac")){
     		dugmePucaj.setEnabled(false);
 			aktPancir = false;
@@ -1373,7 +1374,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		dugmePancir.setEnabled(false);
     		dugmeOmetac.setEnabled(false);
     	}
-    	transThread = Executors.newSingleThreadExecutor();
+    	
+    	/*transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
 			public void run() {
@@ -1383,6 +1385,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
     }
 }
