@@ -140,8 +140,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	dugmeOmetac.setEnabled(false);
         	dugmePancir.setEnabled(false);
+        	ulov = 0;
         }
-        ulov = 0;
+        
 		
 		//Inicijalizacija mape
 		initMapView();
@@ -840,47 +841,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								((JedanOverlay)mapOverlays.get(i)).setBitmap(vratiKodXSlicice("luk i strela"));
 							}
 					}*/
-					Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-					if(location != null)
-					{
-						double longitude = location.getLongitude();
-						double latitude = location.getLatitude();
 					
-						igrac.setLatitude(Double.toString(latitude));
-						igrac.setLongitude(Double.toString(longitude));
-						Objekat o;
-						float [] results = new float[1];
-						float res;
-						if(igrac.getUloga().equals("Policajac"))
-						{
-							o=igra.getObjekatByName("policija");
-						}
-						else
-						{
-							o=igra.getObjekatByName("sigurna kuca");
-						}
-						
-						if(o != null)
-						{
-							Location.distanceBetween(latitude, longitude, Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), results);
-							res = results[0];
-							if(res <= 30)
-							{
-								transThread = Executors.newSingleThreadExecutor();
-								transThread.submit(new Runnable() {
-									
-									public void run() {
-										try{
-											CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), "true");
-										} catch (Exception e){
-											e.printStackTrace();
-										}
-									}
-								});
-							}
-							
-						}
-					}
+					proveriPozicijuIgraca();
+					
 					ucitajProximityPodesavanja();
 										
 				} catch (Exception e){
@@ -888,6 +851,51 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				}
 			}
 		});
+	}
+	
+	public void proveriPozicijuIgraca()
+	{
+		Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if(location != null)
+		{
+			double longitude = location.getLongitude();
+			double latitude = location.getLatitude();
+		
+			igrac.setLatitude(Double.toString(latitude));
+			igrac.setLongitude(Double.toString(longitude));
+			Objekat o;
+			float [] results = new float[1];
+			float res;
+			if(igrac.getUloga().equals("Policajac"))
+			{
+				o=igra.getObjekatByName("policija");
+			}
+			else
+			{
+				o=igra.getObjekatByName("sigurna kuca");
+			}
+			
+			if(o != null)
+			{
+				Location.distanceBetween(latitude, longitude, Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), results);
+				res = results[0];
+				if(res <= 30)
+				{
+					transThread = Executors.newSingleThreadExecutor();
+					transThread.submit(new Runnable() {
+						
+						public void run() {
+							try{
+								CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), "true");
+							} catch (Exception e){
+								e.printStackTrace();
+							}
+						}
+					});
+				}
+				
+			}
+		}
 	}
 	
 	public int vratiKodSlicice(String ime)
@@ -1292,8 +1300,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			if(timer != null)
 			{
 				timer.cancel();
+				Log.i("TIMER", "timer je stao");
 				//timer = null;
-				Log.i("TIMER", "uso u petlju");
 			}
 		}    	
     };
@@ -1352,39 +1360,61 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     }
     public void RestartGame()
     {
-    	/*if(timer != null){
-    		
-    		timer.cancel();
-    		timer = null;
-    	}*/
-    	timerIgre.setText("0:00:00");
-    	String imeIgre = igra.getIme();
-    	//igra.setStatus(0);
-    	/*for(int i=0;i<igra.getObjekti().size();i++)
-    		igra.getObjekatAt(i).setStatus(0);
-    	for(int i=0;i<igra.getPredmeti().size();i++)
-    		igra.getPredmetAt(i).setStatus(0);*/
-    	//ucitajProximityPodesavanja();
-    	if(igrac.getUloga().equals("Policajac")){
+
+    	timerIgre.setText("0:00:00");   
+    	igra.setStatus(0);
+    	
+    	if(igrac.getUloga().equals("Policajac"))
+    	{
     		dugmePucaj.setEnabled(false);
-			aktPancir = false;
-			aktOmetac = false;
+    		brojMetaka = 3;
+			
     	}
-    	else{
+    	else
+    	{
     		dugmePancir.setEnabled(false);
     		dugmeOmetac.setEnabled(false);
+    		ulov = 0;
+    		
+    		for(int i=0;i<igra.getPredmeti().size();i++)
+    		{
+    			if(igra.getPredmetAt(i).getStatus() == 1)
+    			{
+    				igra.getPredmetAt(i).setStatus(0);
+    				String ime = igra.getPredmetAt(i).getIme();
+    				for(int j=0;j<mapOverlays.size();j++)    				
+    					if(mapOverlays.get(j) instanceof JedanOverlay)
+    						if(((JedanOverlay)mapOverlays.get(j)).getIme().equals(ime))    						
+    							((JedanOverlay)mapOverlays.get(j)).setBitmap(vratiKodSlicice(ime));   						
+    			}
+    		}
     	}
-    	
-    	/*transThread = Executors.newSingleThreadExecutor();
-		transThread.submit(new Runnable() {
-			
-			public void run() {
-				try{
-					CopsandrobberHTTPHelper.RestartGame(igra.getId(), igrac.getRegId());
-				} catch (Exception e){
-					e.printStackTrace();
-				}
+    	aktPancir = false;
+		aktOmetac = false;
+		
+		brojac10s = 1;
+		brojac6min = 1;
+		
+		for(int i=0;i<igra.getObjekti().size();i++)
+		{
+			if(igra.getObjekatAt(i).getStatus() == 1)
+			{
+				igra.getObjekatAt(i).setStatus(0);
+				String ime = igra.getObjekatAt(i).getIme();
+				for(int j=0;j<mapOverlays.size();j++)				
+					if(mapOverlays.get(j) instanceof JedanOverlay)
+						if(((JedanOverlay)mapOverlays.get(j)).getIme().equals(ime))						
+							((JedanOverlay)mapOverlays.get(j)).setBitmap(vratiKodSlicice(ime));
 			}
-		});*/
+		}
+		
+		for(int i=0;i<igra.getIgraci().size(); i++)	    
+	    	if(!mapOverlays.contains(igra.getIgracAt(i).getOverlay()))	    	
+	    		mapOverlays.remove(igra.getIgracAt(i).getOverlay());
+		
+		igra.setIgraci(new ArrayList<Igrac>());		
+		proveriPozicijuIgraca();		
+		ucitajProximityPodesavanja();
+		
     }
 }
