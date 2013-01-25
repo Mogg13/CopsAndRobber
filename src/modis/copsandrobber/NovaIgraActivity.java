@@ -198,7 +198,12 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     
     protected void onDestroy()
     {
-    	Log.i("LIFECYCLE","NovaActivity - onDestroy");
+    	Log.i("LIFECYCLE","NovaActivity - onDestroy");    	
+    	try{
+    		transThread.shutdown();   
+    	}catch (Exception e) { 
+            Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+        } 
     	super.onDestroy();
     }
     protected void onStart()
