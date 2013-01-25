@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	Context context;
 	Intent intentMyService;
 	//ComponentName service;
-	BroadcastReceiver receiver;
+	//BroadcastReceiver receiver;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -145,7 +145,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		GCMRegistrar.unregister(this);
             GCMRegistrar.onDestroy(this); 
            // stopService(intentMyService);
-            unregisterReceiver(receiver);
+           // unregisterReceiver(receiver);
         } catch (Exception e) { 
             Log.e("UnRegister Receiver Error", "> " + e.getMessage()); 
         } 

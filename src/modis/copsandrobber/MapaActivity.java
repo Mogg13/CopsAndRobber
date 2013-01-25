@@ -13,7 +13,6 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -330,6 +329,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		 
         try { 
            //stopService(intentMyService);
+        	lm.removeUpdates(myLocationListener);
         	if(timer != null)
         	{
         		timer.cancel();
@@ -1409,7 +1409,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		}
 		
 		for(int i=0;i<igra.getIgraci().size(); i++)	    
-	    	if(!mapOverlays.contains(igra.getIgracAt(i).getOverlay()))	    	
+	    	if(mapOverlays.contains(igra.getIgracAt(i).getOverlay()))	    	
 	    		mapOverlays.remove(igra.getIgracAt(i).getOverlay());
 		
 		igra.setIgraci(new ArrayList<Igrac>());		

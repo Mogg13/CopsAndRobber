@@ -291,7 +291,7 @@ public class CopsandrobberHTTPHelper {
 		}
 	}
 
-	public static void RestartGame(int id, String regId) {
+	/*public static void RestartGame(int id, String regId) {
 		// TODO Auto-generated method stub
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(url + "/reset_game.php");			
@@ -305,6 +305,6 @@ public class CopsandrobberHTTPHelper {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 }
