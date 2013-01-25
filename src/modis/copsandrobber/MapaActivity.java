@@ -13,7 +13,6 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -332,6 +331,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		Log.i("LIFECYCLE","MAPAActivity - onDestroy");
         try { 
            //stopService(intentMyService);
+        	lm.removeUpdates(myLocationListener);
         	if(timer != null)
         	{
         		timer.cancel();
@@ -1362,16 +1362,18 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     }
     public void RestartGame()
     {
-    	timerIgre.setText("0:00:00");
-    	
+
+    	timerIgre.setText("0:00:00");   
     	igra.setStatus(0);
     	
-    	if(igrac.getUloga().equals("Policajac")){
+    	if(igrac.getUloga().equals("Policajac"))
+    	{
     		dugmePucaj.setEnabled(false);
     		brojMetaka = 3;
 			
     	}
-    	else{
+    	else
+    	{
     		dugmePancir.setEnabled(false);
     		dugmeOmetac.setEnabled(false);
     		ulov = 0;    		
@@ -1384,14 +1386,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     			{
     				igra.getPredmetAt(i).setStatus(0);
     				String ime = igra.getPredmetAt(i).getIme();
-    				for(int j=0;j<mapOverlays.size();j++)
-    				{
+    				for(int j=0;j<mapOverlays.size();j++)    				
     					if(mapOverlays.get(j) instanceof JedanOverlay)
-    						if(((JedanOverlay)mapOverlays.get(j)).getIme().equals(ime))
-    						{
-    							((JedanOverlay)mapOverlays.get(j)).setBitmap(vratiKodSlicice(ime));
-    						}
-    				}
+    						if(((JedanOverlay)mapOverlays.get(j)).getIme().equals(ime))    						
+    							((JedanOverlay)mapOverlays.get(j)).setBitmap(vratiKodSlicice(ime));   						
     			}
     		}
     	}
@@ -1401,52 +1399,28 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		brojac10s = 1;
 		brojac6min = 1;
 		
-		
 		for(int i=0;i<igra.getObjekti().size();i++)
 		{
 			if(igra.getObjekatAt(i).getStatus() == 1)
 			{
 				igra.getObjekatAt(i).setStatus(0);
 				String ime = igra.getObjekatAt(i).getIme();
-				for(int j=0;j<mapOverlays.size();j++)
-				{
+				for(int j=0;j<mapOverlays.size();j++)				
 					if(mapOverlays.get(j) instanceof JedanOverlay)
-						if(((JedanOverlay)mapOverlays.get(j)).getIme().equals(ime))
-						{
+						if(((JedanOverlay)mapOverlays.get(j)).getIme().equals(ime))						
 							((JedanOverlay)mapOverlays.get(j)).setBitmap(vratiKodSlicice(ime));
-						}
-				}
 			}
 		}
 		
-		for(int i=0;i<igra.getIgraci().size(); i++)
-	    {
-	    	if(mapOverlays.contains(igra.getIgracAt(i).getOverlay()))
-	    	{
+
+		for(int i=0;i<igra.getIgraci().size(); i++)	    
+	    	if(mapOverlays.contains(igra.getIgracAt(i).getOverlay()))	    	
 	    		mapOverlays.remove(igra.getIgracAt(i).getOverlay());
-	    	}
-	    }
 		
-		igra.setIgraci(new ArrayList<Igrac>());
-		
-		proveriPozicijuIgraca();
-		
+		igra.setIgraci(new ArrayList<Igrac>());		
+		proveriPozicijuIgraca();		
 		ucitajProximityPodesavanja();
 		
-		
-    	/*
-    	transThread = Executors.newSingleThreadExecutor();
-		transThread.submit(new Runnable() {
-			
-			public void run() {
-				try{
-					CopsandrobberHTTPHelper.RestartGame(igra.getId(), igrac.getRegId());
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-		});
-		*/
     }
     
     protected void onStart()
