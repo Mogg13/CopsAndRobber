@@ -1162,22 +1162,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 											napraviDialogZaOpljackanObjekat(igra.getObjekatAt(i).getIme());
 										}
 									});
-									
-									
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 									PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-									lm.removeProximityAlert(pendingIntent);	
-									
-									/*int br = 0;
-									boolean pom2 = true;
-									while( br < igra.getObjekti().size() && pom2 == true)
-									{										
-										if(igra.getObjekatAt(br).getStatus() != 1)
-											pom2 = false;
-										br++;
-									}										
-									if(pom2)
-										CopsandrobberHTTPHelper.EndGame(igra.getId(), "Lopov je pobednik");		*/									
+									lm.removeProximityAlert(pendingIntent);									
 								}
 							}
 						}
@@ -1321,13 +1308,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 			Bundle b = arg1.getExtras();
 			String poruka = b.getString("poruka");
-			napraviDialogZaKrajIgre(poruka);
 			if(timer != null)
 			{
 				timer.cancel();
 				Log.i("TIMER", "timer je stao");
-				//timer = null;
+				timer = null;
 			}
+			napraviDialogZaKrajIgre(poruka);
+
 		}    	
     };
     public void napraviDialogZaKrajIgre(String poruka)
