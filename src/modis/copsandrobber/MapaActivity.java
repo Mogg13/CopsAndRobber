@@ -290,8 +290,26 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		 
 		Log.i("LIFECYCLE","MAPAActivity - onDestroy");
         try { 
-           //stopService(intentMyService);
+        	UnregisterAllProxAlerts();
+        	
+        	this.unregisterReceiver(mMessageReceiverGameStart);
+        	this.unregisterReceiver(mMessageReceiverGameEnd);
+        	this.unregisterReceiver(proxReciever);
+        	if(igrac.getUloga().equals("Policajac"))
+        	{
+        		this.unregisterReceiver(mMessageReceiverPancirAktiviran);
+        		this.unregisterReceiver(mMessageReceiverOmetacAktiviran);
+        		this.unregisterReceiver(mMessageReceiverObjectRobbed);
+        		this.unregisterReceiver(mMessageProxReceiverPolicija);
+        	}
+        	else
+        	{
+        		this.unregisterReceiver(mMessageProxReceiverObjekat);
+        		this.unregisterReceiver(mMessageProxReceiverPredmet);
+        	}
+        	
         	lm.removeUpdates(myLocationListener);
+        	
         	if(timer != null)
         	{
         		Log.i("TIMER","Gasim tajmer.");
@@ -299,8 +317,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         		timer = null;
         		
         	}
-        	transThread.shutdown();
-        	this.unregisterReceiver(proxReciever);
+
+        	transThread.shutdown();    
         	
         } catch (Exception e) { 
             Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
@@ -312,7 +330,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	{
 		if(igrac.getUloga().equals("Policajac"))
 		{
-			for(int i = 0;i<igra.getObjekti().size();i++)
+			Objekat o = igra.getObjekatByName("policija");
+			Intent intent = new Intent("modis.copsandrobber.proximity_intent");
+			intent.putExtra("tip", "policija");
+			PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			lm.addProximityAlert(Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), 30, -1, proximityIntent);
+			/*for(int i = 0;i<igra.getObjekti().size();i++)
 			{
 				if ( igra.getObjekatAt(i).getIme().equals("policija"))
 				{
@@ -321,11 +344,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 30, -1, proximityIntent);
 				}
-			}
+			}*/
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPolicija, new IntentFilter("u_policiji"));
 			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
-		    registerReceiver(new ProximityIntentReceiver(), filter);
+		    registerReceiver(proxReciever, filter);
 		}
 		else
 		{
@@ -436,7 +459,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						{
 							igra.editIgrac(idIgraca, latIgraca, lonIgraca);
 						}
-						
 						
 				    }
 				    
@@ -660,9 +682,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		radar[3].setImageResource(drawable.button_onoff_indicator_on);
     		radar[4].setImageResource(drawable.button_onoff_indicator_on);
     	}
-    	
-    	
-    	
     	Log.i("DISTANCE", Float.toString(distance));
     }
     
@@ -1146,9 +1165,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 									
 									
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
-									LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 									PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-									locManager.removeProximityAlert(pendingIntent);	
+									lm.removeProximityAlert(pendingIntent);	
 									
 									/*int br = 0;
 									boolean pom2 = true;
@@ -1211,9 +1229,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							});
 							
 							Intent in = new Intent("modis.copsandrobber.proximity_intent_p"+Integer.toString(i));
-							LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 						    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-						    locManager.removeProximityAlert(pendingIntent);
+						    lm.removeProximityAlert(pendingIntent);
 							
 						} catch (Exception e){
 							e.printStackTrace();
@@ -1262,6 +1279,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			Bundle b = arg1.getExtras();
 			int idObj = b.getInt("idObjekta");
 			Objekat o = igra.getObjekatWithId(idObj);
+			o.setStatus(1);
 			for(int k=0;k<mapOverlays.size();k++)
 			{
 				if(mapOverlays.get(k) instanceof JedanOverlay)
@@ -1375,7 +1393,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	{
     		dugmePucaj.setEnabled(false);
     		brojMetaka = 3;
-			
+    		brmetaka.setText("3");			
     	}
     	else
     	{
@@ -1416,7 +1434,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							((JedanOverlay)mapOverlays.get(j)).setBitmap(vratiKodSlicice(ime));
 			}
 		}
-		
 
 		for(int i=0;i<igra.getIgraci().size(); i++)	    
 	    	if(mapOverlays.contains(igra.getIgracAt(i).getOverlay()))	    	
@@ -1427,7 +1444,41 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		ucitajProximityPodesavanja();
 		
     }
-    
+    public void UnregisterAllProxAlerts()
+    {
+    	if(igrac.getUloga().equals("Policajac"))
+    	{
+			Intent in = new Intent("modis.copsandrobber.proximity_intent");
+			PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
+			lm.removeProximityAlert(proximityIntent);
+    	}
+    	else
+    	{
+    		String imeIntenta;
+			for(int i = 0;i<igra.getObjekti().size();i++)
+			{
+				if ( !igra.getObjekatAt(i).getIme().equals("policija") && igra.getObjekatAt(i).getStatus() == 0)
+				{
+					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
+					Intent intent = new Intent(imeIntenta);
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);					
+					lm.removeProximityAlert(proximityIntent);
+				}
+				
+			}
+			for(int i = 0;i<igra.getPredmeti().size();i++)
+			{
+				if(igra.getPredmetAt(i).getStatus() == 0)
+				{
+					imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
+					Intent intent = new Intent(imeIntenta);
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);				
+					lm.removeProximityAlert(proximityIntent);
+				}
+			}
+    	}
+    	
+    }
     protected void onStart()
     {
     	Log.i("LIFECYCLE","MAPAActivity - onStart");

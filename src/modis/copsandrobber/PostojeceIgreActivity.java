@@ -233,6 +233,11 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
     protected void onDestroy()
     {
     	Log.i("LIFECYCLE","PostojeceActivity - onDestroy");
+    	try{
+    		transThread.shutdown();   
+    	}catch (Exception e) { 
+            Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+        } 
     	super.onDestroy();
     }
     protected void onStart()
