@@ -20,8 +20,8 @@ import org.json.JSONObject;
 
 public class CopsandrobberHTTPHelper {
 	
-	private static final String url = "http://uhvatilopova.site11.com";
-	//private static final String url = "http://copsandrobber.freetzi.com/";
+	//private static final String url = "http://uhvatilopova.site11.com";
+	private static final String url = "http://copsandrobber.freetzi.com/";
 
 	
 	public static String napraviNovuIgru(Igrac igrac, String imeIgre)
