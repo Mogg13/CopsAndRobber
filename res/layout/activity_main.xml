@@ -2,38 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background"
+    android:gravity="center"
+    android:background="@drawable/main_background"
     android:orientation="vertical" >
-
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25dip"
-            android:text="@string/ime_aplikacije"
-            android:textSize="24.5sp" />
 
         <Button
             android:id="@+id/dugme_nova_igra"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dip"
-            android:text="@string/labela_nova_igra" />
+            android:layout_width="300dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/button_new" />
         
         <Button
             android:id="@+id/dugme_postojece_igre"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dip"
-            android:text="@string/labela_postojece_igre" />
+            android:layout_width="300dp"
+            android:layout_height="88dp"
+            android:background="@drawable/button_join_game" />
 
         <Button
      	    android:id="@+id/dugme_exit"
-     	    android:layout_width="fill_parent"
-     	    android:layout_height="wrap_content"
-     	    android:layout_gravity="bottom"
-     	    android:text="@string/labela_exit" />
+     	    android:layout_width="300dp"
+     	    android:layout_height="88dp"
+     	    android:background="@drawable/button_exit" />
 
 </LinearLayout>

@@ -89,6 +89,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		proxReciever = new ProximityIntentReceiver();
 		context = this;
 		guiThread = new Handler();
+		transThread = Executors.newSingleThreadExecutor();
 		try {
 			Intent mapIntent = getIntent();
 			Bundle mapBundle = mapIntent.getExtras();
@@ -175,48 +176,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		aktPancir = false;
 		aktOmetac = false;
 		
-		timer = new CountDownTimer(7200000, 1000) {
-
-  		     public void onTick(long millisUntilFinished) {   		    	 
-  				  		    	 
-  		    	 millisUntilFinished = millisUntilFinished/1000;
-  				 int sati = (int) (millisUntilFinished/3600);
-  				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
-  				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
-  				  
-  				 String minString = "";
-  				 String secString = "";
-  				 if(minuti<10)
-  					 minString = "0" + Integer.toString(minuti);
-  				 else
-  					 minString = Integer.toString(minuti);
-  				 if(sekundi<10)
-  					 secString = "0" + Integer.toString(sekundi);
-  				 else
-  					 secString = Integer.toString(sekundi);
-  				  
-  		         timerIgre.setText( sati + ":" + minString + ":" + secString);
-  		         
-  		         if(brojac10s >= 10)	//10s refresh - 20
-  		         {
-  		        	 brojac10s = 0;
-  		        	 if(brojac6min >= 36) // 6min refresh
-  		        	 {
-  		        		 ucitajPromeneSestMin();   		        		 
-  		        		 brojac6min = 0;
-  		        	 }
-  		        	 else
-  		        	 {
-  		        		ucitajPromeneDeset();   		        		
-  		        	 }
-  		        	 brojac6min++;
-  		         }   		         
-  		         brojac10s++;   		         
-  		     }
-  			public void onFinish() {
-  		    	 napraviDialogZaKrajIgre("Vreme je isteklo!");
-  		     }
-  		  };
+		
 	}
 	
 	private class GPSListener implements LocationListener{
@@ -251,7 +211,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	{
     		case R.id.dugmePancir: 
     			Log.i("TAG", "Aktiviran pancir");    			
-    			transThread = Executors.newSingleThreadExecutor();
+    			//transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable() {
     				
     				public void run() {
@@ -266,7 +226,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     			break;    			
     		case R.id.dugmeOmetac: 
     			Log.i("TAG", "Aktiviran ometac");
-    			transThread = Executors.newSingleThreadExecutor();
+    			//transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable() {
     				
     				public void run() {
@@ -313,7 +273,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	
 	private void UhvacenLopov() {
 
-		transThread = Executors.newSingleThreadExecutor();
+		//transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
 			public void run() {
@@ -334,10 +294,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	lm.removeUpdates(myLocationListener);
         	if(timer != null)
         	{
+        		Log.i("TIMER","Gasim tajmer.");
         		timer.cancel();
         		timer = null;
+        		
         	}
+        	transThread.shutdown();
         	this.unregisterReceiver(proxReciever);
+        	
         } catch (Exception e) { 
             Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
         } 
@@ -405,8 +369,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	}
 	
 	private void ucitajPodatke() {
-		guiThread = new Handler();
-		transThread = Executors.newSingleThreadExecutor();
+		//guiThread = new Handler();
+		//transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
 			public void run() {
@@ -433,8 +397,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     private void ucitajPromeneDeset() {
 		// TODO Auto-generated method stub
     	
-    	guiThread = new Handler();
-		transThread = Executors.newSingleThreadExecutor();
+    	//guiThread = new Handler();
+		//transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
 			public void run() {
@@ -507,8 +471,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     }
     
     private void ucitajPromeneSestMin() {
-    	guiThread = new Handler();
-		transThread = Executors.newSingleThreadExecutor();
+    	//guiThread = new Handler();
+		//transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
 			public void run() {
@@ -705,7 +669,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     public void inicijalizujIgrace()//poziva se kad dodje start signal
     {
     	//guiThread = new Handler();
-		transThread = Executors.newSingleThreadExecutor();
+		//transThread = Executors.newSingleThreadExecutor();
 		transThread.submit(new Runnable() {
 			
 			public void run() {
@@ -883,7 +847,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				res = results[0];
 				if(res <= 30)
 				{
-					transThread = Executors.newSingleThreadExecutor();
+					//transThread = Executors.newSingleThreadExecutor();
 					transThread.submit(new Runnable() {
 						
 						public void run() {
@@ -1039,7 +1003,48 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	inicijalizujIgrace();
         	
-        	timer.start();
+        	timer = new CountDownTimer(7200000, 1000) {
+
+     		     public void onTick(long millisUntilFinished) {   		    	 
+     				  		    	 
+     		    	 millisUntilFinished = millisUntilFinished/1000;
+     				 int sati = (int) (millisUntilFinished/3600);
+     				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
+     				 int sekundi = (int) ((millisUntilFinished % 3600) % 60);
+     				  
+     				 String minString = "";
+     				 String secString = "";
+     				 if(minuti<10)
+     					 minString = "0" + Integer.toString(minuti);
+     				 else
+     					 minString = Integer.toString(minuti);
+     				 if(sekundi<10)
+     					 secString = "0" + Integer.toString(sekundi);
+     				 else
+     					 secString = Integer.toString(sekundi);
+     				  
+     		         timerIgre.setText( sati + ":" + minString + ":" + secString);
+     		         
+     		         if(brojac10s >= 10)	//10s refresh - 20
+     		         {
+     		        	 brojac10s = 0;
+     		        	 if(brojac6min >= 36) // 6min refresh
+     		        	 {
+     		        		 ucitajPromeneSestMin();   		        		 
+     		        		 brojac6min = 0;
+     		        	 }
+     		        	 else
+     		        	 {
+     		        		ucitajPromeneDeset();   		        		
+     		        	 }
+     		        	 brojac6min++;
+     		         }   		         
+     		         brojac10s++;   		         
+     		     }
+     			public void onFinish() {
+     		    	 napraviDialogZaKrajIgre("Vreme je isteklo!");
+     		     }
+     		  }.start();
    		  
    		  igra.setStatus(1);
    		  if(igrac.getUloga().equals("Policajac"))
@@ -1060,7 +1065,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 			else
 			{
-				transThread = Executors.newSingleThreadExecutor();
+				//transThread = Executors.newSingleThreadExecutor();
 				transThread.submit(new Runnable() {
 					
 					public void run() {
@@ -1083,8 +1088,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 			pomocniIntent = arg1; 
 			Log.i("PROXI", "pre sigurna kuca");
-			guiThread = new Handler();
-			transThread = Executors.newSingleThreadExecutor();
+			//guiThread = new Handler();
+			//transThread = Executors.newSingleThreadExecutor();
 			transThread.submit(new Runnable() {
 				
 				public void run() {
@@ -1173,8 +1178,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			if(igra.getStatus() == 1)
 			{
 				pomocniIntent = arg1; 
-				guiThread = new Handler();
-				transThread = Executors.newSingleThreadExecutor();
+				//guiThread = new Handler();
+				//transThread = Executors.newSingleThreadExecutor();
 				transThread.submit(new Runnable() {
 					
 					public void run() {

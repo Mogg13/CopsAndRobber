@@ -2,17 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:gravity="center"
+    android:background="@drawable/existing_background"
     android:orientation="vertical" >
-    
-    <TextView
-            android:id="@+id/postojece_igre_naslov"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25dip"
-            android:text="@string/naslov_odaberite_igru"
-            android:textSize="24.5sp" />
     
     <TextView
             android:id="@+id/textView2"
@@ -43,9 +35,9 @@
 
 	<Button
             android:id="@+id/dugme_pridruzi_se"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/labela_pridruzi_se" />
+            android:layout_width="300dp"
+     		android:layout_height="88dp"
+        	android:background="@drawable/button_join" />
     
 
 </LinearLayout>

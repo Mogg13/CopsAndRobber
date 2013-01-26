@@ -21,6 +21,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
@@ -38,7 +40,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	//BroadcastReceiver receiver;
 	
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		Log.i("LIFECYCLE","MainActivity - onCreate");
+		
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+		setContentView(R.layout.activity_main);
 	    LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiver, new IntentFilter("googleservice_registration"));
 	
@@ -55,9 +64,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		reg_number = regId;
 		this.context = this;
-		
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 		
 		View novaIgraDugme = findViewById(R.id.dugme_nova_igra);
         novaIgraDugme.setOnClickListener(this);
