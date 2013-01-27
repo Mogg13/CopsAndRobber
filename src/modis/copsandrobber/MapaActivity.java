@@ -76,7 +76,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private boolean aktPancir;
 	private boolean aktOmetac;
 	private CountDownTimer timer;
-	private Runnable tenSecTask= new Runnable() {
+
+	private String pomString;
+	private final Runnable tenSecTask= new Runnable() {
+
         public void run() 
         { 
         	Log.i("SCHEDULE",Integer.toString(brojac6min));
@@ -372,7 +375,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    			if(daljina <= 30)
 	    			{
 	    				Log.i("TAG", "Lopov upucan");
-	    				UhvacenLopov();
+	    				zavrsiIgru("Lopov je uhvacen!");
 	    			}	
     			}
     			brojMetaka--;
@@ -392,14 +395,15 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	}
 	}
 	
-	private void UhvacenLopov() {
+	private void zavrsiIgru(String poruka) {
 
 		//transThread = Executors.newSingleThreadExecutor();
+		pomString = poruka;
 		transThread.submit(new Runnable() {
 			
 			public void run() {
 				try{
-					CopsandrobberHTTPHelper.EndGame(igra.getId(), "uhvacen lopov");
+					CopsandrobberHTTPHelper.EndGame(igra.getId(), pomString);
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -410,6 +414,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	protected void onDestroy() { 
 		 
 		Log.i("LIFECYCLE","MAPAActivity - onDestroy");
+
 		if(timer != null)
     	{
     		Log.i("TIMER","Gasim tajmer.");
@@ -436,6 +441,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	this.unregisterReceiver(mMessageReceiverGameStart);
         	this.unregisterReceiver(mMessageReceiverGameEnd);
         	
+
         	if(igrac.getUloga().equals("Policajac"))
         	{
         		this.unregisterReceiver(mMessageReceiverPancirAktiviran);
@@ -448,9 +454,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         		this.unregisterReceiver(mMessageProxReceiverObjekat);
         		this.unregisterReceiver(mMessageProxReceiverPredmet);
         	}
-        	
-        	
-        	
+
         	/*if(timer != null)
         	{
         		Log.i("TIMER","Gasim tajmer.");
@@ -468,6 +472,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	}
         	periodicThread.shutdownNow();
         	*/
+
         	this.unregisterReceiver(proxReciever);
         	
         } catch (Exception e) { 
@@ -1168,6 +1173,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     private BroadcastReceiver mMessageReceiverGameStart = new BroadcastReceiver() {
 
         public void onReceive(Context context, Intent intent) {
+
         	if(igra.getStatus() == 0)
         	{
 	        	inicijalizujIgrace();
@@ -1256,6 +1262,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	   		  if(igrac.getUloga().equals("Policajac"))
 	   			  dugmePucaj.setEnabled(true);
 	        }
+
         }
     };
     private BroadcastReceiver mMessageProxReceiverPolicija = new BroadcastReceiver() {
@@ -1350,22 +1357,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 											//napraviDialogZaOpljackanObjekat(igra.getObjekatAt(i).getIme());
 										}
 									});
-									
-									
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 									PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-									lm.removeProximityAlert(pendingIntent);	
-									
-									/*int br = 0;
-									boolean pom2 = true;
-									while( br < igra.getObjekti().size() && pom2 == true)
-									{										
-										if(igra.getObjekatAt(br).getStatus() != 1)
-											pom2 = false;
-										br++;
-									}										
-									if(pom2)
-										CopsandrobberHTTPHelper.EndGame(igra.getId(), "Lopov je pobednik");		*/									
+									lm.removeProximityAlert(pendingIntent);									
 								}
 							}
 						}
@@ -1512,6 +1506,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 			//transThread.shutdown();
         	tenSecTaskHandle.cancel(true);
+
         	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()));
         	tenSecTaskHandle = null;
         	//periodicThread.shutdownNow();
@@ -1519,9 +1514,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			{
 				timer.cancel();
 				Log.i("TIMER", "timer je stao");
+
 				//timer = null;
 			}
 			napraviDialogZaKrajIgre(poruka);
+
 		}    	
     };
     public void napraviDialogZaKrajIgre(String poruka)
@@ -1549,7 +1546,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
     }
+
     /*public void napraviDialogZaOpljackanObjekat(String imeObjekta)
+
     {
     	String msg = "";
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
