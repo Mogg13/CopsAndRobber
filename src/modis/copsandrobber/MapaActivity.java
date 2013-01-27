@@ -423,7 +423,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		
     	}
 
-    	transThread.shutdown();
+    	transThread.shutdownNow();
     	if(tenSecTaskHandle != null)
     	{
         	tenSecTaskHandle.cancel(true);
@@ -1508,7 +1508,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	tenSecTaskHandle.cancel(true);
 
         	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()));
-        	tenSecTaskHandle = null;
+        	//tenSecTaskHandle = null;
         	//periodicThread.shutdownNow();
 			if(timer != null)
 			{
