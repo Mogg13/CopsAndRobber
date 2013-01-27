@@ -255,7 +255,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		     public void onTick(long millisUntilFinished) {   		    	 
 				 
 		    	 //Log.i("TICK", "napravio tik " + Integer.toString(brojac10s));
-		    	 //brojac10s++;
+
 		    	 millisUntilFinished = millisUntilFinished/1000;
 				 int sati = (int) (millisUntilFinished/3600);
 				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
@@ -273,30 +273,13 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					 secString = Integer.toString(sekundi);
 				  
 		         timerIgre.setText( sati + ":" + minString + ":" + secString);
-		         /*
-		         if(brojac10s >= 10)	//10s refresh - 20
-		         {
-		        	 brojac10s = 0;
-		        	 if(brojac6min >= 36) // 6min refresh
-		        	 {
-		        		 ucitajPromeneSestMin();   		        		 
-		        		 brojac6min = 0;
-		        	 }
-		        	 else
-		        	 {
-		        		ucitajPromeneDeset();   		        		
-		        	 }
-		        	 brojac6min++;
-		         }   		         
-		         brojac10s++;  
-		         */ 		         
+		         
 		     }
 			public void onFinish() {
 		    	 napraviDialogZaKrajIgre("Vreme je isteklo!");
 		     }
 		  };
-		
-		//igra.setStatus(0);			
+					
 		aktPancir = false;
 		aktOmetac = false;
 		
@@ -419,28 +402,25 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	{
     		Log.i("TIMER","Gasim tajmer.");
     		timer.cancel();
-    		timer = null;
-    		
+    		timer = null;    		
     	}
 
-    	transThread.shutdownNow();
+    	//transThread.shutdownNow();
     	if(tenSecTaskHandle != null)
     	{
         	tenSecTaskHandle.cancel(true);
         	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()));
         	tenSecTaskHandle = null;
     	}
-    	periodicThread.shutdownNow();
+    	//periodicThread.shutdownNow();
     	
     	UnregisterAllProxAlerts();
     	lm.removeUpdates(myLocationListener);
     	
-        try { 
-        	
+        try {         	
         	
         	this.unregisterReceiver(mMessageReceiverGameStart);
-        	this.unregisterReceiver(mMessageReceiverGameEnd);
-        	
+        	this.unregisterReceiver(mMessageReceiverGameEnd);        	
 
         	if(igrac.getUloga().equals("Policajac"))
         	{
@@ -455,24 +435,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         		this.unregisterReceiver(mMessageProxReceiverPredmet);
         	}
 
-        	/*if(timer != null)
-        	{
-        		Log.i("TIMER","Gasim tajmer.");
-        		timer.cancel();
-        		timer = null;
-        		
-        	}
-
-        	transThread.shutdown();
-        	if(tenSecTaskHandle != null)
-        	{
-	        	tenSecTaskHandle.cancel(true);
-	        	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()));
-	        	tenSecTaskHandle = null;
-        	}
-        	periodicThread.shutdownNow();
-        	*/
-
         	this.unregisterReceiver(proxReciever);
         	
         } catch (Exception e) { 
@@ -486,20 +448,13 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		if(igrac.getUloga().equals("Policajac"))
 		{
 			Objekat o = igra.getObjekatByName("policija");
+			
 			Intent intent = new Intent("modis.copsandrobber.proximity_intent");
 			intent.putExtra("tip", "policija");
 			PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			
 			lm.addProximityAlert(Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), 30, -1, proximityIntent);
-			/*for(int i = 0;i<igra.getObjekti().size();i++)
-			{
-				if ( igra.getObjekatAt(i).getIme().equals("policija"))
-				{
-					Intent intent = new Intent("modis.copsandrobber.proximity_intent");
-					intent.putExtra("tip", "policija");
-					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 30, -1, proximityIntent);
-				}
-			}*/
+			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPolicija, new IntentFilter("u_policiji"));
 			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
@@ -563,73 +518,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				//notify();				
 			}
 		});
-		/*
-		try {
-			guiThread.wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+
 	}
 	
-	/*
-    private void ucitajPromeneDeset() {
-		// TODO Auto-generated method stub
-    	
-    	//guiThread = new Handler();
-		//transThread = Executors.newSingleThreadExecutor();
-		transThread.submit(new Runnable() {
-			
-			public void run() {
-				
-				try{
-					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
-					JSONObject jsonObject = new JSONObject(info);
-					JSONObject obj;
-					String str = info;
-					Log.i("JSONNN_"+igrac.getUloga(), str);
-				    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
-				    for(int i = 0; i<jsonArray.length(); i++){
-				    	obj = (JSONObject) jsonArray.get(i);
-						final String idIgraca = obj.getString("idIgraca");
-						final String latIgraca = obj.getString("latitude");
-						final String lonIgraca = obj.getString("longitude");
-						//igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
-						if(igrac.getUloga().equals("Policajac"))
-						{
-							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
-							{
-								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
-							}
-							else
-							{
-								guiPromeneDeset(idIgraca, latIgraca, lonIgraca);
-								
-							}
-						}
-						else
-						{
-							igra.editIgrac(idIgraca, latIgraca, lonIgraca);
-						}
-						
-				    }
-				    
-				    guiThread.post(new Runnable() {
-						
-						public void run() {
-							updateRadar();
-						}
-					});
-				    
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-				
-			}
-		});
-	
-	}
-    */
     private void guiPromeneDeset(final String idIgraca, final String latIgraca, final String lonIgraca)
     {
     	guiThread.post(new Runnable() {
@@ -643,65 +534,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 		});
     }
-    /*
-    private void ucitajPromeneSestMin() {
-    	//guiThread = new Handler();
-		//transThread = Executors.newSingleThreadExecutor();
-		transThread.submit(new Runnable() {
-			
-			public void run() {
-				
-				try{
-					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
-					JSONObject jsonObject = new JSONObject(info);
-					String str = info;
-					Log.i("JSONNN_"+igrac.getUloga(), str);
-					
-				    final JSONArray jsonArray = jsonObject.getJSONArray("igraci");
-				    guiPromeneSestMin(jsonArray);
-				    /*for(int i = 0; i<jsonArray.length(); i++){
-				    	obj = (JSONObject) jsonArray.get(i);
-						String idIgraca = obj.getString("idIgraca");
-						String latIgraca = obj.getString("latitude");
-						String lonIgraca = obj.getString("longitude");
-						if(aktOmetac && igrac.getUloga().equals("Policajac"))
-						{
-							aktOmetac = false;
-							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
-							{
-								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
-							}
-							else
-							{
-								igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
-							}
-						}
-						else
-						{
-							igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
-						}
-				    }
-				    
-				    for(int i=0;i<igra.getIgraci().size(); i++)
-				    {
-				    	if(!mapOverlays.contains(igra.getIgracAt(i).getOverlay()))
-				    	{
-				    		mapOverlays.add(igra.getIgracAt(i).getOverlay());
-				    	}
-				    }
-										
-					updateRadar();
-					--//
-					
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-				
-			}
-		});
-		
-	}
-    */
+    
     private void guiPromeneSestMin(final JSONArray jsonArray)
     {
     	guiThread.post(new Runnable() {
@@ -971,15 +804,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						}
 
 					}
-					// kod za menjanje overlay ikonice
-					/*for(int i=0;i<mapOverlays.size();i++)
-					{
-						if(mapOverlays.get(i) instanceof JedanOverlay)
-							if(((JedanOverlay)mapOverlays.get(i)).getIme().equals("luk i strela"))
-							{
-								((JedanOverlay)mapOverlays.get(i)).setBitmap(vratiKodXSlicice("luk i strela"));
-							}
-					}*/
 					
 					proveriPozicijuIgraca();
 					
@@ -1178,90 +1002,15 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	if(igra.getStatus() == 0)
         	{
 	        	inicijalizujIgrace();
-	        	
-	        	//periodicThread = Executors.newSingleThreadScheduledExecutor();
-	        	/*tenSecTask = new Runnable() {
-	                public void run() 
-	                { 
-	                	Log.i("SCHEDULE",Integer.toString(brojac6min));
-	                	if(brojac6min != 36)
-	                	{
-	    	            	try{
-	    						final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
-	    						JSONObject jsonObject = new JSONObject(info);
-	    						JSONObject obj;
-	    						String str = info;
-	    						Log.i("JSONNN_"+igrac.getUloga(), str);
-	    					    JSONArray jsonArray = jsonObject.getJSONArray("igraci");
-	    					    for(int i = 0; i<jsonArray.length(); i++){
-	    					    	obj = (JSONObject) jsonArray.get(i);
-	    							final String idIgraca = obj.getString("idIgraca");
-	    							final String latIgraca = obj.getString("latitude");
-	    							final String lonIgraca = obj.getString("longitude");
-	    							//igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
-	    							if(igrac.getUloga().equals("Policajac"))
-	    							{
-	    								if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
-	    								{
-	    									igra.editIgrac(idIgraca, latIgraca, lonIgraca);
-	    								}
-	    								else
-	    								{
-	    									guiPromeneDeset(idIgraca, latIgraca, lonIgraca);
-	    									
-	    								}
-	    							}
-	    							else
-	    							{
-	    								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
-	    							}
-	    							
-	    					    }
-	    					    
-	    					    guiThread.post(new Runnable() {
-	    							
-	    							public void run() {
-	    								updateRadar();
-	    							}
-	    						});
-	    					    
-	    					} catch (Exception e){
-	    						e.printStackTrace();
-	    					}
-	                	}
-	                	else
-	                	{
-	                		brojac6min = 0;
-	                		try{
-	        					final String info = CopsandrobberHTTPHelper.getLocationUpdate(igra.getId(), igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude());
-	        					JSONObject jsonObject = new JSONObject(info);
-	        					String str = info;
-	        					Log.i("JSONNN_"+igrac.getUloga(), str);
-	        					
-	        				    final JSONArray jsonArray = jsonObject.getJSONArray("igraci");
-	        				    guiPromeneSestMin(jsonArray);
-	        				    
-	        					
-	        				} catch (Exception e){
-	        					e.printStackTrace();
-	        				}
-	                	}
-	                	brojac6min++;
-	                }
-	            };
-	        	*/
+	        		        	
 	        	tenSecTaskHandle = periodicThread.scheduleAtFixedRate(tenSecTask, 10, 10, TimeUnit.SECONDS);
-	        	/*periodicThread.schedule(new Runnable() {
-	                public void run() { 
-	                	tenSecTaskHandle.cancel(true); 
-	                }
-	            }, 2 * 60 * 60, TimeUnit.SECONDS);*/
-	        	
+	        		        	
 	        	timer.start();
 	   		  
-	   		  igra.setStatus(1);
-	   		  if(igrac.getUloga().equals("Policajac"))
-	   			  dugmePucaj.setEnabled(true);
+	   		  	igra.setStatus(1);
+	   		  	
+	   		  	if(igrac.getUloga().equals("Policajac"))
+	   		  		dugmePucaj.setEnabled(true);
 	        }
 
         }
@@ -1423,37 +1172,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 		}
     	
-    };
- 
-    public static void napraviDialogZaObjekat(Objekat obj, String uloga)
-    {
-    	String msg = "";
-    	//List<String> list = new ArrayList<String>();
-    	if(!obj.getIme().equals("sigurna kuca") && !obj.getIme().equals("policija"))
-    	{
-	    	msg = "Vrednost objekta: " + obj.getCena() +"\n";
-	    	if( uloga.equals("Lopov"))    		
-	    	{
-	        	msg += "Potrebni predmeti:" +"\n";
-	        	for (int i=0; i<obj.getPredmeti().size(); i++)
-	        	{
-	        		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
-	        	}
-	    	}
-    	}
-    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-		alertDialogBuilder.setTitle(obj.getIme());
-		alertDialogBuilder
-			.setMessage(msg)
-			.setCancelable(false)
-			.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog,int id) {
-					dialog.cancel();
-				}
-			  });
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-    }
+    };   
     private BroadcastReceiver mMessageReceiverObjectRobbed = new BroadcastReceiver() {
 
 		public void onReceive(Context arg0, Intent arg1) {
@@ -1497,10 +1216,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			aktOmetac = true;
 		}    	
     };
-
     private BroadcastReceiver mMessageReceiverGameEnd = new BroadcastReceiver() {
-
-		public void onReceive(Context arg0, Intent arg1) {			
+		
+    	public void onReceive(Context arg0, Intent arg1) {			
 
 			Bundle b = arg1.getExtras();
 			String poruka = b.getString("poruka");
@@ -1522,6 +1240,36 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 		}    	
     };
+    
+    public static void napraviDialogZaObjekat(Objekat obj, String uloga)
+    {
+    	String msg = "";
+    	//List<String> list = new ArrayList<String>();
+    	if(!obj.getIme().equals("sigurna kuca") && !obj.getIme().equals("policija"))
+    	{
+	    	msg = "Vrednost objekta: " + obj.getCena() +"\n";
+	    	if( uloga.equals("Lopov"))    		
+	    	{
+	        	msg += "Potrebni predmeti:" +"\n";
+	        	for (int i=0; i<obj.getPredmeti().size(); i++)
+	        	{
+	        		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
+	        	}
+	    	}
+    	}
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle(obj.getIme());
+		alertDialogBuilder
+			.setMessage(msg)
+			.setCancelable(false)
+			.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.cancel();
+				}
+			  });
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+    }
     public void napraviDialogZaKrajIgre(String poruka)
     {
     	String msg = poruka + "\n\n";
