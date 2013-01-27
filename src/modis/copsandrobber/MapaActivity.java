@@ -254,8 +254,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 		     public void onTick(long millisUntilFinished) {   		    	 
 				 
-		    	 Log.i("TICK", "napravio tik " + Integer.toString(brojac10s));
-		    	 brojac10s++;
+		    	 //Log.i("TICK", "napravio tik " + Integer.toString(brojac10s));
+		    	 //brojac10s++;
 		    	 millisUntilFinished = millisUntilFinished/1000;
 				 int sati = (int) (millisUntilFinished/3600);
 				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
@@ -715,9 +715,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						String idIgraca = obj.getString("idIgraca");
 						String latIgraca = obj.getString("latitude");
 						String lonIgraca = obj.getString("longitude");
-						if(aktOmetac && igrac.getUloga().equals("Policajac"))
+						if(aktOmetac)
 						{
-							aktOmetac = false;
+							
 							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
 							{
 								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
@@ -732,6 +732,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							igra.editIgracWithOverlay(idIgraca, latIgraca, lonIgraca);
 						}
 				    }
+					aktOmetac = false;
 				    
 					//dodavanje overleja
 				    for(int i=0;i<igra.getIgraci().size(); i++)
@@ -1524,19 +1525,19 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     public void napraviDialogZaKrajIgre(String poruka)
     {
     	String msg = poruka + "\n\n";
-    	msg += "Ukoliko zelite ponovo da igrade idite na svoja pocetna mesta! \n";
+    	msg += "Ukoliko zelite ponovo da igrate idite na svoja pocetna mesta! \n";
     	msg += "Za izlazak iz igre pritisnite exit";
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 		alertDialogBuilder.setTitle("Kraj igre!");
 		alertDialogBuilder
 			.setMessage(msg)
 			.setCancelable(false)
-			.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+			/*.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					RestartGame();
 					dialog.cancel();	
 				}
-			  })
+			  })*/
 			.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					MapaActivity.this.finish();

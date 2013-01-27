@@ -112,7 +112,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
     			igra = (String) spinner.getItemAtPosition(pozicijaIgre);
     			uloga = (String) spinnerPL.getItemAtPosition(pozicijaUloge);
     			
-    			ExecutorService transThread = Executors.newSingleThreadExecutor();
+    			//transThread = Executors.newSingleThreadExecutor();
 				transThread.submit(new Runnable(){
 					public void run(){
 						guiProgressDialog(true);
