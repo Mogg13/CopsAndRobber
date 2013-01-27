@@ -162,6 +162,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    		mMessageReceiverGameStart, new IntentFilter("start_the_game"));
 	    LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiverGameEnd, new IntentFilter("end_the_game"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiverObjectRobbed, new IntentFilter("object_robbed_intent"));
+        
 		igra = new Igra();
 		proxReciever = new ProximityIntentReceiver();
 		context = this;
@@ -201,8 +204,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	brojMetaka = 3;
 			brmetaka = (TextView) findViewById(R.id.metkoviText);
-        	LocalBroadcastManager.getInstance(this).registerReceiver(
-    	    		mMessageReceiverObjectRobbed, new IntentFilter("object_robbed_intent"));
+        	
     	    LocalBroadcastManager.getInstance(this).registerReceiver(
     	    		mMessageReceiverOmetacAktiviran, new IntentFilter("ometac_aktiviran"));
     	    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -220,9 +222,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	dugmeOmetac.setEnabled(false);
         	dugmePancir.setEnabled(false);
         	ulov = 0;
-        }
+        }      
+
         
-		
 		//Inicijalizacija mape
 		initMapView();
 		initMyLocation();
@@ -1086,11 +1088,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								}
 								if(pom)
 								{
-									igra.getObjekatAt(i).setStatus(1);
-									ulov += Integer.parseInt(igra.getObjekatAt(i).getCena());									
+									//igra.getObjekatAt(i).setStatus(1);
+									//ulov += Integer.parseInt(igra.getObjekatAt(i).getCena());									
 									CopsandrobberHTTPHelper.ObjectRobbed(igra.getId(), igra.getObjekatAt(i).getId(), igrac.getRegId());
 									
-									guiThread.post(new Runnable() {
+									/*guiThread.post(new Runnable() {
 										
 										public void run() {
 											TextView u = (TextView) findViewById(R.id.ulovText);
@@ -1106,7 +1108,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 											}
 											//napraviDialogZaOpljackanObjekat(igra.getObjekatAt(i).getIme());
 										}
-									});
+									});*/
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 									PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 									lm.removeProximityAlert(pendingIntent);									
@@ -1189,6 +1191,13 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					{
 						((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(o.getIme()));
 					}
+			}
+			
+			if(igrac.getUloga().equals("Lopov"))
+			{
+				ulov += Integer.parseInt(o.getCena());
+				TextView u = (TextView) findViewById(R.id.ulovText);
+				u.setText(Integer.toString(ulov)+" din.");
 			}
 			//napraviDialogZaOpljackanObjekat(o.getIme());
 		}
