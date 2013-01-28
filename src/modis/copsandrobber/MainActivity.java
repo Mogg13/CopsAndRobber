@@ -237,6 +237,7 @@ public class MainActivity extends Activity implements OnClickListener {
     	Log.i("LIFECYCLE","MainActivity - onResume");
     	super.onResume();
     }
+    
 
 }
 

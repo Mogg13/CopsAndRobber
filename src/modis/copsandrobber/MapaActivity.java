@@ -361,8 +361,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    			if(daljina <= 30 && !upucan)
 	    			{
 	    				Log.i("TAG", "Lopov upucan");
-	    				zavrsiIgru("Lopov je uhvacen!");
 	    				upucan = true;
+	    				zavrsiIgru("Lopov je uhvacen!");
+	    				
 	    			}	
     			}
     			brojMetaka--;
@@ -1442,6 +1443,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	}
     	
     }
+    /*
     protected void onStart()
     {
     	Log.i("LIFECYCLE","MAPAActivity - onStart");
@@ -1462,4 +1464,5 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	Log.i("LIFECYCLE","MAPAActivity - onResume");
     	super.onResume();
     }
+    */
 }
