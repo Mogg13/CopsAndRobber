@@ -360,9 +360,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    			}
 	    			if(daljina <= 30 && !upucan)
 	    			{
-	    				Log.i("TAG", "Lopov upucan");
-	    				zavrsiIgru("Lopov je uhvacen!");
 	    				upucan = true;
+	    				Log.i("TAG", "Lopov upucan");
+	    				zavrsiIgru("Lopov je uhvacen!");	    				
 	    			}	
     			}
     			brojMetaka--;
@@ -1442,6 +1442,39 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	}
     	
     }
+    protected void onRestart()
+    {
+    	super.onStart();
+    	Log.i("LIFECYCLE","MAPAActivity - onRestart");
+    	if(igrac.getUloga().equals("Policajac"))
+		{
+			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
+		    registerReceiver(proxReciever, filter);
+		}
+		else
+		{
+			String imeIntenta;
+			for(int i = 0;i<igra.getObjekti().size();i++)
+			{
+				if ( !igra.getObjekatAt(i).getIme().equals("policija"))
+				{
+					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
+										
+					IntentFilter filter = new IntentFilter(imeIntenta);  
+				    registerReceiver(proxReciever, filter);
+				}
+				
+			}
+			for(int i = 0;i<igra.getPredmeti().size();i++)
+			{
+				imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
+								
+				IntentFilter filter = new IntentFilter(imeIntenta);  
+			    registerReceiver(proxReciever, filter);
+			}
+			
+		}
+    }
     protected void onStart()
     {
     	Log.i("LIFECYCLE","MAPAActivity - onStart");
@@ -1455,6 +1488,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     protected void onPause()
     {
     	Log.i("LIFECYCLE","MAPAActivity - onPause");
+    	try{
+    		
+    		this.unregisterReceiver(proxReciever);    	
+	    } catch (Exception e) { 
+	        Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+	    } 
     	super.onPause();
     }
     protected void onResume()
