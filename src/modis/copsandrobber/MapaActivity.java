@@ -411,7 +411,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	if(tenSecTaskHandle != null)
     	{
         	tenSecTaskHandle.cancel(true);
-        	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()));
+        	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()) + " iz onDestroy");
         	tenSecTaskHandle = null;
     	}
     	//periodicThread.shutdownNow();
@@ -1199,7 +1199,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				TextView u = (TextView) findViewById(R.id.ulovText);
 				u.setText(Integer.toString(ulov)+" din.");
 			}
-			//napraviDialogZaOpljackanObjekat(o.getIme());
+			napraviDialogZaOpljackanObjekat(o.getIme());
 		}
     	
     };
@@ -1233,9 +1233,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			String poruka = b.getString("poruka");
 			
 			//transThread.shutdown();
-        	tenSecTaskHandle.cancel(true);
-
-        	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()));
+			if(tenSecTaskHandle != null)
+	    	{
+	        	tenSecTaskHandle.cancel(true);
+	        	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()) + " iz GameEnd");
+	        	tenSecTaskHandle = null;
+	    	}
         	//tenSecTaskHandle = null;
         	//periodicThread.shutdownNow();
 			if(timer != null)
@@ -1305,7 +1308,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			alertDialog.show();
     }
 
-    /*public void napraviDialogZaOpljackanObjekat(String imeObjekta)
+    public void napraviDialogZaOpljackanObjekat(String imeObjekta)
 
     {
     	String msg = "";
@@ -1333,7 +1336,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			  });			
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
-    }*/
+    }
     public void RestartGame()
     {
 
