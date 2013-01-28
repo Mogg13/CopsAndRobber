@@ -76,6 +76,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private boolean aktPancir;
 	private boolean aktOmetac;
 	private CountDownTimer timer;
+	private boolean upucan;
 
 	private String pomString;
 	private final Runnable tenSecTask= new Runnable() {
@@ -284,7 +285,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					
 		aktPancir = false;
 		aktOmetac = false;
-		
+		upucan = false;
 		
 	}
 	
@@ -357,10 +358,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getLopov().getLatitude()), Double.parseDouble(igra.getLopov().getLongitude()), results);
 	    				daljina = (int) results[0];
 	    			}
-	    			if(daljina <= 30)
+	    			if(daljina <= 30 && !upucan)
 	    			{
 	    				Log.i("TAG", "Lopov upucan");
 	    				zavrsiIgru("Lopov je uhvacen!");
+	    				upucan = true;
 	    			}	
     			}
     			brojMetaka--;
@@ -453,7 +455,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 			Intent intent = new Intent("modis.copsandrobber.proximity_intent");
 			intent.putExtra("tip", "policija");
-			PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			lm.addProximityAlert(Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), 30, -1, proximityIntent);
 			
@@ -473,7 +475,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					Intent intent = new Intent(imeIntenta);
 					intent.putExtra("tip", "objekat");
 					intent.putExtra("vrednost", i);
-					PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 					
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
 					
@@ -488,7 +490,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				Intent intent = new Intent(imeIntenta);
 				intent.putExtra("tip", "predmet");
 				intent.putExtra("vrednost", i);
-				PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+				PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
 				
@@ -1110,7 +1112,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 										}
 									});*/
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
-									PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
+									PendingIntent pendingIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 									lm.removeProximityAlert(pendingIntent);									
 								}
 							}
@@ -1163,7 +1165,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							});
 							
 							Intent in = new Intent("modis.copsandrobber.proximity_intent_p"+Integer.toString(i));
-						    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
+						    PendingIntent pendingIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 						    lm.removeProximityAlert(pendingIntent);
 							
 						} catch (Exception e){
@@ -1199,7 +1201,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				TextView u = (TextView) findViewById(R.id.ulovText);
 				u.setText(Integer.toString(ulov)+" din.");
 			}
-			//napraviDialogZaOpljackanObjekat(o.getIme());
+			napraviDialogZaOpljackanObjekat(o.getIme());
 		}
     	
     };
@@ -1305,7 +1307,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			alertDialog.show();
     }
 
-    /*public void napraviDialogZaOpljackanObjekat(String imeObjekta)
+    public void napraviDialogZaOpljackanObjekat(String imeObjekta)
 
     {
     	String msg = "";
@@ -1333,7 +1335,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			  });			
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
-    }*/
+    }
     public void RestartGame()
     {
 
@@ -1369,6 +1371,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	}
     	aktPancir = false;
 		aktOmetac = false;
+		upucan = false;
 		
 		brojac10s = 1;
 		brojac6min = 1;
@@ -1406,7 +1409,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	if(igrac.getUloga().equals("Policajac"))
     	{
 			Intent in = new Intent("modis.copsandrobber.proximity_intent");
-			PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
+			PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 			lm.removeProximityAlert(proximityIntent);
     	}
     	else
@@ -1418,7 +1421,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
 					Intent intent = new Intent(imeIntenta);
-					PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);					
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);					
 					lm.removeProximityAlert(proximityIntent);
 				}
 				
@@ -1429,7 +1432,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
 					Intent intent = new Intent(imeIntenta);
-					PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);				
+					PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);				
 					lm.removeProximityAlert(proximityIntent);
 				}
 			}
