@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		}
     		break;
     	case R.id.dugme_exit:
-    		GCMRegistrar.unregister(this);
+    		//GCMRegistrar.unregister(this);
     		finish();
     		break;
     	}	
@@ -151,11 +151,13 @@ public class MainActivity extends Activity implements OnClickListener {
  
         try { 
     		GCMRegistrar.unregister(this);
-            GCMRegistrar.onDestroy(this); 
+            //GCMRegistrar.onDestroy(this); 
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
            // stopService(intentMyService);
            // unregisterReceiver(receiver);
         } catch (Exception e) { 
-            Log.e("UnRegister Receiver Error", "> " + e.getMessage()); 
+            //Log.e("UnRegister Receiver Error", "> " + e.getMessage()); 
+        	e.printStackTrace();
         } 
         super.onDestroy(); 
     } 
