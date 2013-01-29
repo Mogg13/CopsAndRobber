@@ -232,6 +232,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 		i.putExtra("lon", igrac.getLongitude());
 		i.putExtra("reg_id", igrac.getRegId());
 		startActivity(i);
+		finish();
     }
     
     protected void onDestroy()

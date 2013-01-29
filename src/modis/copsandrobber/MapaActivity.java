@@ -28,8 +28,10 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -756,7 +758,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					projection = map.getProjection();
 				    mapOverlays.add(new OkvirMape(igra));
 				    
-				    String imeObj, latObj, lonObj, cenaObj;
+				    String imeObj, latObj, lonObj;
+				    int cenaObj;
 
 				    JSONObject obj;
 				    JSONArray jsonArray = jsonObject.getJSONArray("predmeti");
@@ -785,7 +788,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						imeObj = obj.getString("naziv");
 						latObj = obj.getString("latitude");
 						lonObj = obj.getString("longitude");
-						cenaObj = obj.getString("cena");
+						cenaObj = obj.getInt("cena");
 						id = obj.getInt("id");
 						jArrayUslov = obj.getJSONArray("uslovi");
 						for(int j = 0; j<jArrayUslov.length(); j++)
@@ -1201,7 +1204,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 			if(igrac.getUloga().equals("Lopov"))
 			{
-				ulov += Integer.parseInt(o.getCena());
+				ulov += o.getCena();
 				TextView u = (TextView) findViewById(R.id.ulovText);
 				u.setText(Integer.toString(ulov)+" din.");
 			}
@@ -1508,6 +1511,30 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 		}
     }
+    
+    public void onBackPressed() {
+    	Intent setIntent = new Intent(Intent.ACTION_MAIN);
+		setIntent.addCategory(Intent.CATEGORY_HOME);    	   
+		startActivity(setIntent);   
+        // Do extra stuff here
+    }
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+		getMenuInflater().inflate(R.menu.map, menu);
+		return true;
+	}
+    
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.map_exit:
+        	//Intent i = new Intent(context, MainActivity.class);
+        	//startActivity(i);
+        	finish();
+          break;
+        }
+        return true;
+      }
     /*
 
     protected void onStart()

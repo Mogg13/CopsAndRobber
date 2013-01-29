@@ -106,6 +106,7 @@ public final class R {
         public static final int ime_nove_igre_edit=0x7f090012;
         public static final int kreiraj_igru_dugme=0x7f090015;
         public static final int mapView=0x7f09000d;
+        public static final int map_exit=0x7f09001a;
         public static final int menu_settings=0x7f090019;
         public static final int metkoviText=0x7f09000f;
         public static final int radarLabel=0x7f090003;
@@ -132,6 +133,7 @@ public final class R {
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
+        public static final int map=0x7f080001;
     }
     public static final class string {
         public static final int app_name=0x7f050001;

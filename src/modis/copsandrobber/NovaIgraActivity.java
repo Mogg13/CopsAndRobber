@@ -180,6 +180,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				i.putExtra("reg_id", igrac.getRegId());
         			startActivity(i);
     				Toast.makeText(context, "Kreirana igra: " + ime , Toast.LENGTH_SHORT).show();
+    				finish();
     			}
 			}
 		});

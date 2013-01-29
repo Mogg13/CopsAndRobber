@@ -9,14 +9,14 @@ public class Objekat {
 	private List<Predmet> predmeti;
 	private int id;	
 	private int status;
-	private String cena;
+	private int cena;
 
 	public Objekat()
 	{		
 	}
 
 	public Objekat(String ime, String latitude, String longitude,
-			List<Predmet> predmeti, int id, int status, String cena) {
+			List<Predmet> predmeti, int id, int status, int cena) {
 		super();
 		this.ime = ime;
 		this.latitude = latitude;
@@ -77,10 +77,10 @@ public class Objekat {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	public String getCena() {
+	public int getCena() {
 		return cena;
 	}
-	public void setCena(String cena) {
+	public void setCena(int cena) {
 		this.cena = cena;
 	}
 

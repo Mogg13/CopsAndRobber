@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -105,14 +106,30 @@ public class JedanOverlay extends Overlay{
 						int lonE6 = (int)(Double.parseDouble(lon)*1E6);
 						GeoPoint p = new GeoPoint(latE6, lonE6);
 						mapView.getProjection().toPixels(p, screenPts);
-						if(Math.abs(screenPts.x - (int)event.getX())<bmp.getWidth()/2 && Math.abs(screenPts.y - (int)event.getY()) < bmp.getHeight())
+						int x = Math.abs(screenPts.x - (int)event.getX());
+						int y = screenPts.y - (int)event.getY();
+						if(x < bmp.getWidth()/2 &&  y < bmp.getHeight() && y > 0)
 						{
-							//Toast.makeText(CopsAndRobberApplication.getContext(), "Overay", Toast.LENGTH_SHORT).show();
 							Log.i("TOUCH", objekat.getIme());
 							MapaActivity.napraviDialogZaObjekat(objekat, uloga);
 						}
 				//	}
 				//}
+			}
+			else
+			{
+				Point screenPts = new Point();				
+				int latE6 = (int)(Double.parseDouble(lat)*1E6);
+				int lonE6 = (int)(Double.parseDouble(lon)*1E6);
+				GeoPoint p = new GeoPoint(latE6, lonE6);
+				mapView.getProjection().toPixels(p, screenPts);
+				int x = Math.abs(screenPts.x - (int)event.getX());
+				int y = screenPts.y - (int)event.getY();
+				if(x < bmp.getWidth()/2 &&  y < bmp.getHeight() && y > 0)
+				{
+					Toast.makeText(CopsAndRobberApplication.getContext(), ime.toUpperCase(), Toast.LENGTH_SHORT).show();
+					
+				}
 			}
 		}
 		return false;
