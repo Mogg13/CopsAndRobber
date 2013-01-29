@@ -279,7 +279,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		         
 		     }
 			public void onFinish() {
-		    	 napraviDialogZaKrajIgre("Vreme je isteklo!");
+		    	 //napraviDialogZaKrajIgre("Vreme je isteklo!");
+				if(igrac.getUloga().equals("Lopov"))
+					zavrsiIgru("Vreme je isteklo!");
+				else
+					Toast.makeText(CopsAndRobberApplication.getContext(), "Please wait, the game will finish any moment!", Toast.LENGTH_SHORT).show();
 		     }
 		  };
 					
@@ -401,6 +405,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	protected void onDestroy() { 
 		 
 		Log.i("LIFECYCLE","MAPAActivity - onDestroy");
+		deregistracijaSaBaze();
 
 		if(timer != null)
     	{
@@ -438,8 +443,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageProxReceiverObjekat);
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageProxReceiverPredmet);
         	}
-
-        	//this.unregisterReceiver(proxReciever);
         	
         } catch (Exception e) { 
 
@@ -448,6 +451,21 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         super.onDestroy(); 
     } 
 	
+	private void deregistracijaSaBaze() {
+		// TODO Auto-generated method stub
+		transThread.submit(new Runnable() {
+			
+			public void run() {
+
+				try{
+					CopsandrobberHTTPHelper.unregiseterFromDatabse(igra.getId(), igrac.getRegId());
+				} catch (Exception e){
+					e.printStackTrace();
+				}			
+			}
+		});
+	}
+
 	private void ucitajProximityPodesavanja()
 	{
 		if(igrac.getUloga().equals("Policajac"))
