@@ -282,7 +282,7 @@ public class CopsandrobberHTTPHelper {
 		try {			
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
-			nameValuePairs.add(new BasicNameValuePair("idIgaca", regId));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
 			
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
 			httpClient.execute(httpPost);
@@ -291,14 +291,14 @@ public class CopsandrobberHTTPHelper {
 		}
 	}
 
-	public static void unregiseterFromDatabse(int id, String regId) {
+	public static void unregiseterFromDatabase(int id, String regId) {
 		// TODO Auto-generated method stub
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(url + "/unregister_player.php");			
 		try {			
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
-			nameValuePairs.add(new BasicNameValuePair("idIgaca", regId));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
 			
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
 			httpClient.execute(httpPost);

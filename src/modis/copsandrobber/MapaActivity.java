@@ -255,8 +255,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
 		
-		//timer = new CountDownTimer(7200000, 1000) {
-		timer = new CountDownTimer(300000, 1000) {
+		timer = new CountDownTimer(7200000, 1000) {
+
 		     public void onTick(long millisUntilFinished) {   		    	 
 				 
 		    	 //Log.i("TICK", "napravio tik " + Integer.toString(brojac10s));
@@ -460,7 +460,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			public void run() {
 
 				try{
-					CopsandrobberHTTPHelper.unregiseterFromDatabse(igra.getId(), igrac.getRegId());
+					CopsandrobberHTTPHelper.unregiseterFromDatabase(igra.getId(), igrac.getRegId());
 				} catch (Exception e){
 					e.printStackTrace();
 				}			
@@ -1364,6 +1364,30 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
     }
+    
+    public void napraviDialogZaExit()
+    {
+    	String msg = "Are you sure that you want to exit the game?";
+
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle("Exit the game?");
+		alertDialogBuilder
+			.setMessage(msg)
+			.setCancelable(false)
+			.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {	
+					MapaActivity.this.finish();
+				}
+			  })
+			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.cancel();
+				}
+			});
+			
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+    }
     public void RestartGame()
     {
 
@@ -1548,7 +1572,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         case R.id.map_exit:
         	//Intent i = new Intent(context, MainActivity.class);
         	//startActivity(i);
-        	finish();
+        	//finish();
+        	napraviDialogZaExit();
           break;
         }
         return true;
