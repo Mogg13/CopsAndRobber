@@ -1114,7 +1114,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 									});*/
 									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 									PendingIntent pendingIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-									lm.removeProximityAlert(pendingIntent);									
+									lm.removeProximityAlert(pendingIntent);	
+									pendingIntent.cancel();
 								}
 							}
 						}
@@ -1168,6 +1169,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							Intent in = new Intent("modis.copsandrobber.proximity_intent_p"+Integer.toString(i));
 						    PendingIntent pendingIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 						    lm.removeProximityAlert(pendingIntent);
+						    pendingIntent.cancel();
 							
 						} catch (Exception e){
 							e.printStackTrace();
@@ -1295,12 +1297,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		alertDialogBuilder
 			.setMessage(msg)
 			.setCancelable(false)
-			/*.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+			.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					RestartGame();
 					dialog.cancel();	
 				}
-			  })*/
+			  })
 			.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					MapaActivity.this.finish();
