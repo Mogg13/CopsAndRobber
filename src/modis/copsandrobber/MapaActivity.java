@@ -255,8 +255,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		progressDialog = new ProgressDialog(this);
 		ucitajPodatke();
 		
-		timer = new CountDownTimer(7200000, 1000) {
-
+		//timer = new CountDownTimer(7200000, 1000) {
+		timer = new CountDownTimer(300000, 1000) {
 		     public void onTick(long millisUntilFinished) {   		    	 
 				 
 		    	 //Log.i("TICK", "napravio tik " + Integer.toString(brojac10s));
