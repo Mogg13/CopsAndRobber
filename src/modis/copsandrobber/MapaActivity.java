@@ -442,7 +442,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	//this.unregisterReceiver(proxReciever);
         	
         } catch (Exception e) { 
-            //Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+
         	e.printStackTrace();
         } 
         super.onDestroy(); 
@@ -1112,10 +1112,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 											//napraviDialogZaOpljackanObjekat(igra.getObjekatAt(i).getIme());
 										}
 									});*/
-									Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
+									/*Intent in = new Intent("modis.copsandrobber.proximity_intent_o"+Integer.toString(i));
 									PendingIntent pendingIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-									lm.removeProximityAlert(pendingIntent);	
-									pendingIntent.cancel();
+									lm.removeProximityAlert(pendingIntent);				
+									pendingIntent.cancel();*/
+
 								}
 							}
 						}
@@ -1166,10 +1167,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 								}
 							});
 							
-							Intent in = new Intent("modis.copsandrobber.proximity_intent_p"+Integer.toString(i));
+							/*Intent in = new Intent("modis.copsandrobber.proximity_intent_p"+Integer.toString(i));
 						    PendingIntent pendingIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 						    lm.removeProximityAlert(pendingIntent);
-						    pendingIntent.cancel();
+						    pendingIntent.cancel();*/
 							
 						} catch (Exception e){
 							e.printStackTrace();
@@ -1407,7 +1408,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		
 		igra.setIgraci(new ArrayList<Igrac>());		
 		proveriPozicijuIgraca();		
-		ucitajProximityPodesavanja();
+		//ucitajProximityPodesavanja();
 		
     }
     public void UnregisterAllProxAlerts()
@@ -1446,8 +1447,36 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	
     }
 
+    /*protected void onRestart()
+    {
+    	super.onRestart();
+    	
+    }
+    protected void onStart()
+    {
+    	Log.i("LIFECYCLE","MAPAActivity - onStart");
+    	super.onStart();
+    }
+    protected void onStop()
+    {
+    	Log.i("LIFECYCLE","MAPAActivity - onStop");
+    	super.onStop();
+    }*/
+    protected void onPause()
+    {
+    	super.onPause();
+    	Log.i("LIFECYCLE","MAPAActivity - onPause");
+    	try{
+    		
+    		this.unregisterReceiver(proxReciever);    	
+	    } catch (Exception e) { 
+	        Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+	    } 
+    	
+    }
     protected void onResume()
     {
+    	Log.i("LIFECYCLE","MAPAActivity - onResume");
     	super.onResume();
     	Log.i("LIFECYCLE","MAPAActivity - onRestart");
     	if(igrac.getUloga().equals("Policajac"))
@@ -1479,18 +1508,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 		}
     }
-    protected void onPause()
-    {
-    	super.onPause();
-    	Log.i("LIFECYCLE","MAPAActivity - onPause");
-    	try{
-    		
-    		this.unregisterReceiver(proxReciever);    	
-	    } catch (Exception e) { 
-	        Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
-	    } 
-    	
-    }
     /*
 
     protected void onStart()
@@ -1510,4 +1527,5 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	super.onResume();
     }
     */
+
 }
