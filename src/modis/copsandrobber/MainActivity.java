@@ -209,6 +209,7 @@ public class MainActivity extends Activity implements OnClickListener {
     	i = new Intent(context, NovaIgraActivity.class);
     	i.putExtra("googleservice_num", reg_number);
     	startActivity(i);
+    	//finish();
     }
     
     public void startPostojeceActivity()
@@ -217,6 +218,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		i = new Intent(context, PostojeceIgreActivity.class);
 		i.putExtra("googleservice_num", reg_number);
 		startActivity(i);
+		//finish();
     }
     
     protected void onStart()
