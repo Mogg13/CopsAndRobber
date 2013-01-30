@@ -22,7 +22,7 @@
         <name>Banka1</name>
         <description>1</description>
         <Point>
-          <coordinates>21.892671585083008, 43.3186149597168,0</coordinates>
+          <coordinates>21.894725, 43.318156,0</coordinates>
         </Point>
     </Placemark>
 	
@@ -30,7 +30,7 @@
         <name>Banka2</name>
         <description>2</description>
         <Point>
-          <coordinates>21.8953914642334, 43.31394958496094,0</coordinates>
+          <coordinates>21.894548, 43.317454,0</coordinates>
         </Point>
     </Placemark>
 	
@@ -62,7 +62,7 @@
         <name>Luk i strela</name>
         <description>Predmet 1</description>
         <Point>
-          <coordinates>21.89479637145996,43.316932678222656,0</coordinates>
+          <coordinates>21.895725,43.321172,0</coordinates>
         </Point>
     </Placemark>
 	
@@ -70,7 +70,7 @@
         <name>Kljuc</name>
         <description>Predmet 2</description>
         <Point>
-          <coordinates>21.89741325378418,43.316776275634766,0</coordinates>
+          <coordinates>21.895266,43.320158,0</coordinates>
         </Point>
     </Placemark>
 	
@@ -78,7 +78,7 @@
         <name>Cekic</name>
         <description>Predmet 3</description>
         <Point>
-          <coordinates>21.891128540039063,43.3111572265625,0</coordinates>
+          <coordinates>21.895009,43.319268,0</coordinates>
         </Point>
     </Placemark>
 	
@@ -86,7 +86,7 @@
         <name>Alat</name>
         <description>Predmet 4</description>
         <Point>
-          <coordinates>21.89287567138672,43.312625885009766,0</coordinates>
+          <coordinates>21.891855,43.317758,0</coordinates>
         </Point>
     </Placemark>
 	
@@ -94,7 +94,7 @@
         <name>Lupa</name>
         <description>Predmet 5</description>
         <Point>
-          <coordinates>21.88938331604004,43.31840133666992,0</coordinates>
+          <coordinates>21.891887,43.318742,0</coordinates>
         </Point>
     </Placemark>
 	
@@ -102,7 +102,7 @@
         <name>Okular</name>
         <description>Predmet 6</description>
         <Point>
-          <coordinates>21.9020156860351566,43.31379318237305,0</coordinates>
+          <coordinates>21.893646,43.318488,0</coordinates>
         </Point>
     </Placemark>
 	
