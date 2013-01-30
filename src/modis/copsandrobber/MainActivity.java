@@ -185,6 +185,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		GCMRegistrar.unregister(this);
             //GCMRegistrar.onDestroy(this); 
             LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+            
            // stopService(intentMyService);
            // unregisterReceiver(receiver);
         } catch (Exception e) { 
