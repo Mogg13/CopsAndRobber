@@ -307,6 +307,23 @@ public class CopsandrobberHTTPHelper {
 		}
 	}
 
+	public static void UpdateRegistrationId(int id, String regId, String stariReg) {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url + "/unregister_registration_id.php");			
+		try {			
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
+			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
+			nameValuePairs.add(new BasicNameValuePair("StariIdIgraca", stariReg));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+			httpClient.execute(httpPost);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/*public static void RestartGame(int id, String regId) {
 		// TODO Auto-generated method stub
 		HttpClient httpClient = new DefaultHttpClient();

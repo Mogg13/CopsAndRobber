@@ -167,6 +167,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    		mMessageReceiverGameEnd, new IntentFilter("end_the_game"));
         LocalBroadcastManager.getInstance(this).registerReceiver(
 	    		mMessageReceiverObjectRobbed, new IntentFilter("object_robbed_intent"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+	    		mMessageReceiver, new IntentFilter("googleservice_registration"));
         
 		igra = new Igra();
 		proxReciever = new ProximityIntentReceiver();
@@ -431,7 +433,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         try {         	
         	
         	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverGameStart);
-        	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverGameEnd);        	
+        	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverGameEnd);        
+        	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver); 
 
         	if(igrac.getUloga().equals("Policajac"))
         	{
@@ -1279,7 +1282,31 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 		}    	
     };
-    
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+          
+        	pomocniIntent = intent;
+			transThread.submit(new Runnable() {
+				
+				public void run() {
+					try{
+						Bundle igraBundle = pomocniIntent.getExtras();
+						if(igraBundle != null)
+						{
+							String stariReg = igrac.getRegId();
+							igrac.setRegId(igraBundle.getString("googleservice_num"));
+							CopsandrobberHTTPHelper.UpdateRegistrationId(igra.getId(), igrac.getRegId(), stariReg);
+						}
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			
+        }
+    };
     public static void napraviDialogZaObjekat(Objekat obj, String uloga)
     {
     	String msg = "";
