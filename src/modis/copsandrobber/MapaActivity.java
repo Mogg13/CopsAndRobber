@@ -1529,7 +1529,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				if ( !igra.getObjekatAt(i).getIme().equals("policija") && igra.getObjekatAt(i).getStatus() == 0)
+				//if ( !igra.getObjekatAt(i).getIme().equals("policija") && igra.getObjekatAt(i).getStatus() == 0)
+				if(!igra.getObjekatAt(i).getIme().equals("policija"))
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
 					Intent intent = new Intent(imeIntenta);
@@ -1540,7 +1541,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
 			{
-				if(igra.getPredmetAt(i).getStatus() == 0)
+				//if(igra.getPredmetAt(i).getStatus() == 0)
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
 					Intent intent = new Intent(imeIntenta);
