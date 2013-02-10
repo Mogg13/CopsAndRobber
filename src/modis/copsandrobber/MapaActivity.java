@@ -1403,7 +1403,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	if(igrac.getUloga().equals("Policajac"))
     	{
     		msg += "Objekat " + imeObjekta;
-        	msg += " je opljckan!";        	
+        	msg += " je opljackan!";        	
     		alertDialogBuilder.setTitle("Dogodila se pljacka!");
     	}
     	else
