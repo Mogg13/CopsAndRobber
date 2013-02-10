@@ -291,14 +291,15 @@ public class CopsandrobberHTTPHelper {
 		}
 	}
 
-	public static void unregiseterFromDatabase(int id, String regId) {
+	public static void unregiseterFromDatabase(int id, String regId, String s) {
 		// TODO Auto-generated method stub
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(url + "/unregister_player.php");			
 		try {			
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
 			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
+			nameValuePairs.add(new BasicNameValuePair("odustajanje", s));
 			
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
 			httpClient.execute(httpPost);

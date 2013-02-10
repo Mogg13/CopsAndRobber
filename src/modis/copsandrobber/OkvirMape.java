@@ -26,15 +26,24 @@ class OkvirMape extends Overlay{
         Paint   mPaint = new Paint();
         mPaint.setDither(true);
         mPaint.setColor(Color.RED);
-        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(2);
 
-        nacrtajLiniju(igra.getLatitude1(), igra.getLongitude1(), igra.getLatitude2(), igra.getLongitude2(), canvas, mPaint, mapv);
+        GeoPoint gP1 = new GeoPoint((int)(Double.parseDouble(igra.getLatitude1())*1e6), (int)(Double.parseDouble(igra.getLongitude1())*1e6));
+        GeoPoint gP2 = new GeoPoint((int)(Double.parseDouble(igra.getLatitude4())*1e6), (int)(Double.parseDouble(igra.getLongitude4())*1e6));
+        Point screenPts1 = new Point();
+        mapv.getProjection().toPixels(gP1, screenPts1);
+        Point screenPts2 = new Point();
+        mapv.getProjection().toPixels(gP2, screenPts2);
+        
+        canvas.drawRect(screenPts1.x, screenPts1.y, screenPts2.x, screenPts2.y, mPaint);
+
+        /*nacrtajLiniju(igra.getLatitude1(), igra.getLongitude1(), igra.getLatitude2(), igra.getLongitude2(), canvas, mPaint, mapv);
         nacrtajLiniju(igra.getLatitude1(), igra.getLongitude1(), igra.getLatitude3(), igra.getLongitude3(), canvas, mPaint, mapv);
         nacrtajLiniju(igra.getLatitude4(), igra.getLongitude4(), igra.getLatitude2(), igra.getLongitude2(), canvas, mPaint, mapv);
-        nacrtajLiniju(igra.getLatitude4(), igra.getLongitude4(), igra.getLatitude3(), igra.getLongitude3(), canvas, mPaint, mapv);
+        nacrtajLiniju(igra.getLatitude4(), igra.getLongitude4(), igra.getLatitude3(), igra.getLongitude3(), canvas, mPaint, mapv);*/
     }
     
     public void nacrtajLiniju(String coordX1, String coordY1, String coordX2, String coordY2, Canvas canvas, Paint mPaint, MapView mapv)

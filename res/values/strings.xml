@@ -33,6 +33,6 @@
 	<string name="dugme_pucaj_label">Pucaj</string>
 	<string name="br_metaka_label">Br. metaka:</string>
 	<string name="metkovi_label">3</string>
-	<string name="ulov_label">0 din.</string>
+	<string name="ulov_label">0 $</string>
  
 </resources>

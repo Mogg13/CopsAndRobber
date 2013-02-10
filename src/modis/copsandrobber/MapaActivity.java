@@ -409,8 +409,16 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	protected void onDestroy() { 
 		 
 		Log.i("LIFECYCLE","MAPAActivity - onDestroy");
-		deregistracijaSaBaze();
-
+		
+		if(igra.getStatus() == 1 && igrac.getUloga().equals("Lopov"))
+		{
+			deregistracijaSaBaze("yes");
+			Log.i("ODUSTAJANJE", "DA");
+		}
+		else
+			deregistracijaSaBaze("no");
+			//zavrsiIgru("Lopov je napustio igru!");
+		
 		if(timer != null)
     	{
     		Log.i("TIMER","Gasim tajmer.");
@@ -456,14 +464,15 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         super.onDestroy(); 
     } 
 	
-	private void deregistracijaSaBaze() {
+	private void deregistracijaSaBaze(String s) {
 		// TODO Auto-generated method stub
+		pomString = s;
 		transThread.submit(new Runnable() {
 			
 			public void run() {
 
 				try{
-					CopsandrobberHTTPHelper.unregiseterFromDatabase(igra.getId(), igrac.getRegId());
+					CopsandrobberHTTPHelper.unregiseterFromDatabase(igra.getId(), igrac.getRegId(), pomString);
 				} catch (Exception e){
 					e.printStackTrace();
 				}			
@@ -1123,7 +1132,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 										
 										public void run() {
 											TextView u = (TextView) findViewById(R.id.ulovText);
-											u.setText(Integer.toString(ulov)+" din.");
+											u.setText(Integer.toString(ulov)+" $");
 											
 											for(int k=0;k<mapOverlays.size();k++)
 											{
@@ -1227,7 +1236,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			{
 				ulov += o.getCena();
 				TextView u = (TextView) findViewById(R.id.ulovText);
-				u.setText(Integer.toString(ulov)+" din.");
+				u.setText(Integer.toString(ulov)+" $");
 			}
 			napraviDialogZaOpljackanObjekat(o.getIme());
 		}
@@ -1261,7 +1270,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 			Bundle b = arg1.getExtras();
 			String poruka = b.getString("poruka");
-			
+			String odustajanje = b.getString("odustajanje");
 			//transThread.shutdown();
 			if(tenSecTaskHandle != null)
 	    	{
@@ -1278,9 +1287,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 				//timer = null;
 			}
-			napraviDialogZaKrajIgre(poruka);
+			if(odustajanje.equals("no"))
+				napraviDialogZaKrajIgre(poruka);
+			else
+				napraviDijalogZaOdustajanje(poruka);
 
-		}    	
+		}
+
+    	
     };
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 
@@ -1361,6 +1375,25 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
     }
+    
+	private void napraviDijalogZaOdustajanje(String poruka) {
+		// TODO Auto-generated method stub
+		String msg = poruka + "\n\n";
+    	msg += "Za izlazak iz igre pritisnite exit";
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle("Kraj igre!");
+		alertDialogBuilder
+			.setMessage(msg)
+			.setCancelable(false)
+			.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					MapaActivity.this.finish();
+				}
+			});
+			
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+	}
 
     public void napraviDialogZaOpljackanObjekat(String imeObjekta)
 
@@ -1433,7 +1466,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		dugmeOmetac.setEnabled(false);
     		ulov = 0;    		
     		TextView u = (TextView) findViewById(R.id.ulovText);
-			u.setText(Integer.toString(ulov)+" din.");
+			u.setText(Integer.toString(ulov)+" $");
     		
     		for(int i=0;i<igra.getPredmeti().size();i++)
     		{
@@ -1582,9 +1615,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     }
     
     public void onBackPressed() {
-    	Intent setIntent = new Intent(Intent.ACTION_MAIN);
+    	/*Intent setIntent = new Intent(Intent.ACTION_MAIN);
 		setIntent.addCategory(Intent.CATEGORY_HOME);    	   
-		startActivity(setIntent);   
+		startActivity(setIntent);*/ 
+    	napraviDialogZaExit();
         // Do extra stuff here
     }
     

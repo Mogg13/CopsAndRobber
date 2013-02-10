@@ -61,6 +61,16 @@ public class GCMIntentService extends GCMBaseIntentService {
         	String poruka = b.getString("poruka");
         	Intent intent = new Intent("end_the_game");
         	intent.putExtra("poruka", poruka);
+        	intent.putExtra("odustajanje", "no");
+    	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
+        else if(message.equals("odustajanje"))
+        {
+        	Log.i(TAG, "Received message: " + message);
+        	String poruka = b.getString("poruka");
+        	Intent intent = new Intent("end_the_game");
+        	intent.putExtra("poruka", poruka);
+        	intent.putExtra("odustajanje", "yes");
     	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
 		//Log.i(TAG, "Received message: ");
