@@ -919,40 +919,40 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		if(ime.equals("Police"))
 			kod = R.drawable.police;
 		
-		if(ime.equals("luk i strela"))
+		if(ime.equals("Bow and arrow"))
 			kod = R.drawable.archery;
-		if(ime.equals("kljuc"))
+		if(ime.equals("Key"))
 			kod = R.drawable.carrental;
-		if(ime.equals("alat"))
+		if(ime.equals("Tools"))
 			kod = R.drawable.carrepair;
-		if(ime.equals("lupa"))
+		if(ime.equals("Magnifier"))
 			kod = R.drawable.cluster;
-		if(ime.equals("okular"))
+		if(ime.equals("Ocular"))
 			kod = R.drawable.cluster3;
-		if(ime.equals("kompjuter"))
+		if(ime.equals("Computer"))
 			kod = R.drawable.computer;
-		if(ime.equals("sedativi"))
+		if(ime.equals("Sedatives"))
 			kod = R.drawable.drugs;
-		if(ime.equals("aparat za gasenje"))
+		if(ime.equals("Fire extinguisher"))
 			kod = R.drawable.fire_extinguisher;
-		if(ime.equals("pistolj"))
+		if(ime.equals("Gun"))
 			kod = R.drawable.gun;
-		if(ime.equals("puska"))
+		if(ime.equals("Rifle"))
 			kod = R.drawable.hunting;
-		if(ime.equals("night vision"))
+		if(ime.equals("Night vision"))
 			kod = R.drawable.ophthalmologist;
-		if(ime.equals("cekic"))
+		if(ime.equals("Hammer"))
 			kod = R.drawable.mine;
-		if(ime.equals("mobilni"))
+		if(ime.equals("Cell phone"))
 			kod = R.drawable.phones;
-		if(ime.equals("fotoaparat"))
+		if(ime.equals("Camera"))
 			kod = R.drawable.photo;
-		if(ime.equals("dokument"))
+		if(ime.equals("Document"))
 			kod = R.drawable.postal;
 		
-		if(ime.equals("pancir"))
+		if(ime.equals("Armor"))
 			kod = R.drawable.clothes_male;
-		if(ime.equals("ometac"))
+		if(ime.equals("Jammer"))
 			kod = R.drawable.mobilephonetower;		
 		return kod;
 	}
@@ -973,40 +973,40 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			kod = R.drawable.xhotel1star;
 		
 		
-		if(ime.equals("luk i strela"))
+		if(ime.equals("Bow and arrow"))
 			kod = R.drawable.xarchery;
-		if(ime.equals("kljuc"))
+		if(ime.equals("Key"))
 			kod = R.drawable.xcarrental;
-		if(ime.equals("alat"))
+		if(ime.equals("Tools"))
 			kod = R.drawable.xcarrepair;
-		if(ime.equals("lupa"))
+		if(ime.equals("Magnifier"))
 			kod = R.drawable.xcluster;
-		if(ime.equals("okular"))
+		if(ime.equals("Ocular"))
 			kod = R.drawable.xcluster3;
-		if(ime.equals("kompjuter"))
+		if(ime.equals("Computer"))
 			kod = R.drawable.xcomputer;
-		if(ime.equals("sedativi"))
+		if(ime.equals("Sedatives"))
 			kod = R.drawable.xdrugs;
-		if(ime.equals("aparat za gasenje"))
+		if(ime.equals("Fire extinguisher"))
 			kod = R.drawable.xfire_extinguisher;
-		if(ime.equals("pistolj"))
+		if(ime.equals("Gun"))
 			kod = R.drawable.xgun;
-		if(ime.equals("puska"))
+		if(ime.equals("Rifle"))
 			kod = R.drawable.xhunting;
-		if(ime.equals("night vision"))
+		if(ime.equals("Night vision"))
 			kod = R.drawable.xophthalmologist;
-		if(ime.equals("cekic"))
+		if(ime.equals("Hammer"))
 			kod = R.drawable.xmine;
-		if(ime.equals("mobilni"))
+		if(ime.equals("Cell phone"))
 			kod = R.drawable.xphones;
-		if(ime.equals("fotoaparat"))
+		if(ime.equals("Camera"))
 			kod = R.drawable.xphoto;
-		if(ime.equals("dokument"))
+		if(ime.equals("Document"))
 			kod = R.drawable.xpostal;
 		
-		if(ime.equals("pancir"))
+		if(ime.equals("Armor"))
 			kod = R.drawable.xclothes_male;
-		if(ime.equals("ometac"))
+		if(ime.equals("Jammer"))
 			kod = R.drawable.xmobilephonetower;
 		
 		return kod;
@@ -1189,11 +1189,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 												((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(igra.getPredmetAt(i).getIme()));
 											}
 									}
-									if(igra.getPredmetAt(i).getIme().equals("pancir"))
+									if(igra.getPredmetAt(i).getIme().equals("Armor"))
 									{															
 							        	dugmePancir.setEnabled(true);
 									}
-									else if(igra.getPredmetAt(i).getIme().equals("ometac"))
+									else if(igra.getPredmetAt(i).getIme().equals("Jammer"))
 									{
 										dugmeOmetac.setEnabled(true);
 									}
