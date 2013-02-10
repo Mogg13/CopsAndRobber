@@ -285,7 +285,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			public void onFinish() {
 		    	 //napraviDialogZaKrajIgre("Vreme je isteklo!");
 				if(igrac.getUloga().equals("Lopov"))
-					zavrsiIgru("Vreme je isteklo!");
+					zavrsiIgru("Time is up!");
 				else
 					Toast.makeText(CopsAndRobberApplication.getContext(), "Please wait, the game will finish any moment!", Toast.LENGTH_SHORT).show();
 		     }
@@ -370,12 +370,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    			{
 	    				Log.i("TAG", "Lopov upucan");
 	    				upucan = true;
-	    				zavrsiIgru("Lopov je uhvacen!");
+	    				zavrsiIgru("Robber caught!");
 	    			}	
     			}
     			brojMetaka--;
-    			if(igra.getObjekatByName("policija") != null){
-    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getObjekatByName("policija").getLatitude()), Double.parseDouble(igra.getObjekatByName("policija").getLongitude()), results);
+    			if(igra.getObjekatByName("Police") != null){
+    				Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), Double.parseDouble(igra.getObjekatByName("Police").getLatitude()), Double.parseDouble(igra.getObjekatByName("Police").getLongitude()), results);
 					daljina = (int) results[0];
     			}
 				if(daljina <= 30)
@@ -484,7 +484,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	{
 		if(igrac.getUloga().equals("Policajac"))
 		{
-			Objekat o = igra.getObjekatByName("policija");
+			Objekat o = igra.getObjekatByName("Police");
 			
 			Intent intent = new Intent("modis.copsandrobber.proximity_intent");
 			intent.putExtra("tip", "policija");
@@ -502,7 +502,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				if ( !igra.getObjekatAt(i).getIme().equals("policija"))
+				if ( !igra.getObjekatAt(i).getIme().equals("Police"))
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
 					Intent intent = new Intent(imeIntenta);
@@ -745,7 +745,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			public void run() {
 				if(start)
 				{
-					progressDialog.setMessage("Ucitavanje mape u toku...");
+					progressDialog.setMessage("Loading map...");
 					progressDialog.show();
 				}
 				else
@@ -832,7 +832,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						igra.addObjekat(oTemp);
 						predObj = new ArrayList<Predmet>();
 						//Log.i("Ubacujem...", imeObj);						
-						if(imeObj.equals("sigurna kuca") && igrac.getUloga().equals("Policajac"))
+						if(imeObj.equals("Safe House") && igrac.getUloga().equals("Policajac"))
 						{
 							//do nothing
 						}
@@ -870,11 +870,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			float res;
 			if(igrac.getUloga().equals("Policajac"))
 			{
-				o=igra.getObjekatByName("policija");
+				o=igra.getObjekatByName("Police");
 			}
 			else
 			{
-				o=igra.getObjekatByName("sigurna kuca");
+				o=igra.getObjekatByName("Safe House");
 			}
 			
 			if(o != null)
@@ -904,19 +904,19 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	{
 		int kod = 0;
 		
-		if(ime.equals("banka1"))
+		if(ime.equals("Bank One"))
 			kod = R.drawable.bank;
-		if(ime.equals("banka2"))
+		if(ime.equals("Bank Two"))
 			kod = R.drawable.bank;	
-		if(ime.equals("menjacnica1"))
+		if(ime.equals("Exchange Office One"))
 			kod = R.drawable.bankeuro;
-		if(ime.equals("menjacnica2"))
+		if(ime.equals("Exchange Office Two"))
 			kod = R.drawable.bankeuro;
-		if(ime.equals("zlatara"))
+		if(ime.equals("Jewelry Store"))
 			kod = R.drawable.hotel1star;
-		if(ime.equals("sigurna kuca"))
+		if(ime.equals("Safe House"))
 			kod = R.drawable.cabin;
-		if(ime.equals("policija"))
+		if(ime.equals("Police"))
 			kod = R.drawable.police;
 		
 		if(ime.equals("luk i strela"))
@@ -961,15 +961,15 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	{
 		int kod = 0;
 		
-		if(ime.equals("banka1"))
+		if(ime.equals("Bank One"))
 			kod = R.drawable.xbank;
-		if(ime.equals("banka2"))
+		if(ime.equals("Bank Two"))
 			kod = R.drawable.xbank;	
-		if(ime.equals("menjacnica1"))
+		if(ime.equals("Exchange Office One"))
 			kod = R.drawable.xbankeuro;
-		if(ime.equals("menjacnica2"))
+		if(ime.equals("Exchange Office Two"))
 			kod = R.drawable.xbankeuro;
-		if(ime.equals("zlatara"))
+		if(ime.equals("Jewelry Store"))
 			kod = R.drawable.xhotel1star;
 		
 		
@@ -1103,13 +1103,13 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						if(igra.getStatus() == 0)
 						{
 							Log.i("PROXI", igra.getObjekatAt(i).getIme());
-							if(igra.getObjekatAt(i).getIme().equals("sigurna kuca"))
+							if(igra.getObjekatAt(i).getIme().equals("Safe House"))
 							{
 								Log.i("PROXI", entering);
 								CopsandrobberHTTPHelper.onPosition(igrac.getRegId(), igrac.getLatitude(), igrac.getLongitude(), igra.getId(), entering);
 							}
 						}
-						else if(!igra.getObjekatAt(i).getIme().equals("sigurna kuca"))
+						else if(!igra.getObjekatAt(i).getIme().equals("Safe House"))
 						{
 							Log.i("PROXI", "igra u toku");
 							if(igra.getObjekatAt(i).getStatus() == 0 && entering.equals("true"))
@@ -1326,12 +1326,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     {
     	String msg = "";
     	//List<String> list = new ArrayList<String>();
-    	if(!obj.getIme().equals("sigurna kuca") && !obj.getIme().equals("policija"))
+    	if(!obj.getIme().equals("Safe House") && !obj.getIme().equals("Police"))
     	{
-	    	msg = "Vrednost objekta: " + obj.getCena() +"\n";
+	    	msg = "Object value: " + obj.getCena() +"\n";
 	    	if( uloga.equals("Lopov"))    		
 	    	{
-	        	msg += "Potrebni predmeti:" +"\n";
+	        	msg += "Necessary tools:" +"\n";
 	        	for (int i=0; i<obj.getPredmeti().size(); i++)
 	        	{
 	        		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
@@ -1354,10 +1354,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     public void napraviDialogZaKrajIgre(String poruka)
     {
     	String msg = poruka + "\n\n";
-    	msg += "Ukoliko zelite ponovo da igrate idite na svoja pocetna mesta! \n";
-    	msg += "Za izlazak iz igre pritisnite exit";
+    	msg += "If you want to play again, go to the starting position! \n";
+    	msg += "Otherwise click exit.";
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-		alertDialogBuilder.setTitle("Kraj igre!");
+		alertDialogBuilder.setTitle("Game end!");
 		alertDialogBuilder
 			.setMessage(msg)
 			.setCancelable(false)
@@ -1380,9 +1380,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	private void napraviDijalogZaOdustajanje(String poruka) {
 		// TODO Auto-generated method stub
 		String msg = poruka + "\n\n";
-    	msg += "Za izlazak iz igre pritisnite exit";
+    	msg += "Exit the game!";
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-		alertDialogBuilder.setTitle("Kraj igre!");
+		alertDialogBuilder.setTitle("Game end!");
 		alertDialogBuilder
 			.setMessage(msg)
 			.setCancelable(false)
@@ -1403,15 +1403,15 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
     	if(igrac.getUloga().equals("Policajac"))
     	{
-    		msg += "Objekat " + imeObjekta;
-        	msg += " je opljackan!";        	
-    		alertDialogBuilder.setTitle("Dogodila se pljacka!");
+    		msg += "Object " + imeObjekta;
+        	msg += " is robbed!";        	
+    		alertDialogBuilder.setTitle("There was a robbery!");
     	}
     	else
     	{
-    		msg += "Zaradili ste: ";
+    		msg += "You earned: ";
         	msg += igra.getObjekatByName(imeObjekta).getCena();        	
-    		alertDialogBuilder.setTitle("Uspesna pljacka " + imeObjekta +"!");
+    		alertDialogBuilder.setTitle( imeObjekta +" is successfully robbed!");
     	}
     	
 		alertDialogBuilder
@@ -1530,8 +1530,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				//if ( !igra.getObjekatAt(i).getIme().equals("policija") && igra.getObjekatAt(i).getStatus() == 0)
-				if(!igra.getObjekatAt(i).getIme().equals("policija"))
+				//if ( !igra.getObjekatAt(i).getIme().equals("Police") && igra.getObjekatAt(i).getStatus() == 0)
+				if(!igra.getObjekatAt(i).getIme().equals("Police"))
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
 					Intent intent = new Intent(imeIntenta);
@@ -1596,7 +1596,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				if ( !igra.getObjekatAt(i).getIme().equals("policija"))
+				if ( !igra.getObjekatAt(i).getIme().equals("Police"))
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
 										

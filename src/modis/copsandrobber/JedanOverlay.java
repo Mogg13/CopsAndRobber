@@ -96,7 +96,7 @@ public class JedanOverlay extends Overlay{
 			{
 				//if(uloga.equals("Lopov"))
 				//{
-				//	if(!objekat.getIme().equals("sigurna kuca") && !objekat.getIme().equals("policija"))
+				//	if(!objekat.getIme().equals("Safe House") && !objekat.getIme().equals("Police"))
 				//	{
 						Point screenPts = new Point();
 						
@@ -127,7 +127,7 @@ public class JedanOverlay extends Overlay{
 				int y = screenPts.y - (int)event.getY();
 				if(x < bmp.getWidth()/2 &&  y < bmp.getHeight() && y > 0)
 				{
-					Toast.makeText(CopsAndRobberApplication.getContext(), ime.toUpperCase(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(CopsAndRobberApplication.getContext(), ime, Toast.LENGTH_SHORT).show();
 					
 				}
 			}
