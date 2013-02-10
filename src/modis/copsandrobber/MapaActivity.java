@@ -1287,6 +1287,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 				//timer = null;
 			}
+	    	igra.setStatus(0);
 			if(odustajanje.equals("no"))
 				napraviDialogZaKrajIgre(poruka);
 			else
@@ -1452,7 +1453,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     {
 
     	timerIgre.setText("0:00:00");   
-    	igra.setStatus(0);
+
     	
     	if(igrac.getUloga().equals("Policajac"))
     	{
