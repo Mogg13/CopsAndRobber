@@ -201,7 +201,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			public void run() {
 				if(start)
 				{
-					progressDialog.setMessage("Prijavljivanje na servis je u toku...");
+					progressDialog.setMessage("Connecting to service...");
 					progressDialog.show();
 				}
 				else
@@ -231,7 +231,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				else{
 					startPostojeceActivity();
 				}
-    				Toast.makeText(context, "prijavljen na google servis"  , Toast.LENGTH_SHORT).show();
+    				Toast.makeText(context, "Connected to service."  , Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

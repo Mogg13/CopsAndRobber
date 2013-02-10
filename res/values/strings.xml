@@ -5,33 +5,33 @@
     <string name="app_name">CopsAndRobber</string>
     <string name="ime_aplikacije">Uhvati Lopova</string>
     <string name="labela_nova_igra">Nova igra</string>
-    <string name="labela_postojece_igre">Postojece igre</string>
+    <string name="labela_postojece_igre">Exsisting games</string>
     <string name="labela_exit">Exit</string>
     
 	<string name="menu_settings">Menu Settings</string>
 	
 	<string name="naslov_nova_igra">Nova igra</string>
-    <string name="labela_ime_nove_igre">Unesite ime nove igre:</string>
-    <string name="labela_odaberite_ulogu">Odaberite ulogu</string>
-    <string name="policajac_lopov_prompt">Odaberite ulogu</string>
+    <string name="labela_ime_nove_igre">Enter name for new game:</string>
+    <string name="labela_odaberite_ulogu">Choose a role</string>
+    <string name="policajac_lopov_prompt">Choose a role</string>
     <string-array name="uloge">
         <item >Policajac</item>
         <item>Lopov</item>
     </string-array>
     <string name="dugme_kreiraj_igru">Kreiraj igru</string>
     
-	<string name="naslov_odaberite_igru">Odaberite igru</string>
-	<string name="igre_prompt">Odaberite igru</string>
+	<string name="naslov_odaberite_igru">Choose a game</string>
+	<string name="igre_prompt">Choose a game</string>
 	<string name="labela_pridruzi_se">Pridruzi se</string>
 	<string name="radar_label">Radar</string>
-	<string name="mapa_label">Mapa</string>
+	<string name="mapa_label">Map</string>
 	<string name="lopov_label">Lopov</string>
 	<string name="policajac_label">Policajac</string>
 	<string name="timer_igre_label">00:00:00</string>
-	<string name="dugme_ometac_label">Ometac</string>
-	<string name="dugme_pancir_label">Pancir</string>
-	<string name="dugme_pucaj_label">Pucaj</string>
-	<string name="br_metaka_label">Br. metaka:</string>
+	<string name="dugme_ometac_label">Jammer</string>
+	<string name="dugme_pancir_label">Armor</string>
+	<string name="dugme_pucaj_label">Fire</string>
+	<string name="br_metaka_label">Bullets:</string>
 	<string name="metkovi_label">3</string>
 	<string name="ulov_label">0 $</string>
  
