@@ -442,13 +442,13 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	
         	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverGameStart);
         	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverGameEnd);        
-        	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver); 
+        	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverObjectRobbed);
 
         	if(igrac.getUloga().equals("Policajac"))
         	{
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverPancirAktiviran);
-        		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverOmetacAktiviran);
-        		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverObjectRobbed);
+        		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverOmetacAktiviran);        		
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageProxReceiverPolicija);
         	}
         	else
