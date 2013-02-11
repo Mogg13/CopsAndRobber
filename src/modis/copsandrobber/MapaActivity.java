@@ -258,7 +258,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		ucitajPodatke();
 		
 		timer = new CountDownTimer(7200000, 1000) {
-
 		     public void onTick(long millisUntilFinished) {   		    	 
 				 
 		    	 //Log.i("TICK", "napravio tik " + Integer.toString(brojac10s));
