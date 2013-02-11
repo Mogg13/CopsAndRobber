@@ -1176,29 +1176,32 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						try{
 							Bundle b = pomocniIntent.getExtras();
 							final int i = b.getInt("vrednost");
-							CopsandrobberHTTPHelper.PredmetRobbed(igra.getId(), igra.getPredmetAt(i).getId());		
-							igra.getPredmetAt(i).setStatus(1);
-							guiThread.post(new Runnable() {
-								
-								public void run() {
-									for(int k=0;k<mapOverlays.size();k++)
-									{
-										if(mapOverlays.get(k) instanceof JedanOverlay)
-											if(((JedanOverlay)mapOverlays.get(k)).getIme().equals(igra.getPredmetAt(i).getIme()))
-											{
-												((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(igra.getPredmetAt(i).getIme()));
-											}
+							if(igra.getPredmetAt(i).getStatus() == 0)
+							{
+								CopsandrobberHTTPHelper.PredmetRobbed(igra.getId(), igra.getPredmetAt(i).getId());		
+								igra.getPredmetAt(i).setStatus(1);
+								guiThread.post(new Runnable() {
+									
+									public void run() {
+										for(int k=0;k<mapOverlays.size();k++)
+										{
+											if(mapOverlays.get(k) instanceof JedanOverlay)
+												if(((JedanOverlay)mapOverlays.get(k)).getIme().equals(igra.getPredmetAt(i).getIme()))
+												{
+													((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(igra.getPredmetAt(i).getIme()));
+												}
+										}
+										if(igra.getPredmetAt(i).getIme().equals("Armor"))
+										{															
+								        	dugmePancir.setEnabled(true);
+										}
+										else if(igra.getPredmetAt(i).getIme().equals("Jammer"))
+										{
+											dugmeOmetac.setEnabled(true);
+										}
 									}
-									if(igra.getPredmetAt(i).getIme().equals("Armor"))
-									{															
-							        	dugmePancir.setEnabled(true);
-									}
-									else if(igra.getPredmetAt(i).getIme().equals("Jammer"))
-									{
-										dugmeOmetac.setEnabled(true);
-									}
-								}
-							});
+								});
+							}
 							
 							/*Intent in = new Intent("modis.copsandrobber.proximity_intent_p"+Integer.toString(i));
 						    PendingIntent pendingIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
