@@ -94,7 +94,7 @@ public class JedanOverlay extends Overlay{
 		if(event.getAction() == MotionEvent.ACTION_UP){
 			if(objekat != null)
 			{
-				//if(uloga.equals("Lopov"))
+				//if(uloga.equals("Robber"))
 				//{
 				//	if(!objekat.getIme().equals("Safe House") && !objekat.getIme().equals("Police"))
 				//	{

@@ -212,7 +212,7 @@ public class Igra {
 		int i = 0;
 		while(i<igraci.size() && !nadjen)
 		{
-			if(igraci.get(i).getUloga().equals("Lopov"))
+			if(igraci.get(i).getUloga().equals("Robber"))
 			{
 				res = igraci.get(i);
 				nadjen = true;
@@ -221,7 +221,7 @@ public class Igra {
 		}
 		/*
 		for(int i = 0; i<igraci.size(); i++){
-			if(igraci.get(i).getUloga().equals("Lopov"))
+			if(igraci.get(i).getUloga().equals("Robber"))
 			{
 				res = igraci.get(i);
 			}

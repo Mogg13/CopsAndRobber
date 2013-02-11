@@ -101,9 +101,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						final String latIgraca = obj.getString("latitude");
 						final String lonIgraca = obj.getString("longitude");
 						//igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
-						if(igrac.getUloga().equals("Policajac"))
+						if(igrac.getUloga().equals("Cop"))
 						{
-							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
+							if(igra.getIgracById(idIgraca).getUloga().equals("Robber"))
 							{
 								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
 							}
@@ -199,7 +199,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
-        if(igrac.getUloga().equals("Policajac"))
+        if(igrac.getUloga().equals("Cop"))
         {
         	setContentView(R.layout.map_policajac);
         	
@@ -284,7 +284,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		     }
 			public void onFinish() {
 		    	 //napraviDialogZaKrajIgre("Vreme je isteklo!");
-				if(igrac.getUloga().equals("Lopov"))
+				if(igrac.getUloga().equals("Robber"))
 					zavrsiIgru("Time is up!");
 				else
 					Toast.makeText(CopsAndRobberApplication.getContext(), "Please wait, the game will finish any moment!", Toast.LENGTH_SHORT).show();
@@ -410,7 +410,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		 
 		Log.i("LIFECYCLE","MAPAActivity - onDestroy");
 		
-		if(igra.getStatus() == 1 && igrac.getUloga().equals("Lopov"))
+		if(igra.getStatus() == 1 && igrac.getUloga().equals("Robber"))
 		{
 			deregistracijaSaBaze("yes");
 			Log.i("ODUSTAJANJE", "DA");
@@ -445,7 +445,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         	LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverObjectRobbed);
 
-        	if(igrac.getUloga().equals("Policajac"))
+        	if(igrac.getUloga().equals("Cop"))
         	{
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverPancirAktiviran);
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverOmetacAktiviran);        		
@@ -482,7 +482,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 
 	private void ucitajProximityPodesavanja()
 	{
-		if(igrac.getUloga().equals("Policajac"))
+		if(igrac.getUloga().equals("Cop"))
 		{
 			Objekat o = igra.getObjekatByName("Police");
 			
@@ -588,7 +588,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						if(aktOmetac)
 						{
 							
-							if(igra.getIgracById(idIgraca).getUloga().equals("Lopov"))
+							if(igra.getIgracById(idIgraca).getUloga().equals("Robber"))
 							{
 								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
 							}
@@ -629,7 +629,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	float [] results = new float[1];
     	float distance = 999999999;
     	
-    	if(igrac.getUloga().equals("Policajac"))
+    	if(igrac.getUloga().equals("Cop"))
 		{
     		Igrac igracZaRadar;
     		igracZaRadar = igra.getLopov();
@@ -801,7 +801,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						id = obj.getInt("id");
 						igra.addPredmet(new Predmet(imeObj,latObj,lonObj, id, 0));
 						//Log.i("Ubacujem...", imeObj);
-						if(igrac.getUloga().equals("Lopov"))
+						if(igrac.getUloga().equals("Robber"))
 						{
 							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, imeObj));
 						}
@@ -832,7 +832,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						igra.addObjekat(oTemp);
 						predObj = new ArrayList<Predmet>();
 						//Log.i("Ubacujem...", imeObj);						
-						if(imeObj.equals("Safe House") && igrac.getUloga().equals("Policajac"))
+						if(imeObj.equals("Safe House") && igrac.getUloga().equals("Cop"))
 						{
 							//do nothing
 						}
@@ -868,7 +868,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			Objekat o;
 			float [] results = new float[1];
 			float res;
-			if(igrac.getUloga().equals("Policajac"))
+			if(igrac.getUloga().equals("Cop"))
 			{
 				o=igra.getObjekatByName("Police");
 			}
@@ -1047,7 +1047,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	   		  
 	   		  	igra.setStatus(1);
 	   		  	
-	   		  	if(igrac.getUloga().equals("Policajac"))
+	   		  	if(igrac.getUloga().equals("Cop"))
 	   		  		dugmePucaj.setEnabled(true);
 	        }
 
@@ -1232,7 +1232,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					}
 			}
 			
-			if(igrac.getUloga().equals("Lopov"))
+			if(igrac.getUloga().equals("Robber"))
 			{
 				ulov += o.getCena();
 				TextView u = (TextView) findViewById(R.id.ulovText);
@@ -1329,7 +1329,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	if(!obj.getIme().equals("Safe House") && !obj.getIme().equals("Police"))
     	{
 	    	msg = "Object value: " + obj.getCena() +"\n";
-	    	if( uloga.equals("Lopov"))    		
+	    	if( uloga.equals("Robber"))    		
 	    	{
 	        	msg += "Necessary tools:" +"\n";
 	        	for (int i=0; i<obj.getPredmeti().size(); i++)
@@ -1401,7 +1401,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     {
     	String msg = "";
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-    	if(igrac.getUloga().equals("Policajac"))
+    	if(igrac.getUloga().equals("Cop"))
     	{
     		msg += "Object " + imeObjekta;
         	msg += " is robbed!";        	
@@ -1455,7 +1455,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	timerIgre.setText("0:00:00");   
 
     	
-    	if(igrac.getUloga().equals("Policajac"))
+    	if(igrac.getUloga().equals("Cop"))
     	{
     		dugmePucaj.setEnabled(false);
     		brojMetaka = 3;
@@ -1519,7 +1519,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     }
     public void UnregisterAllProxAlerts()
     {
-    	if(igrac.getUloga().equals("Policajac"))
+    	if(igrac.getUloga().equals("Cop"))
     	{
 			Intent in = new Intent("modis.copsandrobber.proximity_intent");
 			PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -1586,7 +1586,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	Log.i("LIFECYCLE","MAPAActivity - onResume");
     	super.onResume();
     	Log.i("LIFECYCLE","MAPAActivity - onRestart");
-    	if(igrac.getUloga().equals("Policajac"))
+    	if(igrac.getUloga().equals("Cop"))
 		{
 			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
 		    registerReceiver(proxReciever, filter);

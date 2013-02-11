@@ -18,10 +18,10 @@ public class Igrac {
 		this.uloga = uloga;
 		this.latitude=lat;
 		this.longitude=longi;
-		if(uloga.equals("Policajac"))
-			this.overlay = new JedanOverlay(R.drawable.cop,lat,longi, "Policajac");
+		if(uloga.equals("Cop"))
+			this.overlay = new JedanOverlay(R.drawable.cop,lat,longi, "Cop");
 		else
-			this.overlay = new JedanOverlay(R.drawable.robber,lat,longi, "Lopov");
+			this.overlay = new JedanOverlay(R.drawable.robber,lat,longi, "Robber");
 	}
 	public String getLongitude() {
 		return longitude;
