@@ -129,7 +129,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     			});    			
     		}
     		else
-    			Toast.makeText(this, "Polje za ime je prazno!", Toast.LENGTH_SHORT).show();    			
+    			Toast.makeText(this, "Name field can not be empty!", Toast.LENGTH_SHORT).show();    			
     		break;    	
     	}	
 		
@@ -168,7 +168,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 			public void run() {
 				
 				if(message.equals("1"))
-    				Toast.makeText(context, "Takvo ime za igru vec postoji!", Toast.LENGTH_SHORT).show();
+    				Toast.makeText(context, "Sorry, that name already exists!", Toast.LENGTH_SHORT).show();
     			else
     			{
     				Intent i;
@@ -179,7 +179,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     				i.putExtra("lon", igrac.getLongitude());
     				i.putExtra("reg_id", igrac.getRegId());
         			startActivity(i);
-    				Toast.makeText(context, "Kreirana igra: " + ime , Toast.LENGTH_SHORT).show();
+    				Toast.makeText(context, "Created game: " + ime , Toast.LENGTH_SHORT).show();
     				finish();
     			}
 			}
@@ -192,7 +192,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 			public void run() {
 				if(start)
 				{
-					progressDialog.setMessage("Komunikacija sa serverom...");
+					progressDialog.setMessage("Communicating with server...");
 					progressDialog.show();
 				}
 				else

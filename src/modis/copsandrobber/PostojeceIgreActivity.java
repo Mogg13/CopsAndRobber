@@ -134,7 +134,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
     		}
     		else
     		{
-    			Toast.makeText(context, "Ne postoje slobodne igre. Napravite novu.", Toast.LENGTH_SHORT).show();
+    			Toast.makeText(context, "No available games. Please create a new one.", Toast.LENGTH_SHORT).show();
     		}
     		break;
    	
@@ -148,12 +148,12 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 			public void run() {
 				if(message.equals(uloga))
 				{
-					Toast.makeText(context, "Uspesno ste se prijavili!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "Registration successful!", Toast.LENGTH_SHORT).show();
 					startMapActivity();
 				}
 				else
 				{
-					Toast.makeText(context, "Posto je uloga koju ste izabrali zauzeta, prijavljeni ste kao " + message , Toast.LENGTH_SHORT).show();				
+					Toast.makeText(context, "Desired role was already taken, you are assigned with opposite role." + message , Toast.LENGTH_LONG).show();				
 					igrac.setUloga(message);
 					startMapActivity();
 				}
@@ -188,7 +188,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 			public void run() {
 				if(start)
 				{
-					progressDialog.setMessage("Ucitavanje igara u toku...");
+					progressDialog.setMessage("Loading game...");
 					progressDialog.show();
 				}
 				else
