@@ -490,7 +490,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			intent.putExtra("tip", "policija");
 			PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			
-			lm.addProximityAlert(Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), 30, -1, proximityIntent);
+			lm.addProximityAlert(Double.parseDouble(o.getLatitude()), Double.parseDouble(o.getLongitude()), 10, -1, proximityIntent);
 			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPolicija, new IntentFilter("u_policiji"));
