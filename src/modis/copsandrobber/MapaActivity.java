@@ -1336,7 +1336,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	        	msg += "Necessary tools:" +"\n";
 	        	for (int i=0; i<obj.getPredmeti().size(); i++)
 	        	{
-	        		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
+	        		if(obj.getPredmetAt(i).getStatus() == 0)
+	        			msg += obj.getPredmetAt(i).getIme() + "		not taken"+"\n";
+	        		else
+	        			msg += obj.getPredmetAt(i).getIme() + "		taken"+"\n";
 	        	}
 	    	}
     	}
@@ -1430,7 +1433,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     
     public void napraviDialogZaExit()
     {
-    	String msg = "Are you sure that you want to exit the game?";
+    	String msg = "Robbers goal is to win 10 000$.";
 
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 		alertDialogBuilder.setTitle("Exit the game?");
@@ -1451,6 +1454,26 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
     }
+    
+    public void napraviDialogZaInfo()
+    {
+    	String msg = "Are you sure that you want to exit the game?";
+
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle("Instructions");
+		alertDialogBuilder
+			.setMessage(msg)
+			.setCancelable(false)
+			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.cancel();
+				}
+			});
+			
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+    }
+    
     public void RestartGame()
     {
 
