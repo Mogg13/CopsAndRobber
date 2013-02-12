@@ -493,8 +493,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPolicija, new IntentFilter("u_policiji"));
-			//IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
-		    //registerReceiver(proxReciever, filter);
+			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
+		    registerReceiver(proxReciever, filter);
 		}
 		else
 		{
@@ -511,8 +511,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
 					
-					//IntentFilter filter = new IntentFilter(imeIntenta);  
-				    //registerReceiver(proxReciever, filter);
+					IntentFilter filter = new IntentFilter(imeIntenta);  
+				    registerReceiver(proxReciever, filter);
 				}
 				
 			}
@@ -526,8 +526,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
 				
-				//IntentFilter filter = new IntentFilter(imeIntenta);  
-			    //registerReceiver(proxReciever, filter);
+				IntentFilter filter = new IntentFilter(imeIntenta);  
+			    registerReceiver(proxReciever, filter);
 			}
 			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -1617,6 +1617,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     {
     	Log.i("LIFECYCLE","MAPAActivity - onResume");
     	super.onResume();
+    	
     	if(igrac.getUloga().equals("Cop"))
 		{
 			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
