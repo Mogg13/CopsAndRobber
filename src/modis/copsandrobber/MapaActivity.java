@@ -1337,9 +1337,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	        	for (int i=0; i<obj.getPredmeti().size(); i++)
 	        	{
 	        		if(obj.getPredmetAt(i).getStatus() == 0)
-	        			msg += obj.getPredmetAt(i).getIme() + "		not taken"+"\n";
+	        			msg += obj.getPredmetAt(i).getIme() + "		Not taken"+"\n";
 	        		else
-	        			msg += obj.getPredmetAt(i).getIme() + "		taken"+"\n";
+	        			msg += obj.getPredmetAt(i).getIme() + "		Taken"+"\n";
 	        	}
 	    	}
     	}
@@ -1461,7 +1461,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	if(igrac.getUloga().equals("Cop"))
     	{
     		msg = "In order for the game to start, everybody needs to go to their starting position. " +
-    				"Your starting position is Police station. Robber's goal in the game is to obtain 10 000 $ or by robbing different object. " +
+    				"Your starting position is Police station. Robber's goal in the game is to obtain 10 000 $ by robbing different object. " +
     				"You need to stop him by shooting him! But in order to do that you need to be at a distance of 30m or less from the robber. " +
     				"You can reload by going back to Police station." +
     				"Robber's position will be updated every 6 minutes.";
@@ -1610,6 +1610,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	Log.i("LIFECYCLE","MAPAActivity - onStop");
     	super.onStop();
     }*/
+    /*
     protected void onPause()
     {
     	super.onPause();
@@ -1626,7 +1627,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     {
     	Log.i("LIFECYCLE","MAPAActivity - onResume");
     	super.onResume();
-    	Log.i("LIFECYCLE","MAPAActivity - onRestart");
     	if(igrac.getUloga().equals("Cop"))
 		{
 			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
@@ -1656,7 +1656,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 		}
     }
-    
+    */
     public void onBackPressed() {
     	/*Intent setIntent = new Intent(Intent.ACTION_MAIN);
 		setIntent.addCategory(Intent.CATEGORY_HOME);    	   
