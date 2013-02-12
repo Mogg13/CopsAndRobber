@@ -4,5 +4,10 @@
         android:id="@+id/map_exit"
         android:orderInCategory="100"
         android:title="@string/labela_exit"/>
+    
+    <item
+        android:id="@+id/map_info"
+        android:orderInCategory="100"
+        android:title="@string/labela_info"/>
 
 </menu>

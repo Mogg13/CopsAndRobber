@@ -1640,6 +1640,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         	//finish();
         	napraviDialogZaExit();
           break;
+          
+        case R.id.map_info:
+        	napraviDialogZaInfo();
+          break;
         }
         return true;
       }
