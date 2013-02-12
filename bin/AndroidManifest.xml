@@ -44,14 +44,7 @@
 		    <category android:name="modis.copsandrobber" />
 		  </intent-filter>
 		</receiver>
-		
-		<receiver android:name=".ProximityIntentReciever" >
-		  <intent-filter>
-		    <action android:name="modis.copsandrobber.proximity_intent" />
-		    <category android:name="modis.copsandrobber" />
-		  </intent-filter>
-		</receiver>
-		
+
 		<service android:name=".GCMIntentService" /> 
 		<service android:name="CopsAndRobberGPSService" />
                     
