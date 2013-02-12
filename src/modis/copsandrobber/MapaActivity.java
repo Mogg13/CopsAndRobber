@@ -1598,6 +1598,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	
     }
 */
+    /*
     protected void onPause()
     {
     	super.onPause();
@@ -1609,6 +1610,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	    } 
     	
     }
+    */
     protected void onResume()
     {
     	Log.i("LIFECYCLE","MAPAActivity - onResume");

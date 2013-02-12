@@ -143,7 +143,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		{
     			if(reg_number.equals(""))
 	    		{
-	    			transThread = Executors.newSingleThreadExecutor();
+	    			//transThread = Executors.newSingleThreadExecutor();
 	    			transThread.submit(new Runnable(){
 	    				public void run(){
 	    					guiProgressDialog(true);

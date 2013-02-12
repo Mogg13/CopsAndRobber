@@ -113,7 +113,7 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     		uloga = (String) spinnerPL.getItemAtPosition(pozicijaUloge);
     		if(!ime.equals(""))
     		{
-    			ExecutorService transThread = Executors.newSingleThreadExecutor();
+    			//ExecutorService transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable(){
     				public void run(){
     					guiProgressDialog(true);
