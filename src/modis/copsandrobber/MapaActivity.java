@@ -1336,7 +1336,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	        	msg += "Necessary tools:" +"\n";
 	        	for (int i=0; i<obj.getPredmeti().size(); i++)
 	        	{
-	        		msg += obj.getPredmetAt(i).getIme() + "		"+Integer.toString(obj.getPredmetAt(i).getStatus())+"\n";
+	        		if(obj.getPredmetAt(i).getStatus() == 0)
+	        			msg += obj.getPredmetAt(i).getIme() + "		not taken"+"\n";
+	        		else
+	        			msg += obj.getPredmetAt(i).getIme() + "		taken"+"\n";
 	        	}
 	    	}
     	}
@@ -1451,6 +1454,42 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
     }
+    
+    public void napraviDialogZaInfo()
+    {
+    	String msg;
+    	if(igrac.getUloga().equals("Cop"))
+    	{
+    		msg = "In order for the game to start, everybody needs to go to their starting position. " +
+    				"Your starting position is Police station. Robber's goal in the game is to obtain 10 000 $ or by robbing different object. " +
+    				"You need to stop him by shooting him! But in order to do that you need to be at a distance of 30m or less from the robber. " +
+    				"You can reload by going back to Police station." +
+    				"Robber's position will be updated every 6 minutes.";
+    	}
+    	else
+    	{
+    		msg = "In order for the game to start, everybody needs to go to their starting position. " +
+    				"Your starting position is Safe House. Your goal in the game is to rob different objects in total value of 10 000 $ or more. " +
+    				"But be careful! Cops will try to stop you by shooting you! They can shoot you only if they are at distance of 30m or less. " +
+    				"You can protect yourself by obtaining and activating armor. When armor is activated, cops can not shoot you. Armor expires after 15 minutes. " +
+    				"Cops' positions will be updated every 6 minutes. If you activate jammer cops won't get your position in the next update.";
+    	}
+    	
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle("Instructions");
+		alertDialogBuilder
+			.setMessage(msg)
+			.setCancelable(false)
+			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.cancel();
+				}
+			});
+			
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+    }
+    
     public void RestartGame()
     {
 
