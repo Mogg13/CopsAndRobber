@@ -420,14 +420,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		timer = null;    		
     	}
 
-    	transThread.shutdownNow();
+    	transThread.shutdown();
     	if(tenSecTaskHandle != null)
     	{
         	tenSecTaskHandle.cancel(true);
         	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()) + " iz onDestroy");
         	tenSecTaskHandle = null;
     	}
-    	periodicThread.shutdownNow();
+    	periodicThread.shutdown();
     	
     	UnregisterAllProxAlerts();
     	lm.removeUpdates(myLocationListener);
@@ -450,7 +450,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageProxReceiverObjekat);
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageProxReceiverPredmet);
         	}
-        	LocalBroadcastManager.getInstance(this).unregisterReceiver(proxReciever);
+        	//LocalBroadcastManager.getInstance(this).unregisterReceiver(proxReciever);
         } catch (Exception e) { 
 
         	e.printStackTrace();
@@ -1307,6 +1307,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			  })
 			.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
+					context.unregisterReceiver(proxReciever);  
 					MapaActivity.this.finish();
 				}
 			});
@@ -1326,6 +1327,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			.setCancelable(false)
 			.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
+					context.unregisterReceiver(proxReciever);  
 					MapaActivity.this.finish();
 				}
 			});
@@ -1375,6 +1377,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			.setCancelable(false)
 			.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {	
+					context.unregisterReceiver(proxReciever);    
 					MapaActivity.this.finish();
 				}
 			  })
