@@ -107,6 +107,7 @@ public final class R {
         public static final int kreiraj_igru_dugme=0x7f090015;
         public static final int mapView=0x7f09000d;
         public static final int map_exit=0x7f09001a;
+        public static final int map_info=0x7f09001b;
         public static final int menu_settings=0x7f090019;
         public static final int metkoviText=0x7f09000f;
         public static final int radarLabel=0x7f090003;
@@ -137,31 +138,32 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050001;
-        public static final int br_metaka_label=0x7f050017;
-        public static final int dugme_kreiraj_igru=0x7f05000b;
-        public static final int dugme_ometac_label=0x7f050014;
-        public static final int dugme_pancir_label=0x7f050015;
-        public static final int dugme_pucaj_label=0x7f050016;
+        public static final int br_metaka_label=0x7f050018;
+        public static final int dugme_kreiraj_igru=0x7f05000c;
+        public static final int dugme_ometac_label=0x7f050015;
+        public static final int dugme_pancir_label=0x7f050016;
+        public static final int dugme_pucaj_label=0x7f050017;
         public static final int hello=0x7f050000;
-        public static final int igre_prompt=0x7f05000d;
+        public static final int igre_prompt=0x7f05000e;
         public static final int ime_aplikacije=0x7f050002;
         public static final int labela_exit=0x7f050005;
-        public static final int labela_ime_nove_igre=0x7f050008;
+        public static final int labela_ime_nove_igre=0x7f050009;
+        public static final int labela_info=0x7f050006;
         public static final int labela_nova_igra=0x7f050003;
-        public static final int labela_odaberite_ulogu=0x7f050009;
+        public static final int labela_odaberite_ulogu=0x7f05000a;
         public static final int labela_postojece_igre=0x7f050004;
-        public static final int labela_pridruzi_se=0x7f05000e;
-        public static final int lopov_label=0x7f050011;
-        public static final int mapa_label=0x7f050010;
-        public static final int menu_settings=0x7f050006;
-        public static final int metkovi_label=0x7f050018;
-        public static final int naslov_nova_igra=0x7f050007;
-        public static final int naslov_odaberite_igru=0x7f05000c;
-        public static final int policajac_label=0x7f050012;
-        public static final int policajac_lopov_prompt=0x7f05000a;
-        public static final int radar_label=0x7f05000f;
-        public static final int timer_igre_label=0x7f050013;
-        public static final int ulov_label=0x7f050019;
+        public static final int labela_pridruzi_se=0x7f05000f;
+        public static final int lopov_label=0x7f050012;
+        public static final int mapa_label=0x7f050011;
+        public static final int menu_settings=0x7f050007;
+        public static final int metkovi_label=0x7f050019;
+        public static final int naslov_nova_igra=0x7f050008;
+        public static final int naslov_odaberite_igru=0x7f05000d;
+        public static final int policajac_label=0x7f050013;
+        public static final int policajac_lopov_prompt=0x7f05000b;
+        public static final int radar_label=0x7f050010;
+        public static final int timer_igre_label=0x7f050014;
+        public static final int ulov_label=0x7f05001a;
     }
     public static final class style {
         /** 
