@@ -420,14 +420,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		timer = null;    		
     	}
 
-    	//transThread.shutdownNow();
+    	transThread.shutdownNow();
     	if(tenSecTaskHandle != null)
     	{
         	tenSecTaskHandle.cancel(true);
         	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()) + " iz onDestroy");
         	tenSecTaskHandle = null;
     	}
-    	//periodicThread.shutdownNow();
+    	periodicThread.shutdownNow();
     	
     	UnregisterAllProxAlerts();
     	lm.removeUpdates(myLocationListener);
@@ -450,7 +450,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageProxReceiverObjekat);
         		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageProxReceiverPredmet);
         	}
-        	
+        	LocalBroadcastManager.getInstance(this).unregisterReceiver(proxReciever);
         } catch (Exception e) { 
 
         	e.printStackTrace();
@@ -633,8 +633,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     			Location.distanceBetween(Double.parseDouble(igrac.getLatitude()), Double.parseDouble(igrac.getLongitude()), 
 					Double.parseDouble(igracZaRadar.getLatitude()), Double.parseDouble(igracZaRadar.getLongitude()), results);
     			distance = results[0];
-    		}
-			
+    		}			
 		}
 		else
 		{
@@ -647,8 +646,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				if (pom < distance)
 				{
 					distance = pom;
-				}
-				
+				}				
 			}					
 		}
     	float faktor = 40;
@@ -829,13 +827,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						{
 							mapOverlays.add(new JedanOverlay(vratiKodSlicice(imeObj), latObj, lonObj, oTemp, igrac.getUloga(), imeObj));
 						}
-
 					}
 					
 					proveriPozicijuIgraca();
 					
 					ucitajProximityPodesavanja();
-
 										
 				} catch (Exception e){
 					e.printStackTrace();					
@@ -882,8 +878,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 							}
 						}
 					});
-				}
-				
+				}				
 			}
 		}
 	}
@@ -1038,7 +1033,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 	   		  	if(igrac.getUloga().equals("Cop"))
 	   		  		dugmePucaj.setEnabled(true);
 	        }
-
         }
     };
     private BroadcastReceiver mMessageProxReceiverPolicija = new BroadcastReceiver() {
@@ -1067,8 +1061,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					}
 				});
 			}			
-		}
-    	
+		}    	
     };
     private BroadcastReceiver mMessageProxReceiverObjekat = new BroadcastReceiver() {
 
@@ -1159,16 +1152,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 										}
 									}
 								});
-							}
-							
+							}							
 						} catch (Exception e){
 							e.printStackTrace();
 						}
 					}
 				});
 			}
-		}
-    	
+		}    	
     };   
     private BroadcastReceiver mMessageReceiverObjectRobbed = new BroadcastReceiver() {
 
@@ -1186,8 +1177,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					{
 						((JedanOverlay)mapOverlays.get(k)).setBitmap(vratiKodXSlicice(o.getIme()));
 					}
-			}
-			
+			}			
 			if(igrac.getUloga().equals("Robber"))
 			{
 				ulov += o.getCena();
@@ -1195,8 +1185,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				u.setText(Integer.toString(ulov)+" $");
 			}
 			napraviDialogZaOpljackanObjekat(o.getIme());
-		}
-    	
+		}    	
     };
     private BroadcastReceiver mMessageReceiverPancirAktiviran = new BroadcastReceiver() {
 
@@ -1244,10 +1233,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				napraviDialogZaKrajIgre(poruka);
 			else
 				napraviDijalogZaOdustajanje(poruka);
-
-		}
-
-    	
+		}    	
     };
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 
@@ -1269,9 +1255,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						e.printStackTrace();
 					}
 				}
-			});
-			
-			
+			});			
         }
     };
     public static void napraviDialogZaObjekat(Objekat obj, String uloga)
@@ -1443,7 +1427,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     {
 
     	timerIgre.setText("0:00:00");   
-
     	
     	if(igrac.getUloga().equals("Cop"))
     	{
@@ -1524,8 +1507,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					Intent intent = new Intent(imeIntenta);
 					PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);					
 					lm.removeProximityAlert(proximityIntent);
-				}
-				
+				}				
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
 			{
@@ -1533,10 +1515,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				Intent intent = new Intent(imeIntenta);
 				PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);				
 				lm.removeProximityAlert(proximityIntent);
-
 			}
-    	}
-    	
+    	}    	
     }
 
     /*protected void onRestart()
@@ -1544,7 +1524,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	super.onRestart();
     	
     }
-*/
+    */
     /*
     protected void onPause()
     {
@@ -1573,14 +1553,10 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			String imeIntenta;
 			for(int i = 0;i<7;i++)
 			{
-				//if ( !igra.getObjekatAt(i).getIme().equals("Police"))
-				{
-					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
-										
-					IntentFilter filter = new IntentFilter(imeIntenta);  
-				    registerReceiver(proxReciever, filter);
-				}
-				
+				imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
+									
+				IntentFilter filter = new IntentFilter(imeIntenta);  
+			    registerReceiver(proxReciever, filter);				
 			}
 			for(int i = 0;i<17;i++)
 			{
@@ -1589,8 +1565,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				IntentFilter filter = new IntentFilter(imeIntenta); 
 				filter = new IntentFilter(imeIntenta);
 			    registerReceiver(proxReciever, filter);
-			}
-			
+			}			
 		}
     }
     
@@ -1617,7 +1592,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
         return true;
       }
     /*
-
     protected void onStart()
     {
     	Log.i("LIFECYCLE","MAPAActivity - onStart");
@@ -1628,7 +1602,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	Log.i("LIFECYCLE","MAPAActivity - onStop");
     	super.onStop();
     }
-
     */
 
 }
