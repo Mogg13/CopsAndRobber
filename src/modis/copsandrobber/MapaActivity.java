@@ -420,14 +420,14 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		timer = null;    		
     	}
 
-    	transThread.shutdownNow();
+    	transThread.shutdown();
     	if(tenSecTaskHandle != null)
     	{
         	tenSecTaskHandle.cancel(true);
         	Log.i("CANCEL", Boolean.toString(tenSecTaskHandle.isCancelled()) + " iz onDestroy");
         	tenSecTaskHandle = null;
     	}
-    	periodicThread.shutdownNow();
+    	periodicThread.shutdown();
     	
     	UnregisterAllProxAlerts();
     	lm.removeUpdates(myLocationListener);
