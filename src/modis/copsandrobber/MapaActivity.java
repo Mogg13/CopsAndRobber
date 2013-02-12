@@ -493,7 +493,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPolicija, new IntentFilter("u_policiji"));
-			//IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
+			//IntentFilter filter = new IntentFilter("policija_intent");  
 		    //registerReceiver(proxReciever, filter);
 		}
 		else
@@ -511,7 +511,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
 					
-					//IntentFilter filter = new IntentFilter(imeIntenta);  
+					//IntentFilter filter = new IntentFilter("objekat_intent");  
 				    //registerReceiver(proxReciever, filter);
 				}
 				
@@ -526,8 +526,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
 				
-				//IntentFilter filter = new IntentFilter(imeIntenta);  
-			    //registerReceiver(proxReciever, filter);
+				//IntentFilter filter = new IntentFilter("predmet_intent");  
+			   // registerReceiver(proxReciever, filter);
 			}
 			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -550,8 +550,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-				guiProgressDialog(false);
-				//notify();				
+				guiProgressDialog(false);			
 			}
 		});
 
@@ -585,8 +584,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						String latIgraca = obj.getString("latitude");
 						String lonIgraca = obj.getString("longitude");
 						if(aktOmetac)
-						{
-							
+						{							
 							if(igra.getIgracById(idIgraca).getUloga().equals("Robber"))
 							{
 								igra.editIgrac(idIgraca, latIgraca, lonIgraca);
@@ -1554,9 +1552,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		radar[4].setImageResource(drawable.button_onoff_indicator_off);
 		
 		igra.setIgraci(new ArrayList<Igrac>());		
-		proveriPozicijuIgraca();		
-		//ucitajProximityPodesavanja();
-		
+		proveriPozicijuIgraca();				
     }
     public void UnregisterAllProxAlerts()
     {
@@ -1571,7 +1567,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     		String imeIntenta;
 			for(int i = 0;i<igra.getObjekti().size();i++)
 			{
-				//if ( !igra.getObjekatAt(i).getIme().equals("Police") && igra.getObjekatAt(i).getStatus() == 0)
 				if(!igra.getObjekatAt(i).getIme().equals("Police"))
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
@@ -1583,13 +1578,11 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			}
 			for(int i = 0;i<igra.getPredmeti().size();i++)
 			{
-				//if(igra.getPredmetAt(i).getStatus() == 0)
-				{
-					imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
-					Intent intent = new Intent(imeIntenta);
-					PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);				
-					lm.removeProximityAlert(proximityIntent);
-				}
+				imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
+				Intent intent = new Intent(imeIntenta);
+				PendingIntent proximityIntent = PendingIntent.getBroadcast(CopsAndRobberApplication.getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);				
+				lm.removeProximityAlert(proximityIntent);
+
 			}
     	}
     	
@@ -1605,8 +1598,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     {
     	super.onPause();
     	Log.i("LIFECYCLE","MAPAActivity - onPause");
-    	try{
-    		
+    	try{    		
     		this.unregisterReceiver(proxReciever);    	
 	    } catch (Exception e) { 
 	        Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
@@ -1625,9 +1617,9 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		else
 		{
 			String imeIntenta;
-			for(int i = 0;i<igra.getObjekti().size();i++)
+			for(int i = 0;i<7;i++)
 			{
-				if ( !igra.getObjekatAt(i).getIme().equals("Police"))
+				//if ( !igra.getObjekatAt(i).getIme().equals("Police"))
 				{
 					imeIntenta="modis.copsandrobber.proximity_intent_o"+Integer.toString(i);
 										
@@ -1636,11 +1628,12 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				}
 				
 			}
-			for(int i = 0;i<igra.getPredmeti().size();i++)
+			for(int i = 0;i<17;i++)
 			{
 				imeIntenta="modis.copsandrobber.proximity_intent_p"+Integer.toString(i);
 								
-				IntentFilter filter = new IntentFilter(imeIntenta);  
+				IntentFilter filter = new IntentFilter(imeIntenta); 
+				filter = new IntentFilter(imeIntenta);
 			    registerReceiver(proxReciever, filter);
 			}
 			
