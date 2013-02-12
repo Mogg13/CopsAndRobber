@@ -493,8 +493,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
 		    		mMessageProxReceiverPolicija, new IntentFilter("u_policiji"));
-			IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
-		    registerReceiver(proxReciever, filter);
+			//IntentFilter filter = new IntentFilter("modis.copsandrobber.proximity_intent");  
+		    //registerReceiver(proxReciever, filter);
 		}
 		else
 		{
@@ -511,8 +511,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 					
 					lm.addProximityAlert(Double.parseDouble(igra.getObjekatAt(i).getLatitude()), Double.parseDouble(igra.getObjekatAt(i).getLongitude()), 10, -1, proximityIntent);
 					
-					IntentFilter filter = new IntentFilter(imeIntenta);  
-				    registerReceiver(proxReciever, filter);
+					//IntentFilter filter = new IntentFilter(imeIntenta);  
+				    //registerReceiver(proxReciever, filter);
 				}
 				
 			}
@@ -526,8 +526,8 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 				
 				lm.addProximityAlert(Double.parseDouble(igra.getPredmetAt(i).getLatitude()), Double.parseDouble(igra.getPredmetAt(i).getLongitude()), 10, -1, proximityIntent);
 				
-				IntentFilter filter = new IntentFilter(imeIntenta);  
-			    registerReceiver(proxReciever, filter);
+				//IntentFilter filter = new IntentFilter(imeIntenta);  
+			    //registerReceiver(proxReciever, filter);
 			}
 			
 		    LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -1600,17 +1600,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	super.onRestart();
     	
     }
-    protected void onStart()
-    {
-    	Log.i("LIFECYCLE","MAPAActivity - onStart");
-    	super.onStart();
-    }
-    protected void onStop()
-    {
-    	Log.i("LIFECYCLE","MAPAActivity - onStop");
-    	super.onStop();
-    }*/
-    /*
+*/
     protected void onPause()
     {
     	super.onPause();
@@ -1656,7 +1646,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 			
 		}
     }
-    */
+    
     public void onBackPressed() {
     	/*Intent setIntent = new Intent(Intent.ACTION_MAIN);
 		setIntent.addCategory(Intent.CATEGORY_HOME);    	   
@@ -1698,12 +1688,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
     	Log.i("LIFECYCLE","MAPAActivity - onStop");
     	super.onStop();
     }
-    
-    protected void onResume()
-    {
-    	Log.i("LIFECYCLE","MAPAActivity - onResume");
-    	super.onResume();
-    }
+
     */
 
 }
