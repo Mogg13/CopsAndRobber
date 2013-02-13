@@ -49,7 +49,6 @@ import com.google.android.maps.Projection;
 
 public class MapaActivity extends MapActivity implements OnClickListener{
 
-	//protected static final TimeUnit SECONDS = null;
 	private Igra igra;
 	private Igrac igrac;
 	private MapView map;
@@ -100,7 +99,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 						final String idIgraca = obj.getString("idIgraca");
 						final String latIgraca = obj.getString("latitude");
 						final String lonIgraca = obj.getString("longitude");
-						//igra.EditIgraci(idIgraca, latIgraca, lonIgraca);
 						if(igrac.getUloga().equals("Cop"))
 						{
 							if(igra.getIgracById(idIgraca).getUloga().equals("Robber"))
@@ -259,8 +257,6 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		timer = new CountDownTimer(7200000, 1000) {
 		     public void onTick(long millisUntilFinished) {   		    	 
 				 
-		    	 //Log.i("TICK", "napravio tik " + Integer.toString(brojac10s));
-
 		    	 millisUntilFinished = millisUntilFinished/1000;
 				 int sati = (int) (millisUntilFinished/3600);
 				 int minuti = (int) ((millisUntilFinished % 3600) / 60);
@@ -281,7 +277,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		         
 		     }
 			public void onFinish() {
-		    	 //napraviDialogZaKrajIgre("Vreme je isteklo!");
+
 				if(igrac.getUloga().equals("Robber"))
 					zavrsiIgru("Time is up!");
 				else
@@ -302,7 +298,7 @@ public class MapaActivity extends MapActivity implements OnClickListener{
 		}
 		
 		public void onLocationChanged(Location location) {
-			// TODO Auto-generated method stub
+
 			 igrac.setLongitude(Double.toString(location.getLongitude()));
 		     igrac.setLatitude(Double.toString(location.getLatitude()));		     
 		     Log.i("LOKACIJA", "primljen gps" + igrac.getLatitude() + " " + igrac.getLongitude());
