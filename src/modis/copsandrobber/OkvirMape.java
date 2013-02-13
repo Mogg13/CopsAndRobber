@@ -14,8 +14,6 @@ class OkvirMape extends Overlay{
 
 	private Igra igra;
 	 
-	
-	
     public OkvirMape(Igra igra) {
 		this.igra = igra;
 	}
@@ -39,11 +37,6 @@ class OkvirMape extends Overlay{
         mapv.getProjection().toPixels(gP2, screenPts2);
         
         canvas.drawRect(screenPts1.x, screenPts1.y, screenPts2.x, screenPts2.y, mPaint);
-
-        /*nacrtajLiniju(igra.getLatitude1(), igra.getLongitude1(), igra.getLatitude2(), igra.getLongitude2(), canvas, mPaint, mapv);
-        nacrtajLiniju(igra.getLatitude1(), igra.getLongitude1(), igra.getLatitude3(), igra.getLongitude3(), canvas, mPaint, mapv);
-        nacrtajLiniju(igra.getLatitude4(), igra.getLongitude4(), igra.getLatitude2(), igra.getLongitude2(), canvas, mPaint, mapv);
-        nacrtajLiniju(igra.getLatitude4(), igra.getLongitude4(), igra.getLatitude3(), igra.getLongitude3(), canvas, mPaint, mapv);*/
     }
     
     public void nacrtajLiniju(String coordX1, String coordY1, String coordX2, String coordY2, Canvas canvas, Paint mPaint, MapView mapv)

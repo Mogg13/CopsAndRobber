@@ -1,11 +1,9 @@
 package modis.copsandrobber;
-//import com.google.android.gcm.GCMBaseIntentService; 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 import static modis.copsandrobber.CommonUtilities.SENDER_ID;
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -25,11 +23,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	protected void onMessage(Context arg0, Intent arg1) {
 
-		Log.i("GCMMMMMMM", "stigo na pocetak");
 		Bundle b = arg1.getExtras();
         String message = b.getString("kod_poruke");
         
-        if(message.equals("objekat_opljackan")) //objekat opljackan        	
+        if(message.equals("objekat_opljackan"))        	
         {
         	Log.i(TAG, "OBJEKAT OPLJACKAN: " + message);
         	int id = Integer.parseInt(b.getString("idObjekta"));
@@ -37,19 +34,19 @@ public class GCMIntentService extends GCMBaseIntentService {
         	intent.putExtra("idObjekta", id);
     	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
-        else if(message.equals("pocetak_igre"))	//start
+        else if(message.equals("pocetak_igre"))
         {
         	Log.i(TAG, "POCINJE IGRA"); 
     	    Intent intent = new Intent("start_the_game");
     	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
-        else if(message.equals("ometac_aktiviran"))	//ne prikazivati lopova
+        else if(message.equals("ometac_aktiviran"))
         {
         	Log.i(TAG, "Received message: " + message);
         	Intent intent = new Intent("ometac_aktiviran");
     	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
-        else if(message.equals("pancir_akticiran"))	//lopov ima pancir
+        else if(message.equals("pancir_akticiran"))
         {
         	Log.i(TAG, "Received message: " + message);
         	Intent intent = new Intent("pancir_akticiran");
@@ -73,7 +70,6 @@ public class GCMIntentService extends GCMBaseIntentService {
         	intent.putExtra("odustajanje", "yes");
     	    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
-		//Log.i(TAG, "Received message: ");
 	}
 
 	protected void onRegistered(Context arg0, String arg1) {

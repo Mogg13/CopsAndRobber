@@ -5,14 +5,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -42,7 +38,6 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 
 	public void onCreate(Bundle savedInstanceState) {
 		
-		Log.i("LIFECYCLE","PostojeceActivity - onCreate");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -51,11 +46,6 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
         longitude = "0.0";
         latitude = "0.0";
 	    
-       /* LocalBroadcastManager.getInstance(this).registerReceiver(
-	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));*/
-		//Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
-	    //LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);
-        
         try {
 			Intent igraIntent = getIntent();
 			Bundle igraBundle = igraIntent.getExtras();
@@ -104,9 +94,6 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
     }
 
 	public void onClick(View v) {	
-		
-    	Intent i;
-    	int result = 1;
     	switch(v.getId())
     	{
     	case R.id.dugme_pridruzi_se:
@@ -116,7 +103,6 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
     			igra = (String) spinner.getItemAtPosition(pozicijaIgre);
     			uloga = (String) spinnerPL.getItemAtPosition(pozicijaUloge);
     			
-    			//transThread = Executors.newSingleThreadExecutor();
 				transThread.submit(new Runnable(){
 					public void run(){
 						guiProgressDialog(true);
@@ -124,7 +110,6 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 							igrac = new Igrac(uloga, latitude, longitude, googleservice_num);
 							final String message =CopsandrobberHTTPHelper.pridruziSeIgri(igrac, igra);
 							guiNotifyUser(message, uloga);
-							//greska = message;
 						} catch(Exception e){e.printStackTrace();}
 						
 						guiProgressDialog(false);
@@ -167,11 +152,9 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 		{
 		case R.id.spinner_postojece_igre:
 			pozicijaIgre = pos;
-			//Toast.makeText(parent.getContext(), "Odabrali ste " + parent.getItemAtPosition(pos).toString(), Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.spinner_policajac_lopov:
 			pozicijaUloge = pos;
-			//Toast.makeText(parent.getContext(), "Odabrali ste " + parent.getItemAtPosition(pos).toString(), Toast.LENGTH_SHORT).show();
 			break;
 		}		
 	}
@@ -208,20 +191,6 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 			}
 		});
 	}
-    
-    /*private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-
-        public void onReceive(Context context, Intent intent) {
-          
-            Bundle igraBundle = intent.getExtras();
-			if(igraBundle !=null)
-			{
-				latitude = intent.getStringExtra("latitude").toString();
-				longitude = intent.getStringExtra("longitude").toString();
-			}
-			Log.i("InfoLog", "primljen gps" + latitude + " " + longitude);
-        }
-    };*/
 
     public void startMapActivity()
     {
@@ -237,33 +206,12 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
     
     protected void onDestroy()
     {
-    	Log.i("LIFECYCLE","PostojeceActivity - onDestroy");
     	try{
     		transThread.shutdown();   
     	}catch (Exception e) { 
-            Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+    		e.printStackTrace();
         } 
     	super.onDestroy();
-    }
-    protected void onStart()
-    {
-    	Log.i("LIFECYCLE","PostojeceActivity - onStart");
-    	super.onStart();
-    }
-    protected void onStop()
-    {
-    	Log.i("LIFECYCLE","PostojeceActivity - onStop");
-    	super.onStop();
-    }
-    protected void onPause()
-    {
-    	Log.i("LIFECYCLE","PostojeceActivity - onPause");
-    	super.onPause();
-    }
-    protected void onResume()
-    {
-    	Log.i("LIFECYCLE","PostojeceActivity - onResume");
-    	super.onResume();
     }
     
 }

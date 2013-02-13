@@ -1,23 +1,17 @@
 package modis.copsandrobber;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import com.google.android.gcm.GCMRegistrar;
-
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +24,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
-
 import static modis.copsandrobber.CommonUtilities.SENDER_ID;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -42,13 +35,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	Context context;
 	Intent intentMyService;
 	LocationManager locationManager;
-	//ComponentName service;
-	//BroadcastReceiver receiver;
 	
 	protected void onCreate(Bundle savedInstanceState) {
-		
-		Log.i("LIFECYCLE","MainActivity - onCreate");
-		
+
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -86,9 +75,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		transThread = Executors.newSingleThreadExecutor();
 		
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-		//locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
 	}
 
 	public void onClick(View v) {	
@@ -104,7 +90,6 @@ public class MainActivity extends Activity implements OnClickListener {
     		}
     		else if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
     		{
-    			Log.i("GPS","Nije ukljucen");
     			showGPSDisabledAlertToUser();
     		}
     		else
@@ -143,14 +128,13 @@ public class MainActivity extends Activity implements OnClickListener {
     		{
     			if(reg_number.equals(""))
 	    		{
-	    			//transThread = Executors.newSingleThreadExecutor();
 	    			transThread.submit(new Runnable(){
 	    				public void run(){
 	    					guiProgressDialog(true);
 	
 	    					while(reg_number.equals(""))
 	    					{
-	    						//Log.i("registracija","vrti se petlja");
+	    						
 	    					}
 	    					guiNotifyUser("postojeca");
 	    					guiProgressDialog(false);
@@ -165,7 +149,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	    		
     		break;
     	case R.id.dugme_exit:
-    		//GCMRegistrar.unregister(this);
     		finish();
     		break;
     	}	
@@ -178,18 +161,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	protected void onDestroy() { 
-		
-		Log.i("LIFECYCLE","MainActivity - onDestroy");
  
         try { 
-    		GCMRegistrar.unregister(this);
-            //GCMRegistrar.onDestroy(this); 
+    		GCMRegistrar.unregister(this); 
             LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
             
-           // stopService(intentMyService);
-           // unregisterReceiver(receiver);
-        } catch (Exception e) { 
-            //Log.e("UnRegister Receiver Error", "> " + e.getMessage()); 
+        } catch (Exception e) {
         	e.printStackTrace();
         } 
         super.onDestroy(); 
@@ -217,7 +194,6 @@ public class MainActivity extends Activity implements OnClickListener {
             Bundle igraBundle = intent.getExtras();
 			if(igraBundle !=null)
 				reg_number = intent.getStringExtra("googleservice_num");
-			Log.i("InfoLog", "primljen brodkast" + reg_number);
         }
     };
 
@@ -241,8 +217,7 @@ public class MainActivity extends Activity implements OnClickListener {
     	Intent i;
     	i = new Intent(context, NovaIgraActivity.class);
     	i.putExtra("googleservice_num", reg_number);
-    	startActivity(i);
-    	//finish();
+    	startActivity(i);	
     }
     
     public void startPostojeceActivity()
@@ -251,7 +226,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		i = new Intent(context, PostojeceIgreActivity.class);
 		i.putExtra("googleservice_num", reg_number);
 		startActivity(i);
-		//finish();
     }
     
     public boolean isConnectingToInternet(){
@@ -270,69 +244,45 @@ public class MainActivity extends Activity implements OnClickListener {
           return false;
     }
     
-    public void showAlertDialog(String title, String message) {
+    public void showAlertDialog(String title, String message) 
+    {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
- 
-        // Setting Dialog Title
+
         alertDialog.setTitle(title);
- 
-        // Setting Dialog Message
+
         alertDialog.setMessage(message);
- 
-        // Setting OK Button
+
         alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             	dialog.cancel();
             }
         });
- 
-        // Showing Alert Message
+
         alertDialog.show();
     }
     
-    private void showGPSDisabledAlertToUser(){
+    private void showGPSDisabledAlertToUser()
+    {
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
     	alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
     	.setCancelable(false)
     	.setPositiveButton("Goto Settings Page To Enable GPS",
     	new DialogInterface.OnClickListener(){
-    	public void onClick(DialogInterface dialog, int id){
-    	Intent callGPSSettingIntent = new Intent(
-    	android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-    	startActivity(callGPSSettingIntent);
-    	}
+	    	public void onClick(DialogInterface dialog, int id){
+		    	Intent callGPSSettingIntent = new Intent(
+		    	android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		    	startActivity(callGPSSettingIntent);
+	    	}
     	});
     	alertDialogBuilder.setNegativeButton("Cancel",
     	new DialogInterface.OnClickListener(){
-    	public void onClick(DialogInterface dialog, int id){
-    	dialog.cancel();
-    	}
+	    	public void onClick(DialogInterface dialog, int id){
+	    		dialog.cancel();
+	    	}
     	});
     	AlertDialog alert = alertDialogBuilder.create();
     	alert.show();
-    	}
-    
-    protected void onStart()
-    {
-    	Log.i("LIFECYCLE","MainActivity - onStart");
-    	super.onStart();
-    }
-    protected void onStop()
-    {
-    	Log.i("LIFECYCLE","MainActivity - onStop");
-    	super.onStop();
-    }
-    protected void onPause()
-    {
-    	Log.i("LIFECYCLE","MainActivity - onPause");
-    	super.onPause();
-    }
-    protected void onResume()
-    {
-    	Log.i("LIFECYCLE","MainActivity - onResume");
-    	super.onResume();
-    }
-    
+	}   
 
 }
 

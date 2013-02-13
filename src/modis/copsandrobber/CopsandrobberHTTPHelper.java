@@ -20,7 +20,6 @@ import org.json.JSONObject;
 
 public class CopsandrobberHTTPHelper {
 	
-	//private static final String url = "http://uhvatilopova.site11.com";
 	private static final String url = "http://copsandrobber.freetzi.com/";
 
 	
@@ -324,21 +323,5 @@ public class CopsandrobberHTTPHelper {
 			e.printStackTrace();
 		}
 	}
-
-	/*public static void RestartGame(int id, String regId) {
-		// TODO Auto-generated method stub
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost(url + "/reset_game.php");			
-		try {			
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("idIgre", Integer.toString(id)));
-			nameValuePairs.add(new BasicNameValuePair("idIgraca", regId));
-			
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
-			httpClient.execute(httpPost);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}*/
 
 }

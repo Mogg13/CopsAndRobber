@@ -1,7 +1,5 @@
 package modis.copsandrobber;
 
-
-
 public class Igrac {
 	
 	private String longitude, latitude;

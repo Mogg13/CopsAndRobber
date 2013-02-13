@@ -5,17 +5,10 @@ import java.util.concurrent.Executors;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -40,7 +33,6 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 	private ProgressDialog progressDialog;
 	private String uloga;
 	private String ime;
-	private String greska;
 	private String googleservice_num;
 	private Igrac igrac;
 	private String longitude;
@@ -48,7 +40,6 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 	
 	
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i("LIFECYCLE","NovaActivity - onCreate");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -56,11 +47,6 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
         
         longitude = "0.0";
         latitude = "0.0";        
-	    
-       /* LocalBroadcastManager.getInstance(this).registerReceiver(
-	    		mMessageReceiver, new IntentFilter("gpsLokacija_filter"));*/
-		/*Intent myFilteredResponse= new Intent("gpsLokacija_filter_poslati");
-	    LocalBroadcastManager.getInstance(context).sendBroadcast(myFilteredResponse);*/
         
 		try {
 			Intent igraIntent = getIntent();
@@ -102,8 +88,6 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
 
 	@Override
 	public void onClick(View v) {
-		Intent i;
-    	int result = 1;
     	switch(v.getId())
     	{
     	case R.id.kreiraj_igru_dugme:
@@ -113,7 +97,6 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     		uloga = (String) spinnerPL.getItemAtPosition(pozicijaUloge);
     		if(!ime.equals(""))
     		{
-    			//ExecutorService transThread = Executors.newSingleThreadExecutor();
     			transThread.submit(new Runnable(){
     				public void run(){
     					guiProgressDialog(true);
@@ -134,20 +117,6 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     	}	
 		
 	}
-	
-    /*private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-
-        public void onReceive(Context context, Intent intent) {
-          
-            Bundle igraBundle = intent.getExtras();
-			if(igraBundle !=null)
-			{
-				latitude = intent.getStringExtra("latitude").toString();
-				longitude = intent.getStringExtra("longitude").toString();
-			}
-			Log.i("InfoLog", "primljen gps" + latitude + " " + longitude);
-        }
-    };*/
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
@@ -203,32 +172,12 @@ public class NovaIgraActivity extends Activity implements OnItemSelectedListener
     
     protected void onDestroy()
     {
-    	Log.i("LIFECYCLE","NovaActivity - onDestroy");    	
     	try{
     		transThread.shutdown();   
     	}catch (Exception e) { 
-            Log.e("Gasenje servisa - error", "> " + e.getMessage()); 
+            e.printStackTrace(); 
         } 
     	super.onDestroy();
     }
-    protected void onStart()
-    {
-    	Log.i("LIFECYCLE","NovaActivity - onStart");
-    	super.onStart();
-    }
-    protected void onStop()
-    {
-    	Log.i("LIFECYCLE","NovaActivity - onStop");
-    	super.onStop();
-    }
-    protected void onPause()
-    {
-    	Log.i("LIFECYCLE","NovaActivity - onPause");
-    	super.onPause();
-    }
-    protected void onResume()
-    {
-    	Log.i("LIFECYCLE","NovaActivity - onResume");
-    	super.onResume();
-    }
+    
 }

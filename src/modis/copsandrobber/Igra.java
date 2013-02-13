@@ -160,13 +160,6 @@ public class Igra {
 		Igrac ig = getIgracById(idIgraca);
 		ig.setLatitude(latitude1);
 		ig.setLongitude(longitude1);
-		/*for(int i = 0; i<igraci.size(); i++){
-			if(igraci.get(i).getRegId().equals(idIgraca))
-			{
-				igraci.get(i).setLatitude(latitude1);
-				igraci.get(i).setLongitude(longitude1);
-			}
-		}*/
 	}
 	
 	public void editIgracWithOverlay(String idIgraca, String latitude1, String longitude1){
@@ -174,13 +167,6 @@ public class Igra {
 		Igrac ig = getIgracById(idIgraca);
 		ig.setLatitudeAndOveray(latitude1);
 		ig.setLongitudeAndOverlay(longitude1);
-		/*for(int i = 0; i<igraci.size(); i++){
-			if(igraci.get(i).getRegId().equals(idIgraca))
-			{
-				igraci.get(i).setLatitudeAndOveray(latitude1);
-				igraci.get(i).setLongitudeAndOverlay(longitude1);
-			}
-		}*/
 	}
 	
 	public Igrac getIgracById(String id){	
@@ -196,13 +182,6 @@ public class Igra {
 			}
 			i++;
 		}
-		/*for(int i = 0; i<igraci.size(); i++){
-			if(igraci.get(i).getRegId().equals(id))
-			{
-				res = igraci.get(i);
-			}
-		}
-		*/
 		return res;
 	}
 	
@@ -219,14 +198,6 @@ public class Igra {
 			}
 			i++;
 		}
-		/*
-		for(int i = 0; i<igraci.size(); i++){
-			if(igraci.get(i).getUloga().equals("Robber"))
-			{
-				res = igraci.get(i);
-			}
-		}		
-		*/
 		return res;
 	}
 	
@@ -243,14 +214,6 @@ public class Igra {
 			}
 			i++;
 		}
-		/*for(int i=0; i<objekti.size(); i++)
-		{
-			if(objekti.get(i).getIme().equals(name))
-			{
-				res = objekti.get(i);
-			}
-		}*/
-		
 		return res;
 	}
 	

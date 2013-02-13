@@ -1,11 +1,9 @@
 package modis.copsandrobber;
 
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
@@ -13,16 +11,12 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
-
-
 public class JedanOverlay extends Overlay{
 	
 	private Bitmap bmp;
 	private String lat;
 	private String lon;
 	private String ime;
-	
-	// vezano za touch event
 	private Objekat objekat;
 	private String uloga;
 	
@@ -94,27 +88,20 @@ public class JedanOverlay extends Overlay{
 		if(event.getAction() == MotionEvent.ACTION_UP){
 			if(objekat != null)
 			{
-				//if(uloga.equals("Robber"))
-				//{
-				//	if(!objekat.getIme().equals("Safe House") && !objekat.getIme().equals("Police"))
-				//	{
-						Point screenPts = new Point();
-						
-						String lat = objekat.getLatitude();
-						String lon = objekat.getLongitude();
-						int latE6 = (int)(Double.parseDouble(lat)*1E6);
-						int lonE6 = (int)(Double.parseDouble(lon)*1E6);
-						GeoPoint p = new GeoPoint(latE6, lonE6);
-						mapView.getProjection().toPixels(p, screenPts);
-						int x = Math.abs(screenPts.x - (int)event.getX());
-						int y = screenPts.y - (int)event.getY();
-						if(x < bmp.getWidth()/2 &&  y < bmp.getHeight() && y > 0)
-						{
-							Log.i("TOUCH", objekat.getIme());
-							MapaActivity.napraviDialogZaObjekat(objekat, uloga);
-						}
-				//	}
-				//}
+				Point screenPts = new Point();
+				
+				String lat = objekat.getLatitude();
+				String lon = objekat.getLongitude();
+				int latE6 = (int)(Double.parseDouble(lat)*1E6);
+				int lonE6 = (int)(Double.parseDouble(lon)*1E6);
+				GeoPoint p = new GeoPoint(latE6, lonE6);
+				mapView.getProjection().toPixels(p, screenPts);
+				int x = Math.abs(screenPts.x - (int)event.getX());
+				int y = screenPts.y - (int)event.getY();
+				if(x < bmp.getWidth()/2 &&  y < bmp.getHeight() && y > 0)
+				{
+					MapaActivity.napraviDialogZaObjekat(objekat, uloga);
+				}
 			}
 			else
 			{
@@ -127,8 +114,7 @@ public class JedanOverlay extends Overlay{
 				int y = screenPts.y - (int)event.getY();
 				if(x < bmp.getWidth()/2 &&  y < bmp.getHeight() && y > 0)
 				{
-					Toast.makeText(CopsAndRobberApplication.getContext(), ime, Toast.LENGTH_SHORT).show();
-					
+					Toast.makeText(CopsAndRobberApplication.getContext(), ime, Toast.LENGTH_LONG).show();	
 				}
 			}
 		}
