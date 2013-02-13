@@ -153,7 +153,7 @@ public class PostojeceIgreActivity extends Activity implements OnItemSelectedLis
 				}
 				else
 				{
-					Toast.makeText(context, "Desired role was already taken, you are assigned with opposite role." + message , Toast.LENGTH_LONG).show();				
+					Toast.makeText(context, "Desired role was already taken, you are assigned with opposite role.", Toast.LENGTH_LONG).show();				
 					igrac.setUloga(message);
 					startMapActivity();
 				}
