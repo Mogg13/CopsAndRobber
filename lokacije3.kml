@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.x">
+	<Placemark>
+        <name>Sigurna kuca</name>
+        <description>Attached to the ground. Intelligently places itself at the
+          height of the underlying terrain.</description>
+        <Point>
+          <coordinates>21.8912, 43.31437,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Policija</name>
+        <description>Attached to the ground. Intelligently places itself at the
+          height of the underlying terrain.</description>
+        <Point>
+          <coordinates>21.893783, 43.319564,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Banka1</name>
+        <description>1</description>
+        <Point>
+          <coordinates>21.900098, 43.323035,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Banka2</name>
+        <description>2</description>
+        <Point>
+          <coordinates>21.896385, 43.321272,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Menjacnica1</name>
+        <description>3</description>
+        <Point>
+          <coordinates>21.891023,43.32442,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Menjacnica2</name>
+        <description>4</description>
+        <Point>
+          <coordinates>21.903761,43.32353,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Zlatar</name>
+        <description>5</description>
+        <Point>
+          <coordinates>21.899123,43.317028,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Luk i strela</name>
+        <description>Predmet 1</description>
+        <Point>
+          <coordinates>21.905676,43.325066,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Kljuc</name>
+        <description>Predmet 2</description>
+        <Point>
+          <coordinates>21.891694,43.318874,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Cekic</name>
+        <description>Predmet 3</description>
+        <Point>
+          <coordinates>21.896667,43.316782,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Alat</name>
+        <description>Predmet 4</description>
+        <Point>
+          <coordinates>21.894805,43.315221,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Lupa</name>
+        <description>Predmet 5</description>
+        <Point>
+          <coordinates>21.890329,43.31734,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Okular</name>
+        <description>Predmet 6</description>
+        <Point>
+          <coordinates>21.90117,43.323271,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Kompjuter</name>
+        <description>Predmet 7</description>
+        <Point>
+          <coordinates>21.897954,43.323378,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Sedativi</name>
+        <description>Predmet 8</description>
+        <Point>
+          <coordinates>21.893223,43.323249,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Aparat za gasenje</name>
+        <description>Predmet 9</description>
+        <Point>
+          <coordinates>21.316075,43.316075,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Pistolj</name>
+        <description>Predmet 10</description>
+        <Point>
+          <coordinates>21.901226,43.318757,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Night vision</name>
+        <description>Predmet 11</description>
+        <Point>
+          <coordinates>21.906406,43.323146,0</coordinates>
+        </Point>
+    </Placemark>
+	
+	<Placemark>
+        <name>Puska</name>
+        <description>Predmet 12</description>
+        <Point>
+          <coordinates>21.325185,43.325185,0</coordinates>
+        </Point>
+    </Placemark>
+ 
+	<Placemark>
+        <name>Mobilni</name>
+        <description>Predmet 13</description>
+        <Point>
+          <coordinates>21.889341,43.315334,0</coordinates>
+        </Point>
+    </Placemark>
+
+	<Placemark>
+        <name>Fotoaparat</name>
+        <description>Predmet 14</description>
+        <Point>
+          <coordinates>21.889897,43.322882,0</coordinates>
+        </Point>
+    </Placemark>
+ 
+	<Placemark>
+        <name>Dokument</name>
+        <description>Predmet 15</description>
+        <Point>
+          <coordinates>21.901918,43.32497,0</coordinates>
+        </Point>
+    </Placemark>
+ 
+	<Placemark>
+        <name>Pancir</name>
+        <description>Predmet 16</description>
+        <Point>
+          <coordinates>21.902605,43.321146,0</coordinates>
+        </Point>
+    </Placemark>
+ 
+	<Placemark>
+        <name>Ometac</name>
+        <description>Predmet 17</description>
+        <Point>
+          <coordinates>21.89293,43.316511,0</coordinates>
+        </Point>
+    </Placemark>
+</kml>
